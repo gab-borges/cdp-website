@@ -32,4 +32,4 @@
 /config/master.key
 
 # Ignore local database configuration
-config/database.yml
+/config/database.yml
