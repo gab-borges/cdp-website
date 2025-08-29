@@ -1,23 +1,18 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 
-function UserList() {
-  const [users, setUsers] = useState([]); // Estado para armazenar a lista de usuários
+function UserList({ users, onDeleteUser, onUpdateUser }) {
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [updatedData, setUpdatedData] = useState({});
 
-  useEffect(() => {
-    // Função para buscar os dados da API
-    const fetchUsers = async () => {
-      try {
-        // A URL completa da sua API Rails
-        const response = await axios.get('http://localhost:3000/api/v1/users');
-        setUsers(response.data); // Atualiza o estado com os dados recebidos
-      } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
-      }
-    };
+  const handleEdit = (user) => {
+    setEditingUserId(user.id);
+    setUpdatedData({ name: user.name, score: user.score });
+  };
 
-    fetchUsers();
-  }, []); // O array vazio [] garante que isso rode apenas uma vez, quando o componente montar
+  const handleSave = (userId) => {
+    onUpdateUser(userId, updatedData);
+    setEditingUserId(null);
+  };
 
   return (
     <div>
@@ -25,7 +20,32 @@ function UserList() {
       <ul>
         {users.map(user => (
           <li key={user.id}>
-            <strong>{user.name}</strong> - Pontuação: {user.score}
+            {editingUserId === user.id ? (
+              <>
+                <input
+                  type="text"
+                  value={updatedData.name}
+                  onChange={(e) => setUpdatedData({ ...updatedData, name: e.target.value })}
+                />
+                <input
+                  type="number"
+                  value={updatedData.score}
+                  onChange={(e) => setUpdatedData({ ...updatedData, score: e.target.value })}
+                />
+                <button onClick={() => handleSave(user.id)}>Salvar</button>
+                <button onClick={() => setEditingUserId(null)}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                <strong>{user.name}</strong> - Pontuação: {user.score}
+                <button onClick={() => handleEdit(user)} style={{ marginLeft: '10px' }}>
+                  Editar
+                </button>
+                <button onClick={() => onDeleteUser(user.id)} style={{ marginLeft: '10px' }}>
+                  Excluir
+                </button>
+              </>
+            )}
           </li>
         ))}
       </ul>
