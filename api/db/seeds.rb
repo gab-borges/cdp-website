@@ -27,4 +27,10 @@ User.create!(
     score: 1936
 )
 
+User.create!(
+    name: 'Gabriel ABC',
+    email: 'gabriel.affonso@cdp-website.com',
+    score: 2000
+)
+
 puts "Usuários cadastrados com sucesso!"
