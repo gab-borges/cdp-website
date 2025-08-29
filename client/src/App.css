@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Estilos adicionados para o formulário de login/cadastro */
+.link-button {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.toggle-view {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+}

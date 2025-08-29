@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+    skip_before_action :authorized, only: [:create]
+
     def index
         @users = User.all
         render json: @users
@@ -39,6 +41,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Filtra os parâmetros por segurança
     def user_params
-        params.require(:user).permit(:name, :email, :score)
+        params.require(:user).permit(:name, :email, :score, :password, :password_confirmation)
     end
 end
