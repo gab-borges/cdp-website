@@ -1,10 +1,17 @@
 // src/components/LandingPage.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { ArrowRight, Trophy, Users, BarChart3, CalendarDays, Code2, ChevronRight, Github, BookOpen, MessageSquareHeart } from "lucide-react";
 import logo from "../assets/logo-cdp.jpg";
 import "./landing.css";
 
 export default function LandingPage({ onShowLogin, onShowSignUp }) {
+  // Enable smooth scrolling for in-page anchors
+  useEffect(() => {
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'smooth';
+    return () => { root.style.scrollBehavior = prev; };
+  }, []);
   return (
     <div className="lp-root">
       {/* Navbar */}
@@ -15,12 +22,10 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
             <span>Clube de Programação • UTFPR-CT</span>
           </a>
           <nav className="lp-nav">
+            <a href="#about">Sobre</a>
             <a href="#features">Recursos</a>
             <a href="#leaderboard">Leaderboard</a>
             <a href="#faq">FAQ</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="lp-linkicon">
-              <Github size={16} /> GitHub
-            </a>
           </nav>
           <div className="lp-actions">
             <button className="lp-btn lp-btn-ghost" onClick={onShowLogin}>Entrar</button>
@@ -32,11 +37,11 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
       </header>
 
       {/* Hero */}
-      <section className="lp-hero" id="top">
+      <section className="lp-hero" id="top" style={{ scrollMarginTop: '80px' }}>
         <div className="lp-gridbg" aria-hidden />
         <div className="lp-container lp-hero-inner">
           <h1 className="lp-h1">Clube de Programação</h1>
-          <p className="lp-sub">O hub oficial do CDP da UTFPR. Organize treinos, acompanhe rankings e evolua.</p>
+          <p className="lp-sub"><span className="lp-nowrap" style={{ whiteSpace: 'nowrap' }}>Um espaço para <span class="lp-kws">aprender, compartilhar e evoluir</span> em programação competitiva</span></p>
           <div className="lp-cta">
             <button className="lp-btn" onClick={onShowSignUp}>
               Começar agora <ArrowRight size={16} />
@@ -46,11 +51,61 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
         </div>
       </section>
 
+      {/* Team Photo */}
+      <section id="team" className="lp-section lp-section-alt" style={{ scrollMarginTop: '80px' }}>
+        <div className="lp-container">
+          <figure className="lp-photo">
+            <img className="lp-photo-img" src="../../public/photo-cdp.jpg" alt="Foto dos membros do Clube de Programação da UTFPR-CT" />
+            <figcaption className="lp-photo-cap lp-muted">Maratona SBC de Programação - 2024</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="lp-section lp-section-alt" style={{ scrollMarginTop: '80px' }}>
+        <div className="lp-container lp-about-wrap">
+          <div className="lp-about-text">
+            <h3 className="lp-h3">Sobre o Clube</h3>
+            <p>
+              O Clube de Programação é um projeto de extensão do Departamento Acadêmico de Informática (DAINF) da UTFPR Curitiba, coordenado pelo professor Leandro M. Zatesko. Seu propósito central é reunir pessoas interessadas em programação — sejam estudantes da UTFPR, de outras instituições, alunos de ensino médio ou profissionais da área — para aprender, desenvolver habilidades e trocar experiências por meio da <strong>Programação Competitiva</strong>.
+              Além disso, oferece um espaço de formação complementar em tópicos de Computação de grande relevância acadêmica e industrial, frequentemente pouco explorados nos cursos de graduação.
+            </p>
+            <p>
+              O CDP também atua na organização e promoção de ações de difusão do conhecimento, como a produção de conteúdo para mídias sociais e atividades em parceria com outras instituições.
+              Ele treina os times da UTFPR-CT para a Maratona de Programação da SBC (ICPC regional), fortalece a comunidade local de programadores, aproxima empresas e universidades e apoia disciplinas de programação, contribuindo para reduzir índices de reprovação e consolidar a formação prática dos participantes.
+            </p>
+          </div>
+          <div className="lp-about-cards">
+            <div className="lp-card">
+              <div className="lp-card-title">O que fazemos</div>
+              <div className="lp-card-desc">
+                • Treinos guiados por tópicos<br/>
+                • Simulados e contests internos<br/>
+                • Roadmaps e material didático<br/>
+                • Integração com plataformas de judge
+              </div>
+            </div>
+            <div className="lp-card">
+              <div className="lp-card-title">Como participar</div>
+              <div className="lp-card-desc">
+                • Encontros semanais presenciais/online<br/>
+                • Comunidade em Discord/Telegram
+              </div>
+            </div>
+            <div className="lp-badges">
+              <Badge icon={<CalendarDays size={16} />} title="Treinos Semanais" />
+              <Badge icon={<BookOpen size={16} />} title="Materiais Curados" />
+              <Badge icon={<MessageSquareHeart size={16} />} title="Comunidade & Mentoria" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
-      <section id="features" className="lp-section">
+      <section id="features" className="lp-section" style={{ scrollMarginTop: '80px' }}>
         <div className="lp-container">
           <div className="lp-section-head">
-            <h2 className="lp-h2">Funcionalidades</h2>
+            <h2 className="lp-h2">Features da Plataforma</h2>
             <p className="lp-muted">Centraliza treinos, materiais e seu progresso</p>
           </div>
           <div className="lp-features">
@@ -63,7 +118,7 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
       </section>
 
       {/* Leaderboard Preview */}
-      <section id="leaderboard" className="lp-section lp-section-alt">
+      <section id="leaderboard" className="lp-section lp-section-alt" style={{ scrollMarginTop: '80px' }}>
         <div className="lp-container lp-leader-wrap">
           <div className="lp-leader-col">
             <h3 className="lp-h3">Leaderboard ao vivo</h3>
@@ -100,25 +155,47 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="lp-section">
-        <div className="lp-container lp-faq">
-          <h3 className="lp-h3">Perguntas frequentes</h3>
-          <details>
-            <summary>O que preciso saber para começar?</summary>
-            <p>Nenhum pré-requisito é necessário, mas recomenda-se ter conhecimento em alguma linguagem de programação como C, C++, Python ou Java</p>
-          </details>
-          <details>
-            <summary>Preciso ser da UTFPR-CT para participar?</summary>
-            <p>A inscrição e a participação nas atividades do Clube são totalmente gratuitas e abertas a todas as pessoas interessadas! (Estudantes da UTFPR-CT ou de outras instituições, ou profissionais da área)</p>
-          </details>
-          <details>
-            <summary>Como funcionam os pontos do ranking?</summary>
-            <p>A pontuação é normalizada por dificuldade, tempo e penalidades.</p>
-          </details>
-          <details>
-            <summary>Vocês têm juiz próprio?</summary>
-            <p>Não. O nosso "juiz" é simplesmente um agregador de outros judges.</p>
-          </details>
+      <section id="faq" className="lp-section" style={{ scrollMarginTop: '80px' }}>
+        <div className="lp-container">
+          <div className="lp-section-head">
+            <h3 className="lp-h3">Perguntas frequentes</h3>
+          </div>
+
+          <div className="lp-faq-grid">
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">O que preciso saber para começar?</div>
+              <div className="lp-faq-a">Nenhum pré-requisito é necessário, mas ajuda ter familiaridade com alguma linguagem como C, C++, Python ou Java.</div>
+            </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Preciso ser da UTFPR-CT para participar?</div>
+              <div className="lp-faq-a">Não. As atividades são abertas à comunidade: estudantes da UTFPR-CT ou de outras instituições, e profissionais interessados.</div>
+            </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Participar vale horas de extensão?</div>
+              <div className="lp-faq-a">Horas extensionistas são válidas para quem participa ativamente na organização e execução das ações do Clube. Apenas competir não rende horas.</div>
+            </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Como funcionam os pontos do ranking?</div>
+              <div className="lp-faq-a">Pontuação normalizada por dificuldade, tempo e penalidades, combinando múltiplos juízes de forma transparente.</div>
+            </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Vocês têm juiz próprio?</div>
+              <div className="lp-faq-a">Não. Usamos um agregador leve que centraliza o progresso em plataformas como Codeforces e AtCoder.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quote */}
+      <section id="quote" className="lp-section">
+        <div className="lp-container">
+          <div className="lp-quote">
+            <div className="lp-quote-mark">“”</div>
+            <blockquote className="lp-quote-text">
+              <em>Please note that being well-versed in competitive programming is not the end goal, but only a means to an end. The true end goal is to produce all-rounder computer scientists/programmers who are much readier to produce better software and to face harder CS research problems in the future.</em>
+            </blockquote>
+            <div className="lp-quote-author">Steve &amp; Felix Halim • Authors of Competitive Programming</div>
+          </div>
         </div>
       </section>
 
