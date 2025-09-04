@@ -14,4 +14,13 @@ class Api::V1::SessionsController < ApplicationController
       render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
   end
+
+  def me
+    # Returns the current user from JWT, excluding sensitive fields
+    if current_user
+      render json: current_user.as_json(except: [:password_digest]), status: :ok
+    else
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
+  end
 end
