@@ -5,7 +5,8 @@ import UserList from './components/UserList';
 import UserForm from './components/UserForm';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
-import LandingPage from './components/LandingPage'; // <— novo
+import LandingPage from './components/LandingPage';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 function App() {
@@ -118,17 +119,13 @@ function App() {
 
   // ---------- app autenticada ----------
   return (
-    <div className="App">
-      <header>
-        <h1>Clube de Programação</h1>
-        <button onClick={handleLogout}>Logout</button>
-      </header>
-      <main>
-        <UserForm onUserAdded={fetchUsers} />
-        <hr />
-        <UserList users={users} onDeleteUser={handleDeleteUser} onUpdateUser={handleUpdateUser} />
-      </main>
-    </div>
+    <Dashboard
+      onLogout={handleLogout}
+      users={users}
+      refreshUsers={fetchUsers}
+      onDeleteUser={handleDeleteUser}
+      onUpdateUser={handleUpdateUser}
+    />
   );
 }
 

@@ -44,7 +44,7 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
           <p className="lp-sub"><span className="lp-nowrap" style={{ whiteSpace: 'nowrap' }}>Um espaço para <span class="lp-kws">aprender, compartilhar e evoluir</span> em programação competitiva</span></p>
           <div className="lp-cta">
             <button className="lp-btn" onClick={onShowSignUp}>
-              Começar agora <ArrowRight size={16} />
+              Começar <ArrowRight size={16} />
             </button>
             <a href="#features" className="lp-btn lp-btn-outline">Ver recursos</a>
           </div>
@@ -88,8 +88,8 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
             <div className="lp-card">
               <div className="lp-card-title">Como participar</div>
               <div className="lp-card-desc">
-                • Encontros semanais presenciais/online<br/>
-                • Comunidade em Discord/Telegram
+                • Encontros semanais presenciais/online (CB-106, toda terça-feira às 18h40)<br/>
+                • Comunidade no Discord/Telegram
               </div>
             </div>
             <div className="lp-badges">
