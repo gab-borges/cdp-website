@@ -1,10 +1,10 @@
-// src/components/LandingPage.jsx
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Trophy, Users, BarChart3, CalendarDays, Code2, ChevronRight, Github, BookOpen, MessageSquareHeart } from "lucide-react";
 import logo from "../assets/logo-cdp.jpg";
 import "./landing.css";
 
-export default function LandingPage({ onShowLogin, onShowSignUp }) {
+export default function LandingPage() {
   // Enable smooth scrolling for in-page anchors
   useEffect(() => {
     const root = document.documentElement;
@@ -12,26 +12,40 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
     root.style.scrollBehavior = 'smooth';
     return () => { root.style.scrollBehavior = prev; };
   }, []);
+
+  const scrollToId = (e, id) => {
+    if (e) e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      // respects scroll-margin-top already set on sections
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Keep URL unchanged (do not add or modify hash)
+    if (window?.history?.replaceState) {
+      const url = window.location.pathname + window.location.search;
+      window.history.replaceState(null, '', url);
+    }
+  };
   return (
     <div className="lp-root">
       {/* Navbar */}
       <header className="lp-navbar">
         <div className="lp-container lp-navwrap">
-          <a href="#top" className="lp-brand">
+          <a href="#top" className="lp-brand" onClick={(e) => scrollToId(e, 'top')}>
             <img src={logo} alt="Clube de Programação UTFPR" className="lp-logo" />
             <span>Clube de Programação • UTFPR-CT</span>
           </a>
           <nav className="lp-nav">
-            <a href="#about">Sobre</a>
-            <a href="#features">Recursos</a>
-            <a href="#leaderboard">Leaderboard</a>
-            <a href="#faq">FAQ</a>
+            <a href="#about" onClick={(e) => scrollToId(e, 'about')}>Sobre</a>
+            <a href="#features" onClick={(e) => scrollToId(e, 'features')}>Recursos</a>
+            <a href="#leaderboard" onClick={(e) => scrollToId(e, 'leaderboard')}>Leaderboard</a>
+            <a href="#faq" onClick={(e) => scrollToId(e, 'faq')}>FAQ</a>
           </nav>
           <div className="lp-actions">
-            <button className="lp-btn lp-btn-ghost" onClick={onShowLogin}>Entrar</button>
-            <button className="lp-btn" onClick={onShowSignUp}>
+            <Link to="/login" className="lp-btn lp-btn-ghost">Entrar</Link>
+            <Link to="/signup" className="lp-btn">
               Criar conta <ChevronRight size={16} />
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -43,10 +57,10 @@ export default function LandingPage({ onShowLogin, onShowSignUp }) {
           <h1 className="lp-h1">Clube de Programação</h1>
           <p className="lp-sub"><span className="lp-nowrap" style={{ whiteSpace: 'nowrap' }}>Um espaço para <span class="lp-kws">aprender, compartilhar e evoluir</span> em programação competitiva</span></p>
           <div className="lp-cta">
-            <button className="lp-btn" onClick={onShowSignUp}>
+            <Link to="/signup" className="lp-btn">
               Começar <ArrowRight size={16} />
-            </button>
-            <a href="#features" className="lp-btn lp-btn-outline">Ver recursos</a>
+            </Link>
+            <a href="#features" className="lp-btn lp-btn-outline" onClick={(e) => scrollToId(e, 'features')}>Ver recursos</a>
           </div>
         </div>
       </section>

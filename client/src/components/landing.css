@@ -27,11 +27,12 @@ img{ display:block; max-width:100%; }
 
 /* Buttons */
 .lp-btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; border:1px solid transparent; background:var(--accent); color:white; font-weight:600; text-decoration:none; cursor:pointer; box-shadow:0 8px 24px rgba(91,124,255,.25); transition:transform .06s ease, box-shadow .2s ease; }
-.lp-btn:hover{ transform:translateY(-1px); box-shadow:0 10px 28px rgba(91,124,255,.35); }
+.lp-btn:hover{ transform:translateY(-1px); box-shadow:0 10px 28px rgba(91,124,255,.35); color:white; }
 .lp-btn:active{ transform:translateY(0) scale(.98); }
 .lp-btn-ghost{ background:transparent; color:var(--fg); border:1px solid var(--border); box-shadow:none; }
-.lp-btn-ghost:hover{ border-color:#30344a }
+.lp-btn-ghost:hover{ border-color:#30344a; color:var(--fg); }
 .lp-btn-outline{ background:transparent; color:var(--fg); border:1px solid #2b2f43; box-shadow:none; }
+.lp-btn-outline:hover{ color:var(--fg); }
 
 
 /* Hero */

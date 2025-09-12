@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import logo from '../assets/logo-cdp.jpg';
 import './dashboard.css';
 
-function Dashboard({ onLogout, users, refreshUsers }) {
+function Dashboard({ onLogout }) {
   const [me, setMe] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,11 +16,14 @@ function Dashboard({ onLogout, users, refreshUsers }) {
       try {
         setLoading(true);
         setError(null);
-        const [{ data: meData }] = await Promise.all([
+        const [{ data: meData }, { data: usersData }] = await Promise.all([
           axios.get('http://localhost:3000/api/v1/me'),
-          refreshUsers?.(),
+          axios.get('http://localhost:3000/api/v1/users'),
         ]);
-        if (mounted) setMe(meData);
+        if (mounted) {
+          setMe(meData);
+          setUsers(usersData);
+        }
       } catch (e) {
         console.error('Erro ao carregar dados do dashboard:', e);
         if (mounted) setError('Falha ao carregar seus dados.');
@@ -44,6 +49,7 @@ function Dashboard({ onLogout, users, refreshUsers }) {
             <span>Clube de Programação • UTFPR-CT</span>
           </div>
           <div className="db-spacer" />
+          <Link to="/problems" className="lp-btn lp-btn-ghost">Problems</Link>
           <div className="db-userbox">
             {me ? <span>Olá, <strong>{me.name}</strong></span> : <span>&nbsp;</span>}
             <button className="lp-btn" onClick={onLogout}>Sair</button>

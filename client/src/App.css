@@ -46,11 +46,16 @@
   background: none;
   border: none;
   color: #1a73e8;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   padding: 0;
   font-size: inherit;
   font-family: inherit;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: none;
 }
 
 .toggle-view {

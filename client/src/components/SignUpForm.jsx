@@ -1,23 +1,27 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
 import './landing.css';
 import './auth.css';
 import logo from '../assets/logo-cdp.jpg';
 
-function SignUpForm({ onSignUp, onShowLogin, onBack }) {
+function SignUpForm({ onSignUp }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== passwordConfirmation) {
       alert('As senhas não coincidem!');
       return;
     }
-    // O App.jsx espera os dados sem o campo de confirmação
-    onSignUp({ name, email, password, password_confirmation: passwordConfirmation });
+    const success = await onSignUp({ name, email, password, password_confirmation: passwordConfirmation });
+    if (success) {
+      navigate('/login');
+    }
   };
 
   return (
@@ -83,14 +87,14 @@ function SignUpForm({ onSignUp, onShowLogin, onBack }) {
           </div>
           <p className="toggle-view">
             Já tem uma conta?{' '}
-            <button type="button" onClick={onShowLogin} className="link-button">
+            <Link to="/login" className="link-button">
               Faça login
-            </button>
+            </Link>
           </p>
           <p className="auth-meta">
-            <button type="button" className="link-button" onClick={onBack}>
+            <Link to="/" className="link-button">
               Voltar para a página inicial
-            </button>
+            </Link>
           </p>
         </form>
       </div>

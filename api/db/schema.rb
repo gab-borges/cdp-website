@@ -10,9 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_08_003500) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_021106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "problems", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "points"
+    t.string "difficulty"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "problem_id", null: false
+    t.string "language"
+    t.text "code"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["problem_id"], name: "index_submissions_on_problem_id"
+    t.index ["user_id"], name: "index_submissions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -24,4 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_003500) do
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
+
+  add_foreign_key "submissions", "problems"
+  add_foreign_key "submissions", "users"
 end

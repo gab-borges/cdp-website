@@ -1,20 +1,21 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../App.css';
 import './landing.css';
 import './auth.css';
 import logo from '../assets/logo-cdp.jpg';
 
-function LoginForm({ onLogin, onShowSignUp, onBack }) {
+function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault();
     if (!email || !password) {
       alert('Por favor, preencha o email e a senha.');
       return;
     }
-    onLogin(email, password); // Chama a função do componente pai
+    onLogin(email, password);
   };
 
   return (
@@ -56,14 +57,14 @@ function LoginForm({ onLogin, onShowSignUp, onBack }) {
           </div>
           <p className="toggle-view">
             Não tem uma conta?{' '}
-            <button type="button" onClick={onShowSignUp} className="link-button">
+            <Link to="/signup" className="link-button">
               Cadastre-se
-            </button>
+            </Link>
           </p>
           <p className="auth-meta">
-            <button type="button" className="link-button" onClick={onBack}>
+            <Link to="/" className="link-button">
               Voltar para a página inicial
-            </button>
+            </Link>
           </p>
         </form>
       </div>
