@@ -45,8 +45,35 @@ function App() {
       await axios.post('http://localhost:3000/api/v1/users', { user: userData });
       setCurrentView('login');
     } catch (err) {
-      console.error('Erro no cadastro:', err?.response?.data);
-      alert(`Erro no cadastro: ${JSON.stringify(err?.response?.data)}`);
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+      const contentType = err?.response?.headers?.['content-type'] || '';
+      const looksHtml = typeof data === 'string' && /<\s*(!DOCTYPE|html|head|body)/i.test(data);
+
+      console.error('Erro no cadastro:', { status, data });
+
+      if (status === 409 || data?.error === 'Email already registered') {
+        alert('Este e-mail já está cadastrado. Faça login para continuar.');
+        setCurrentView('login');
+        return;
+      }
+
+      if (typeof data === 'object' && data) {
+        // Rails validation errors come as { field: ["msg1", "msg2"] }
+        const messages = Object.entries(data).flatMap(([field, val]) => {
+          if (Array.isArray(val)) return val.map((m) => `${field} ${m}`);
+          return [`${field}: ${String(val)}`];
+        });
+        alert(messages.join('\n') || 'Falha no cadastro. Verifique os dados.');
+        return;
+      }
+
+      if (looksHtml || contentType.includes('text/html')) {
+        alert('Falha no cadastro. Tente novamente mais tarde.');
+        return;
+      }
+
+      alert(String(data || err.message || 'Falha no cadastro.'));
     }
   };
 

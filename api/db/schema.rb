@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_29_014817) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_08_003500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.integer "score"
+    t.string "email", null: false
+    t.integer "score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
+    t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
 end

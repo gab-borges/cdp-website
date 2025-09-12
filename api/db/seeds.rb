@@ -9,28 +9,24 @@
 #   end
 puts "Cadastrando usuários..."
 
-User.create!(
-    name: 'Ada Lovelace',
-    email: 'ada@example.com',
-    score: 1815
-)
+seed_password = ENV.fetch('SEED_USER_PASSWORD', 'changeme123')
 
-User.create!(
-    name: 'Grace Hopper',
-    email: 'grace@example.com',
-    score: 1906
-)
+users = [
+  { name: 'Ada Lovelace', email: 'ada@example.com', score: 1815 },
+  { name: 'Grace Hopper', email: 'grace@example.com', score: 1906 },
+  { name: 'Margaret Hamilton', email: 'margaret@example.com', score: 1936 },
+  { name: 'Gabriel ABC', email: 'gabriel.affonso@cdp-website.com', score: 2000 },
+]
 
-User.create!(
-    name: 'Margaret Hamilton',
-    email: 'margaret@example.com',
-    score: 1936
-)
+users.each do |attrs|
+  email = attrs[:email].downcase
+  user = User.find_or_initialize_by(email: email)
+  user.name  = attrs[:name]
+  user.score = attrs[:score]
+  # Always set password for idempotency and to satisfy has_secure_password
+  user.password = seed_password
+  user.password_confirmation = seed_password
+  user.save!
+end
 
-User.create!(
-    name: 'Gabriel ABC',
-    email: 'gabriel.affonso@cdp-website.com',
-    score: 2000
-)
-
-puts "Usuários cadastrados com sucesso!"
+puts "Usuários cadastrados/atualizados com sucesso!"
