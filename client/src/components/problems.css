@@ -1,0 +1,103 @@
+
+.problems-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
+.problems-container { width: min(1100px, 92%); margin: 0 auto; }
+.problems-header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(6px); background: rgba(11,15,22,0.75); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.problems-headwrap { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+.problems-brand { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #bcd1ff; }
+.problems-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.problems-spacer { flex: 1; }
+.problems-main { padding: 24px 0 48px; }
+
+.problem-card, .problem-detail-card {
+  background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.problem-card-title a { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; text-decoration: none; }
+.problem-card-info { display: flex; gap: 1.5rem; color: #9bb7ff; margin-top: 8px; }
+
+.problem-detail-title { font-size: 2rem; font-weight: 700; color: #e7edf5; margin-bottom: 1rem; }
+.problem-detail-body { font-size: 1.1rem; line-height: 1.7; color: #cbd6ea; margin-top: 1.5rem; }
+.problem-detail-body .markdown-body { display: flex; flex-direction: column; gap: 1rem; }
+.problem-detail-body h1, .problem-detail-body h2, .problem-detail-body h3 {
+  color: #e7edf5;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.3em;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+.problem-detail-body p { margin-bottom: 1em; }
+.problem-detail-body ul, .problem-detail-body ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+.problem-detail-body li { margin-bottom: 0.5rem; }
+.problem-detail-body a { color: #8ab4ff; text-decoration: underline; }
+.problem-detail-body code { background-color: rgba(0,0,0,0.2); padding: 0.2em 0.4em; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+.problem-detail-body .code-block-wrapper { position: relative; margin-bottom: 1.2rem; }
+.problem-detail-body .code-block-wrapper pre {
+  background-color: #0d1117;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0;
+}
+.problem-detail-body .code-block-wrapper pre code { padding: 0; background-color: transparent; }
+.problem-detail-body .code-block-wrapper .copy-button {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background-color: rgba(11, 15, 22, 0.75);
+  color: #cbd6ea;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.problem-detail-body .code-block-wrapper .copy-button:hover { background-color: rgba(35, 134, 54, 0.65); border-color: rgba(35, 134, 54, 0.9); }
+.problem-detail-body .code-block-wrapper .copy-button:disabled { opacity: 0.65; cursor: default; }
+.problem-detail-body .katex-display { margin: 1.25rem 0; overflow-x: auto; padding: 0.75rem; background: rgba(0,0,0,0.25); border-radius: 8px; }
+.problem-detail-body .katex { font-size: 1.1em; }
+
+.submission-form { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.submission-form h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #e7edf5; }
+
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #9bb7ff; }
+.form-group select, .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  background-color: #0d1117;
+  color: #e7edf5;
+  font-size: 1rem;
+}
+.form-group textarea { min-height: 200px; font-family: 'Fira Code', monospace; }
+
+.btn {
+  display: inline-block;
+  background-color: #238636;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn:hover { background-color: #2ea043; }
+
+.btn-ghost {
+  background-color: transparent;
+  color: #bcd1ff;
+  border-color: rgba(255,255,255,0.2);
+}
+.btn-ghost:hover { background-color: rgba(255,255,255,0.08); color: #fff; }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import Dashboard from './components/Dashboard';
 import ProblemList from './components/ProblemList';
 import ProblemDetail from './components/ProblemDetail';
+import Profile from './components/Profile';
 import './App.css';
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
         <Route path="/dashboard" element={token ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problems" element={token ? <ProblemList /> : <Navigate to="/login" />} />
         <Route path="/problems/:id" element={token ? <ProblemDetail /> : <Navigate to="/login" />} />
+        <Route path="/profile" element={token ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

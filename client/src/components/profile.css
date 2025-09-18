@@ -1,0 +1,46 @@
+.profile-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
+.profile-container { width: min(1100px, 92%); margin: 0 auto; }
+.profile-header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(6px); background: rgba(11,15,22,0.75); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.profile-headwrap { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+.profile-brand { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #bcd1ff; }
+.profile-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.profile-spacer { flex: 1; }
+.profile-main { padding: 24px 0 48px; }
+
+.profile-card {
+  background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.profile-card-title { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; margin-bottom: 1rem; }
+.profile-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 8px; padding: 8px 0; }
+.profile-label { color: #99a7bd; }
+.profile-value { color: #e7edf5; }
+.profile-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+.profile-error { border-color: rgba(255,87,87,0.25); background: linear-gradient(180deg, rgba(64,16,16,0.6), rgba(32,8,8,0.6)); color: #ffd8d8; }
+
+.btn {
+  display: inline-block;
+  background-color: #238636;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn:hover { background-color: #2ea043; }
+
+.btn-ghost {
+  background-color: transparent;
+  color: #bcd1ff;
+  border-color: rgba(255,255,255,0.2);
+}
+.btn-ghost:hover { background-color: rgba(255,255,255,0.08); color: #fff; }

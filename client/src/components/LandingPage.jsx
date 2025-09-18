@@ -69,7 +69,7 @@ export default function LandingPage() {
       <section id="team" className="lp-section lp-section-alt" style={{ scrollMarginTop: '80px' }}>
         <div className="lp-container">
           <figure className="lp-photo">
-            <img className="lp-photo-img" src="../../public/photo-cdp.jpg" alt="Foto dos membros do Clube de Programação da UTFPR-CT" />
+            <img className="lp-photo-img" src="photo-cdp.jpg" alt="Foto dos membros do Clube de Programação da UTFPR-CT" />
             <figcaption className="lp-photo-cap lp-muted">Maratona SBC de Programação - 2024</figcaption>
           </figure>
         </div>

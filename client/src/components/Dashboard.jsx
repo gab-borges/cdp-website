@@ -49,7 +49,8 @@ function Dashboard({ onLogout }) {
             <span>Clube de Programação • UTFPR-CT</span>
           </div>
           <div className="db-spacer" />
-          <Link to="/problems" className="lp-btn lp-btn-ghost">Problems</Link>
+          <Link to="/problems" className="lp-btn lp-btn-ghost">Problemas</Link>
+          <Link to="/profile" className="lp-btn lp-btn-ghost">Perfil</Link>
           <div className="db-userbox">
             {me ? <span>Olá, <strong>{me.name}</strong></span> : <span>&nbsp;</span>}
             <button className="lp-btn" onClick={onLogout}>Sair</button>

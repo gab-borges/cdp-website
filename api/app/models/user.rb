@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  has_many :submissions, dependent: :destroy
 
   before_validation :normalize_email
 
