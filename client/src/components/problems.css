@@ -73,7 +73,22 @@
   color: #e7edf5;
   font-size: 1rem;
 }
+.form-group input[type="file"] {
+  width: 100%;
+  color: #cbd6ea;
+  font-size: 0.95rem;
+}
 .form-group textarea { min-height: 200px; font-family: 'Fira Code', monospace; }
+
+.form-note {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #8fa0ba;
+}
+
+.form-note-error {
+  color: #ffb3b3;
+}
 
 .btn {
   display: inline-block;

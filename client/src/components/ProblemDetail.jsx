@@ -17,6 +17,8 @@ const SANITIZE_CONFIG = {
   ALLOW_DATA_ATTR: true,
 };
 
+const MAX_UPLOAD_BYTES = 512 * 1024; // 512 KB, evita uploads muito grandes
+
 const ProblemDetail = ({ onLogout }) => {
   const { id } = useParams();
   const [problem, setProblem] = useState(null);
@@ -25,6 +27,8 @@ const ProblemDetail = ({ onLogout }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState('');
+  const [uploadError, setUploadError] = useState('');
   const markdownRef = useRef(null);
 
   const sanitizedDescription = useMemo(() => {
@@ -121,6 +125,8 @@ const ProblemDetail = ({ onLogout }) => {
       if (response.status === 201) {
         alert('Submission sent successfully!');
         setCode('');
+        setUploadMessage('');
+        setUploadError('');
       } else {
         alert('Failed to send submission.');
       }
@@ -130,6 +136,30 @@ const ProblemDetail = ({ onLogout }) => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleFileUpload = (event) => {
+    const [file] = event.target.files || [];
+    setUploadMessage('');
+    setUploadError('');
+
+    if (!file) return;
+
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setUploadError('Arquivo maior que 512 KB. Carregue um arquivo menor.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = typeof reader.result === 'string' ? reader.result : '';
+      setCode(text);
+      setUploadMessage(`Arquivo carregado: ${file.name}`);
+    };
+    reader.onerror = () => {
+      setUploadError('Não foi possível ler o arquivo selecionado.');
+    };
+    reader.readAsText(file);
   };
 
   return (
@@ -169,6 +199,20 @@ const ProblemDetail = ({ onLogout }) => {
                     <option value="Python 3">Python</option>
                     <option value="Java">Java</option>
                   </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="code-file">Envie um arquivo</label>
+                  <input
+                    id="code-file"
+                    type="file"
+                    accept=".cpp,.cc,.cxx,.c,.py,.java,.kt,.go,.rs,.js,.ts,.txt"
+                    onChange={handleFileUpload}
+                  />
+                  {(uploadMessage || uploadError) && (
+                    <div className={`form-note${uploadError ? ' form-note-error' : ''}`}>
+                      {uploadError || uploadMessage}
+                    </div>
+                  )}
                 </div>
                 <div className="form-group">
                   <label htmlFor="code">Código</label>
