@@ -5,7 +5,7 @@ import logo from '../assets/logo-cdp.jpg';
 import './header.css';
 
 const NAV_LINKS = [
-  { to: '/problems', label: 'Problemas' },
+  { to: '/problems', label: 'Problemas', match: ['/problem'] },
   { to: '/profile', label: 'Perfil' },
 ];
 
@@ -41,7 +41,8 @@ function Header({ onLogout, currentUser }) {
   }, [currentUser]);
 
   const navItems = useMemo(() => NAV_LINKS.map((link) => {
-    const isActive = location.pathname.startsWith(link.to);
+    const prefixes = [link.to, ...(link.match ?? [])];
+    const isActive = prefixes.some((prefix) => location.pathname.startsWith(prefix));
     const base = 'lp-btn lp-btn-ghost app-nav-item';
     return {
       ...link,

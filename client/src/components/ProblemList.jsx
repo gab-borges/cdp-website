@@ -40,7 +40,7 @@ const ProblemList = ({ onLogout }) => {
             {problems.map(problem => (
               <div key={problem.id} className="problem-card">
                 <h2 className="problem-card-title">
-                  <Link to={`/problems/${problem.id}`}>{problem.title}</Link>
+                  <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
                 </h2>
                 <div className="problem-card-info">
                   <span>Dificuldade: {problem.difficulty}</span>
