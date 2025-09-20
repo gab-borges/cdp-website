@@ -11,7 +11,8 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
-.profile-card-title { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; margin-bottom: 1rem; }
+.profile-card-title { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; margin-bottom: 0.75rem; }
+.profile-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
 .profile-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 8px; padding: 8px 0; }
 .profile-label { color: #99a7bd; }
 .profile-value { color: #e7edf5; }
@@ -19,6 +20,7 @@
 .profile-error { border-color: rgba(255,87,87,0.25); background: linear-gradient(180deg, rgba(64,16,16,0.6), rgba(32,8,8,0.6)); color: #ffd8d8; }
 
 .profile-muted { margin: 0 0 16px; color: #8fa0ba; font-size: 0.95rem; }
+.profile-bio { white-space: pre-wrap; line-height: 1.6; color: #cbd6ea; background: rgba(5,8,12,0.45); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 18px; min-height: 120px; }
 .profile-textarea {
   width: 100%;
   min-height: 160px;

@@ -32,6 +32,7 @@ const ProblemDetail = ({ onLogout }) => {
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [submissionError, setSubmissionError] = useState('');
   const markdownRef = useRef(null);
+  const codeRef = useRef(null);
 
   const sanitizedDescription = useMemo(() => {
     if (!problem?.description) return '';
@@ -166,6 +167,23 @@ const ProblemDetail = ({ onLogout }) => {
     reader.readAsText(file);
   };
 
+  const handleCodeKeyDown = (event) => {
+    if (event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
+      const { selectionStart, selectionEnd, value } = event.target;
+      const tab = '\t';
+      const nextValue = value.slice(0, selectionStart) + tab + value.slice(selectionEnd);
+      setCode(nextValue);
+      requestAnimationFrame(() => {
+        if (codeRef.current) {
+          const cursor = selectionStart + tab.length;
+          codeRef.current.selectionStart = cursor;
+          codeRef.current.selectionEnd = cursor;
+        }
+      });
+    }
+  };
+
   return (
     <div className="problems-root">
       <Header onLogout={onLogout} />
@@ -230,7 +248,14 @@ const ProblemDetail = ({ onLogout }) => {
                 )}
                 <div className="form-group">
                   <label htmlFor="code">Código</label>
-                  <textarea id="code" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Escreva seu código..." />
+                  <textarea
+                    id="code"
+                    ref={codeRef}
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    onKeyDown={handleCodeKeyDown}
+                    placeholder="Escreva seu código..."
+                  />
                 </div>
                 <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? 'Submitting...' : 'Submit'}

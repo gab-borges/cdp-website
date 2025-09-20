@@ -10,6 +10,7 @@ const Profile = ({ onLogout }) => {
   const [bioDraft, setBioDraft] = useState('');
   const [bioMessage, setBioMessage] = useState('');
   const [bioError, setBioError] = useState('');
+  const [editingBio, setEditingBio] = useState(false);
   const [savingBio, setSavingBio] = useState(false);
   const [pwdForm, setPwdForm] = useState({ current: '', password: '', confirm: '' });
   const [pwdMessage, setPwdMessage] = useState('');
@@ -46,6 +47,7 @@ const Profile = ({ onLogout }) => {
       });
       setUser(data);
       setBioMessage('Bio atualizada com sucesso.');
+      setEditingBio(false);
     } catch (e) {
       const message = e?.response?.data?.errors?.join(' ') || 'Não foi possível atualizar sua bio.';
       setBioError(message);
@@ -105,28 +107,56 @@ const Profile = ({ onLogout }) => {
               </div>
             </div>
 
-            <form className="profile-card" onSubmit={handleBioSubmit}>
-              <div className="profile-card-title">Bio</div>
-              <p className="profile-muted">Compartilhe um pouco sobre você. Máx. 1200 caracteres.</p>
-              <textarea
-                className="profile-textarea"
-                value={bioDraft}
-                maxLength={1200}
-                onChange={(event) => setBioDraft(event.target.value)}
-                placeholder="Conte-nos sobre sua experiência, interesses ou metas."
-              />
-              <div className="profile-meta-row">
-                <span>{bioDraft.length}/1200</span>
-                <button type="submit" className="lp-btn" disabled={savingBio}>
-                  {savingBio ? 'Salvando...' : 'Salvar bio'}
+            <div className="profile-card">
+              <div className="profile-card-header">
+                <div>
+                  <div className="profile-card-title">Bio</div>
+                  <p className="profile-muted">Um pouco sobre você, hobbies, áreas de estudo ou metas.</p>
+                </div>
+                <button
+                  type="button"
+                  className="lp-btn lp-btn-ghost"
+                  onClick={() => {
+                    setEditingBio((prev) => !prev);
+                    setBioMessage('');
+                    setBioError('');
+                    setBioDraft(user.bio || '');
+                  }}
+                >
+                  {editingBio ? 'Cancelar' : 'Editar'}
                 </button>
               </div>
+
+              {!editingBio && (
+                <div className="profile-bio">
+                  {user.bio ? user.bio : <span className="profile-muted">Nenhuma bio cadastrada.</span>}
+                </div>
+              )}
+
+              {editingBio && (
+                <form onSubmit={handleBioSubmit}>
+                  <textarea
+                    className="profile-textarea"
+                    value={bioDraft}
+                    maxLength={1200}
+                    onChange={(event) => setBioDraft(event.target.value)}
+                    placeholder="Conte-nos sobre sua experiência, interesses ou metas."
+                  />
+                  <div className="profile-meta-row">
+                    <span>{bioDraft.length}/1200</span>
+                    <button type="submit" className="lp-btn" disabled={savingBio}>
+                      {savingBio ? 'Salvando...' : 'Salvar bio'}
+                    </button>
+                  </div>
+                </form>
+              )}
+
               {(bioMessage || bioError) && (
                 <div className={`profile-alert ${bioError ? 'profile-alert-error' : 'profile-alert-success'}`}>
                   {bioError || bioMessage}
                 </div>
               )}
-            </form>
+            </div>
 
             <form className="profile-card" onSubmit={handlePasswordChange}>
               <div className="profile-card-title">Alterar senha</div>
