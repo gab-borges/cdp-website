@@ -5,6 +5,8 @@
 .db-card { grid-column: span 12; background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9)); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); }
 .db-card-title { font-size: 14px; letter-spacing: 0.4px; color: #9bb7ff; text-transform: uppercase; margin-bottom: 10px; }
 .db-row, .db-table-head { display: grid; grid-template-columns: 40px 1fr 100px; align-items: center; gap: 8px; padding: 8px 0; }
+.db-row--info { grid-template-columns: 1fr auto; }
+.db-row--info .db-value { justify-self: end; }
 .db-strong { font-weight: 700; color: #d6e4ff; }
 .db-right { text-align: right; }
 .db-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -16,6 +16,59 @@
 .problem-card-info { display: flex; gap: 1.5rem; color: #9bb7ff; margin-top: 8px; }
 
 .problem-detail-title { font-size: 2rem; font-weight: 700; color: #e7edf5; margin-bottom: 1rem; }
+.problem-sub { margin-top: 4px; color: #8fa0ba; font-size: 0.95rem; }
+
+.problem-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 24px; }
+.problem-filters { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+.filter-group { display: grid; gap: 6px; min-width: 200px; }
+.filter-group label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9bb7ff; }
+.filter-group input, .filter-group select { background: rgba(13,17,23,0.85); color: #e7edf5; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px; font-size: 0.95rem; transition: border-color 0.2s ease; }
+.filter-group input:focus, .filter-group select:focus { border-color: rgba(91,124,255,0.6); outline: none; }
+
+.problem-table-wrap { margin-top: 16px; background: linear-gradient(180deg, rgba(20,26,36,0.92), rgba(17,21,30,0.92)); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); overflow: hidden; }
+.problem-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.problem-table thead { background: rgba(15,21,30,0.9); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; color: #9bb7ff; }
+.problem-table th, .problem-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+.problem-table tbody tr:hover { background: rgba(91,124,255,0.08); }
+.problem-table th { cursor: default; user-select: none; }
+.problem-table th.sortable { cursor: pointer; }
+.problem-table th.sortable:focus-visible { outline: 2px solid rgba(91,124,255,0.6); outline-offset: 2px; }
+.problem-table th:last-child, .problem-table td:last-child { text-align: right; }
+
+.col-id { width: 80px; font-family: 'Fira Code', monospace; font-size: 0.95rem; color: #9bb7ff; }
+.col-title { display: flex; flex-direction: column; gap: 4px; }
+.problem-link { color: #d6e4ff; font-weight: 600; text-decoration: none; }
+.problem-link:hover { color: #ffffff; text-decoration: underline; }
+.col-meta { font-size: 0.8rem; color: #8fa0ba; }
+.col-diff { min-width: 140px; }
+.diff-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; text-transform: capitalize; border: 1px solid rgba(255,255,255,0.12); color: #d6e4ff; }
+.diff-easy,
+.diff-facil { background: rgba(52,168,83,0.16); border-color: rgba(52,168,83,0.45); color: #8be7a7; }
+.diff-medium,
+.diff-medio { background: rgba(255,193,7,0.16); border-color: rgba(255,193,7,0.45); color: #ffdf88; }
+.diff-hard,
+.diff-dificil { background: rgba(244,67,54,0.18); border-color: rgba(244,67,54,0.45); color: #ffb3b3; }
+.diff-unknown { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: #cbd6ea; }
+.col-points { font-family: 'Fira Code', monospace; font-size: 0.95rem; color: #d6e4ff; min-width: 100px; }
+.col-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-pill { padding: 4px 9px; border-radius: 999px; background: rgba(91,124,255,0.15); color: #bcd1ff; font-size: 0.78rem; border: 1px solid rgba(91,124,255,0.35); }
+.col-actions .lp-btn { padding: 6px 14px; font-size: 0.85rem; }
+.table-sort { margin-left: 6px; font-size: 0.85rem; color: rgba(155,183,255,0.7); }
+.table-sort.active { color: #ffffff; }
+
+.problem-table-wrap::-webkit-scrollbar { height: 10px; }
+.problem-table-wrap::-webkit-scrollbar-thumb { background: rgba(91,124,255,0.4); border-radius: 999px; }
+
+@media (max-width: 900px) {
+  .problem-table-wrap { overflow-x: auto; }
+  .col-actions .lp-btn { padding: 6px 10px; }
+}
+
+@media (max-width: 600px) {
+  .problem-filters { width: 100%; }
+  .filter-group { width: 100%; }
+}
+
 .problem-detail-body { font-size: 1.1rem; line-height: 1.7; color: #cbd6ea; margin-top: 1.5rem; }
 .problem-detail-body .markdown-body { display: flex; flex-direction: column; gap: 1rem; }
 .problem-detail-body h1, .problem-detail-body h2, .problem-detail-body h3 {

@@ -55,15 +55,15 @@ function Dashboard({ onLogout }) {
           <div className="db-grid">
             <section className="db-card">
               <div className="db-card-title">Resumo</div>
-              <div className="db-row">
+              <div className="db-row db-row--info">
                 <div className="db-label">Nome</div>
                 <div className="db-value">{me?.name}</div>
               </div>
-              <div className="db-row">
+              <div className="db-row db-row--info">
                 <div className="db-label">Email</div>
                 <div className="db-value">{me?.email}</div>
               </div>
-              <div className="db-row">
+              <div className="db-row db-row--info">
                 <div className="db-label">Pontuação</div>
                 <div className="db-value db-mono">{me?.score ?? 0} pts</div>
               </div>
