@@ -1,11 +1,5 @@
 .db-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
 .db-container { width: min(1100px, 92%); margin: 0 auto; }
-.db-header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(6px); background: rgba(11,15,22,0.75); border-bottom: 1px solid rgba(255,255,255,0.06); }
-.db-headwrap { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
-.db-brand { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #bcd1ff; }
-.db-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.db-spacer { flex: 1; }
-.db-userbox { display: flex; align-items: center; gap: 12px; }
 .db-main { padding: 24px 0 48px; }
 .db-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
 .db-card { grid-column: span 12; background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9)); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); }
@@ -29,4 +23,3 @@
   .db-card:nth-child(3) { grid-column: span 6; }
   .db-card:nth-child(4) { grid-column: span 6; }
 }
-

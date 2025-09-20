@@ -1,0 +1,90 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(6px);
+  background: rgba(11, 15, 22, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.app-shell {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: #bcd1ff;
+  text-decoration: none;
+}
+
+.app-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.app-spacer {
+  flex: 1;
+}
+
+.app-nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.app-nav-active {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.app-userbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 8px;
+}
+
+.app-greeting {
+  color: #d6e4ff;
+  font-size: 0.95rem;
+}
+
+.app-greeting strong {
+  font-weight: 700;
+}
+
+.app-muted {
+  color: #8fa0ba;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    gap: 10px;
+  }
+
+  .app-brand span {
+    display: none;
+  }
+
+  .app-nav-item {
+    padding: 8px 12px;
+  }
+
+  .app-greeting {
+    display: none;
+  }
+}

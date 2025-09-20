@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../assets/logo-cdp.jpg';
+import Header from './Header';
 import './profile.css';
 
-const Profile = () => {
+const Profile = ({ onLogout }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,16 +28,7 @@ const Profile = () => {
 
   return (
     <div className="profile-root">
-      <header className="profile-header">
-        <div className="profile-container profile-headwrap">
-          <Link to="/dashboard" className="profile-brand">
-            <img src={logo} alt="Clube de Programação UTFPR" className="profile-logo" />
-            <span>Clube de Programação • UTFPR-CT</span>
-          </Link>
-          <div className="profile-spacer" />
-          <Link to="/dashboard" className="btn btn-ghost">Dashboard</Link>
-        </div>
-      </header>
+      <Header onLogout={onLogout} currentUser={user} />
 
       <main className="profile-main profile-container">
         {loading && <div className="profile-card">Carregando...</div>}

@@ -1,11 +1,6 @@
 
 .problems-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
 .problems-container { width: min(1100px, 92%); margin: 0 auto; }
-.problems-header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(6px); background: rgba(11,15,22,0.75); border-bottom: 1px solid rgba(255,255,255,0.06); }
-.problems-headwrap { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
-.problems-brand { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #bcd1ff; }
-.problems-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.problems-spacer { flex: 1; }
 .problems-main { padding: 24px 0 48px; }
 
 .problem-card, .problem-detail-card {

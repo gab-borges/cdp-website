@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import logo from '../assets/logo-cdp.jpg';
+import Header from './Header';
 import './dashboard.css';
 
 function Dashboard({ onLogout }) {
@@ -42,21 +41,7 @@ function Dashboard({ onLogout }) {
 
   return (
     <div className="db-root">
-      <header className="db-header">
-        <div className="db-container db-headwrap">
-          <div className="db-brand">
-            <img src={logo} alt="Clube de Programação UTFPR" className="db-logo" />
-            <span>Clube de Programação • UTFPR-CT</span>
-          </div>
-          <div className="db-spacer" />
-          <Link to="/problems" className="lp-btn lp-btn-ghost">Problemas</Link>
-          <Link to="/profile" className="lp-btn lp-btn-ghost">Perfil</Link>
-          <div className="db-userbox">
-            {me ? <span>Olá, <strong>{me.name}</strong></span> : <span>&nbsp;</span>}
-            <button className="lp-btn" onClick={onLogout}>Sair</button>
-          </div>
-        </div>
-      </header>
+      <Header onLogout={onLogout} currentUser={me} />
 
       <main className="db-main db-container">
         {loading && (

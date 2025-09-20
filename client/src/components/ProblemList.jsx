@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../assets/logo-cdp.jpg';
+import Header from './Header';
 import './problems.css';
 
-const ProblemList = () => {
+const ProblemList = ({ onLogout }) => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,16 +29,7 @@ const ProblemList = () => {
 
   return (
     <div className="problems-root">
-      <header className="problems-header">
-        <div className="problems-container problems-headwrap">
-          <Link to="/dashboard" className="problems-brand">
-            <img src={logo} alt="Clube de Programação UTFPR" className="problems-logo" />
-            <span>Clube de Programação • UTFPR-CT</span>
-          </Link>
-          <div className="problems-spacer" />
-          <Link to="/dashboard" className="btn btn-ghost">Dashboard</Link>
-        </div>
-      </header>
+      <Header onLogout={onLogout} />
 
       <main className="problems-main problems-container">
         <h1 className="problem-detail-title">Problemas</h1>

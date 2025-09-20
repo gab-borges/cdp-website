@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import markedKatex from 'marked-katex-extension';
 import 'katex/dist/katex.min.css';
-import logo from '../assets/logo-cdp.jpg';
+import Header from './Header';
 import './problems.css';
 
 marked.setOptions({ gfm: true, breaks: true });
@@ -17,7 +17,7 @@ const SANITIZE_CONFIG = {
   ALLOW_DATA_ATTR: true,
 };
 
-const ProblemDetail = () => {
+const ProblemDetail = ({ onLogout }) => {
   const { id } = useParams();
   const [problem, setProblem] = useState(null);
   const [code, setCode] = useState('');
@@ -134,16 +134,7 @@ const ProblemDetail = () => {
 
   return (
     <div className="problems-root">
-      <header className="problems-header">
-        <div className="problems-container problems-headwrap">
-          <Link to="/dashboard" className="problems-brand">
-            <img src={logo} alt="Clube de Programação UTFPR" className="problems-logo" />
-            <span>Clube de Programação • UTFPR-CT</span>
-          </Link>
-          <div className="problems-spacer" />
-          <Link to="/problems" className="btn btn-ghost">Todos os Problemas</Link>
-        </div>
-      </header>
+      <Header onLogout={onLogout} />
 
       <main className="problems-main problems-container">
         {loading && <div className="problem-card">Loading...</div>}
