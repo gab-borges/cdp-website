@@ -1,0 +1,73 @@
+.submissions-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
+.submissions-container { width: min(1100px, 92%); margin: 0 auto; }
+.submissions-main { padding: 24px 0 48px; }
+
+.submissions-title { font-size: 2rem; font-weight: 700; color: #e7edf5; margin: 0; }
+.submissions-sub { margin-top: 6px; color: #8fa0ba; font-size: 0.95rem; }
+
+.submissions-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 24px; }
+.submissions-filters { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+
+.filter-group { display: grid; gap: 6px; min-width: 200px; }
+.filter-group label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9bb7ff; }
+.filter-group input,
+.filter-group select { background: rgba(13,17,23,0.85); color: #e7edf5; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px; font-size: 0.95rem; transition: border-color 0.2s ease; }
+.filter-group input:focus,
+.filter-group select:focus { border-color: rgba(91,124,255,0.6); outline: none; }
+
+.submissions-card { background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9)); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; color: #cbd6ea; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); }
+.submissions-error { border-color: rgba(255,87,87,0.25); background: linear-gradient(180deg, rgba(64,16,16,0.6), rgba(32,8,8,0.6)); color: #ffd8d8; }
+
+.submissions-table-wrap { margin-top: 16px; background: linear-gradient(180deg, rgba(20,26,36,0.92), rgba(17,21,30,0.92)); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); overflow: hidden; }
+.submissions-table { width: 100%; border-collapse: collapse; min-width: 780px; }
+.submissions-table thead { background: rgba(15,21,30,0.9); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.09em; color: #9bb7ff; }
+.submissions-table th,
+.submissions-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+.submissions-table tbody tr:hover { background: rgba(91,124,255,0.08); }
+.submissions-table th:last-child,
+.submissions-table td:last-child { text-align: right; }
+
+.col-numeric { width: 80px; font-family: 'Fira Code', monospace; color: #9bb7ff; font-size: 0.95rem; }
+.col-problem { display: flex; flex-direction: column; gap: 4px; }
+.col-meta { font-size: 0.8rem; color: #8fa0ba; }
+.col-language { text-transform: none; }
+.col-time { font-family: 'Fira Code', monospace; }
+.col-datetime { white-space: nowrap; }
+
+.problem-link { color: #d6e4ff; font-weight: 600; text-decoration: none; }
+.problem-link:hover { color: #ffffff; text-decoration: underline; }
+
+.status-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); color: #d6e4ff; }
+.status-accepted { background: rgba(52,168,83,0.16); border-color: rgba(52,168,83,0.45); color: #8be7a7; }
+.status-wrong { background: rgba(244,67,54,0.18); border-color: rgba(244,67,54,0.45); color: #ffb3b3; }
+.status-time { background: rgba(255,193,7,0.16); border-color: rgba(255,193,7,0.45); color: #ffdf88; }
+.status-runtime { background: rgba(244,67,54,0.18); border-color: rgba(244,67,54,0.45); color: #ffb3b3; }
+.status-compilation { background: rgba(33,150,243,0.18); border-color: rgba(33,150,243,0.45); color: #addbff; }
+.status-judge { background: rgba(156,39,176,0.18); border-color: rgba(156,39,176,0.45); color: #e0b5ff; }
+.status-pending { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: #cbd6ea; }
+.status-submitted { background: rgba(91,124,255,0.18); border-color: rgba(91,124,255,0.45); color: #c3d4ff; }
+.status-failed { background: rgba(244,67,54,0.25); border-color: rgba(244,67,54,0.45); color: #ffd0d0; }
+.status-unknown { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #cbd6ea; }
+
+.col-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.col-actions .lp-btn { padding: 6px 12px; font-size: 0.85rem; }
+
+.submission-modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 50; }
+.submission-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
+.submission-modal-content { position: relative; width: min(900px, 92%); max-height: 90vh; background: #121723; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); display: flex; flex-direction: column; overflow: hidden; }
+.submission-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(26,32,45,0.95), rgba(20,26,36,0.95)); }
+.submission-modal-title { font-size: 1.2rem; font-weight: 600; color: #e7edf5; }
+.submission-modal-meta { margin-top: 6px; color: #8fa0ba; font-size: 0.85rem; }
+.submission-modal-body { padding: 0 24px 24px; overflow: auto; }
+.submission-modal-body pre { margin: 0; padding: 18px; background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: #e7edf5; font-family: 'Fira Code', monospace; font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.submission-modal-body code { font-family: inherit; font-size: inherit; }
+
+@media (max-width: 900px) {
+  .submissions-table-wrap { overflow-x: auto; }
+  .col-actions { justify-content: flex-start; }
+}
+
+@media (max-width: 600px) {
+  .submissions-filters { width: 100%; }
+  .filter-group { width: 100%; }
+}

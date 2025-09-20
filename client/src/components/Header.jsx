@@ -6,6 +6,7 @@ import './header.css';
 
 const NAV_LINKS = [
   { to: '/problems', label: 'Problemas', match: ['/problem'] },
+  { to: '/submissions', label: 'Submissões' },
   { to: '/profile', label: 'Perfil' },
 ];
 

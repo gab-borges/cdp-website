@@ -110,7 +110,7 @@ const ProblemList = ({ onLogout }) => {
         <div className="problem-head">
           <div>
             <h1 className="problem-detail-title">Problemas</h1>
-            <p className="problem-sub">Explore a lista em formato de planilha, similar à Codeforces.</p>
+            <p className="problem-sub">Explore a lista de problemas</p>
           </div>
           <div className="problem-filters">
             <div className="filter-group">
@@ -186,13 +186,10 @@ const ProblemList = ({ onLogout }) => {
                     >
                       Pontos {renderSortIndicator(SORT_KEYS.points)}
                     </th>
-                    <th>Tags</th>
-                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredProblems.map((problem) => {
-                    const tags = Array.isArray(problem?.tags) ? problem.tags : [];
                     const difficulty = problem?.difficulty || '—';
                     const diffToken = problem?.difficulty
                       ? (problem.difficulty
@@ -213,14 +210,6 @@ const ProblemList = ({ onLogout }) => {
                           <span className={difficultyClass}>{difficulty}</span>
                         </td>
                         <td className="col-points">{problem.points ?? '—'}</td>
-                        <td className="col-tags">
-                          {tags.length ? tags.map((tag) => (
-                            <span className="tag-pill" key={tag}>{tag}</span>
-                          )) : <span className="col-meta">—</span>}
-                        </td>
-                        <td className="col-actions">
-                          <Link to={`/problem/${problem.id}`} className="lp-btn lp-btn-ghost">Ver</Link>
-                        </td>
                       </tr>
                     );
                   })}

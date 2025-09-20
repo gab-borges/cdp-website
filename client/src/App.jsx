@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import ProblemList from './components/ProblemList';
 import ProblemDetail from './components/ProblemDetail';
 import Profile from './components/Profile';
+import Submissions from './components/Submissions';
 import './App.css';
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
         <Route path="/problems" element={token ? <ProblemList onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problem/:id" element={token ? <ProblemDetail onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/profile" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/submissions" element={token ? <Submissions onLogout={handleLogout} /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

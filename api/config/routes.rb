@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show, :create, :destroy, :update]
       post "/login", to: "sessions#create"
       get "/me", to: "sessions#me"
+      resource :profile, only: [:show, :update], controller: 'profile' do
+        patch :password, on: :collection
+      end
     end
   end
 

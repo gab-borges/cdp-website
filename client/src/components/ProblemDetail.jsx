@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
@@ -29,6 +29,8 @@ const ProblemDetail = ({ onLogout }) => {
   const [submitting, setSubmitting] = useState(false);
   const [uploadMessage, setUploadMessage] = useState('');
   const [uploadError, setUploadError] = useState('');
+  const [submissionMessage, setSubmissionMessage] = useState('');
+  const [submissionError, setSubmissionError] = useState('');
   const markdownRef = useRef(null);
 
   const sanitizedDescription = useMemo(() => {
@@ -116,6 +118,8 @@ const ProblemDetail = ({ onLogout }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmissionMessage('');
+    setSubmissionError('');
     setSubmitting(true);
     try {
       const response = await axios.post('/api/v1/submissions', {
@@ -123,16 +127,16 @@ const ProblemDetail = ({ onLogout }) => {
       });
 
       if (response.status === 201) {
-        alert('Submission sent successfully!');
         setCode('');
         setUploadMessage('');
         setUploadError('');
+        setSubmissionMessage('Envio realizado! Acompanhe o resultado na página de Submissões.');
       } else {
-        alert('Failed to send submission.');
+        setSubmissionError('Falha ao enviar a submissão. Tente novamente.');
       }
     } catch (error) {
       console.error('Error sending submission:', error);
-      alert('An error occurred while sending the submission.');
+      setSubmissionError('Ocorreu um erro ao enviar sua solução.');
     } finally {
       setSubmitting(false);
     }
@@ -214,6 +218,16 @@ const ProblemDetail = ({ onLogout }) => {
                     </div>
                   )}
                 </div>
+                {(submissionMessage || submissionError) && (
+                  <div className={`submission-note${submissionError ? ' submission-note-error' : ''}`}>
+                    {submissionError || (
+                      <>
+                        {submissionMessage}{' '}
+                        <Link to="/submissions" className="submission-link">abrir Submissões</Link>
+                      </>
+                    )}
+                  </div>
+                )}
                 <div className="form-group">
                   <label htmlFor="code">Código</label>
                   <textarea id="code" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Escreva seu código..." />

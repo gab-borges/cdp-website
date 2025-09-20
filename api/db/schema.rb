@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_18_011104) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_20_020139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,6 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_18_011104) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.integer "role", default: 0, null: false
+    t.text "bio"
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
