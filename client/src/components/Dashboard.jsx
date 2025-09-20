@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header';
 import './dashboard.css';
@@ -89,7 +90,13 @@ function Dashboard({ onLogout }) {
               {topUsers.map((u, i) => (
                 <div className="db-row" key={u.id ?? i}>
                   <div className="db-strong">{i + 1}</div>
-                  <div className="db-truncate">{u.name}</div>
+                  <div className="db-truncate">
+                    {u?.id ? (
+                      <Link className="db-link" to={`/profile/${u.id}`}>{u.name}</Link>
+                    ) : (
+                      <span>{u.name}</span>
+                    )}
+                  </div>
                   <div className="db-right db-mono">{u.score ?? 0}</div>
                 </div>
               ))}

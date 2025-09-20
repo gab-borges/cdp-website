@@ -12,6 +12,10 @@ class User < ApplicationRecord
   validates :bio, length: { maximum: 1200 }, allow_blank: true
   validates :codeforces_handle, length: { maximum: 60 }, allow_blank: true
 
+  def solved_problems_count
+    submissions.accepted.select(:problem_id).distinct.count
+  end
+
   private
 
   def normalize_email

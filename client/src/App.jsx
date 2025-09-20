@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import ProblemList from './components/ProblemList';
 import ProblemDetail from './components/ProblemDetail';
 import Profile from './components/Profile';
+import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
 import './App.css';
 
@@ -76,7 +77,8 @@ function App() {
         <Route path="/dashboard" element={token ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problems" element={token ? <ProblemList onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problem/:id" element={token ? <ProblemDetail onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/profile/:id/edit" element={token ? <ProfileEdit onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/profile/:id" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/submissions" element={token ? <Submissions onLogout={handleLogout} /> : <Navigate to="/login" />} />
       </Routes>
     </Router>

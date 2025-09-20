@@ -4,12 +4,6 @@ import axios from 'axios';
 import logo from '../assets/logo-cdp.jpg';
 import './header.css';
 
-const NAV_LINKS = [
-  { to: '/problems', label: 'Problemas', match: ['/problem'] },
-  { to: '/submissions', label: 'Submissões' },
-  { to: '/profile', label: 'Perfil' },
-];
-
 function Header({ onLogout, currentUser }) {
   const location = useLocation();
   const [user, setUser] = useState(currentUser ?? null);
@@ -41,15 +35,26 @@ function Header({ onLogout, currentUser }) {
     setLoadingUser(false);
   }, [currentUser]);
 
-  const navItems = useMemo(() => NAV_LINKS.map((link) => {
-    const prefixes = [link.to, ...(link.match ?? [])];
-    const isActive = prefixes.some((prefix) => location.pathname.startsWith(prefix));
-    const base = 'lp-btn lp-btn-ghost app-nav-item';
-    return {
-      ...link,
-      className: isActive ? `${base} app-nav-active` : base,
-    };
-  }), [location.pathname]);
+  const navItems = useMemo(() => {
+    const items = [
+      { to: '/problems', label: 'Problemas', match: ['/problem'] },
+      { to: '/submissions', label: 'Submissões' },
+    ];
+
+    if (user?.id) {
+      items.push({ to: `/profile/${user.id}`, label: 'Perfil', match: ['/profile'] });
+    }
+
+    return items.map((link) => {
+      const prefixes = [link.to, ...(link.match ?? [])];
+      const isActive = prefixes.some((prefix) => location.pathname.startsWith(prefix));
+      const base = 'lp-btn lp-btn-ghost app-nav-item';
+      return {
+        ...link,
+        className: isActive ? `${base} app-nav-active` : base,
+      };
+    });
+  }, [location.pathname, user?.id]);
 
   return (
     <header className="app-header">

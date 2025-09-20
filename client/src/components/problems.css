@@ -49,7 +49,9 @@
 .diff-hard,
 .diff-dificil { background: rgba(244,67,54,0.18); border-color: rgba(244,67,54,0.45); color: #ffb3b3; }
 .diff-unknown { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: #cbd6ea; }
-.col-points { font-family: 'Fira Code', monospace; font-size: 0.95rem; color: #d6e4ff; min-width: 100px; }
+.col-points, .col-solvers { font-family: 'Fira Code', monospace; font-size: 0.95rem; min-width: 100px; text-align: right; }
+.col-points { color: #d6e4ff; }
+.col-solvers { color: #9bb7ff; }
 .table-sort { margin-left: 6px; font-size: 0.85rem; color: rgba(155,183,255,0.7); }
 .table-sort.active { color: #ffffff; }
 

@@ -9,6 +9,7 @@ const SORT_KEYS = {
   title: 'title',
   difficulty: 'difficulty',
   points: 'points',
+  solvers: 'solvers_count',
 };
 
 const ProblemList = ({ onLogout }) => {
@@ -186,6 +187,15 @@ const ProblemList = ({ onLogout }) => {
                     >
                       Pontos {renderSortIndicator(SORT_KEYS.points)}
                     </th>
+                    <th
+                      className="sortable"
+                      onClick={() => handleSort(SORT_KEYS.solvers)}
+                      onKeyDown={(event) => handleSortKeyDown(event, SORT_KEYS.solvers)}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Pessoas {renderSortIndicator(SORT_KEYS.solvers)}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -199,6 +209,7 @@ const ProblemList = ({ onLogout }) => {
                           .replace(/[^a-z0-9]+/g, '-') || 'unknown')
                       : 'unknown';
                     const difficultyClass = `diff-pill diff-${diffToken}`;
+                    const solversCount = Number(problem?.solvers_count ?? 0);
                     return (
                       <tr key={problem.id ?? problem.title}>
                         <td className="col-id">{problem.id ?? '—'}</td>
@@ -210,6 +221,7 @@ const ProblemList = ({ onLogout }) => {
                           <span className={difficultyClass}>{difficulty}</span>
                         </td>
                         <td className="col-points">{problem.points ?? '—'}</td>
+                        <td className="col-solvers">{solversCount.toLocaleString('pt-BR')}</td>
                       </tr>
                     );
                   })}

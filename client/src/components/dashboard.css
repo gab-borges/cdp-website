@@ -10,6 +10,8 @@
 .db-strong { font-weight: 700; color: #d6e4ff; }
 .db-right { text-align: right; }
 .db-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.db-link { color: #d6e4ff; text-decoration: none; }
+.db-link:hover { color: #ffffff; text-decoration: underline; }
 .db-divider { height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.08), rgba(255,255,255,0)); margin: 6px 0; }
 .db-label { color: #99a7bd; }
 .db-value { color: #e7edf5; }

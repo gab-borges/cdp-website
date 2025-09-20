@@ -70,6 +70,6 @@ class Api::V1::ProfileController < ApplicationController
   end
 
   def serialize_user(user)
-    user.as_json(except: [:password_digest])
+    user_profile_payload(user, include_email: true, include_stats: true)
   end
 end

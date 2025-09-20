@@ -34,6 +34,10 @@ const ProblemDetail = ({ onLogout }) => {
   const markdownRef = useRef(null);
   const codeRef = useRef(null);
 
+  const solverCount = Number(problem?.solvers_count ?? 0);
+  const solverLabel = solverCount === 1 ? 'pessoa' : 'pessoas';
+  const formattedSolverCount = solverCount.toLocaleString('pt-BR');
+
   const sanitizedDescription = useMemo(() => {
     if (!problem?.description) return '';
 
@@ -197,6 +201,7 @@ const ProblemDetail = ({ onLogout }) => {
             <div className="problem-card-info">
               <span>Dificuldade: {problem.difficulty}</span>
               <span>Pontos: {problem.points}</span>
+              <span>Resolvido por: {formattedSolverCount} {solverLabel}</span>
             </div>
             <div className="problem-detail-body">
               {sanitizedDescription ? (

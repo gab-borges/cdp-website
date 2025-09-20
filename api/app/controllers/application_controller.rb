@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
   before_action :authorized
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
   def auth_header
     request.headers['Authorization']
   end
@@ -29,5 +31,35 @@ class ApplicationController < ActionController::API
 
   def authorized
     render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+  end
+
+  def render_not_found(_error)
+    render json: { error: 'Not found' }, status: :not_found
+  end
+
+  def user_profile_payload(user, include_email: false, include_stats: false)
+    fields = [
+      :id,
+      :name,
+      :score,
+      :bio,
+      :codeforces_handle,
+      :codeforces_rating,
+      :codeforces_rank,
+      :codeforces_avatar,
+      :codeforces_title_photo,
+      :codeforces_last_synced_at,
+      :created_at,
+      :updated_at
+    ]
+    fields << :email if include_email
+
+    payload = user.as_json(only: fields)
+    payload['solved_problems_count'] = user.solved_problems_count if include_stats
+    payload
+  end
+
+  def user_summary_payload(user)
+    user.as_json(only: [:id, :name, :score])
   end
 end
