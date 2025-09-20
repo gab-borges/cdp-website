@@ -36,6 +36,7 @@
 .profile-textarea:focus { outline: 2px solid rgba(91,124,255,0.45); }
 
 .profile-meta-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #8fa0ba; font-size: 0.9rem; }
+.profile-meta-row--wrap { flex-wrap: wrap; gap: 12px; }
 .profile-alert { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 0.9rem; }
 .profile-alert-success { background: rgba(52,168,83,0.16); border: 1px solid rgba(52,168,83,0.4); color: #8be7a7; }
 .profile-alert-error { background: rgba(244,67,54,0.16); border: 1px solid rgba(244,67,54,0.45); color: #ffb3b3; }
@@ -55,6 +56,14 @@
 .profile-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 
 .profile-actions { display: flex; justify-content: flex-end; gap: 12px; }
+.profile-form-inline { display: grid; gap: 14px; }
+
+.profile-cf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 12px; }
+.profile-cf-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 12px 14px; }
+.profile-cf-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9bb7ff; margin-bottom: 6px; }
+.profile-cf-value { font-size: 1.2rem; font-weight: 600; color: #e7edf5; }
+.profile-cf-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.profile-cf-actions .lp-btn { padding: 8px 16px; }
 
 @media (max-width: 600px) {
   .profile-row { grid-template-columns: 1fr; }

@@ -10,6 +10,7 @@ class User < ApplicationRecord
                     format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :score, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :bio, length: { maximum: 1200 }, allow_blank: true
+  validates :codeforces_handle, length: { maximum: 60 }, allow_blank: true
 
   private
 

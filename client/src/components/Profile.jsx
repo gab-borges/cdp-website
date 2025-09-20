@@ -16,6 +16,11 @@ const Profile = ({ onLogout }) => {
   const [pwdMessage, setPwdMessage] = useState('');
   const [pwdError, setPwdError] = useState('');
   const [savingPwd, setSavingPwd] = useState(false);
+  const [cfDraft, setCfDraft] = useState('');
+  const [cfMessage, setCfMessage] = useState('');
+  const [cfError, setCfError] = useState('');
+  const [editingCf, setEditingCf] = useState(false);
+  const [savingCf, setSavingCf] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,6 +30,11 @@ const Profile = ({ onLogout }) => {
         const { data } = await axios.get('/api/v1/profile');
         setUser(data);
         setBioDraft(data.bio || '');
+        setEditingBio(false);
+        setCfDraft(data.codeforces_handle || '');
+        setEditingCf(!data.codeforces_handle);
+        setCfMessage('');
+        setCfError('');
       } catch (e) {
         console.error('Erro ao carregar dados do perfil:', e);
         setError('Falha ao carregar seus dados.');
@@ -35,6 +45,56 @@ const Profile = ({ onLogout }) => {
 
     fetchUser();
   }, []);
+
+  const formatDateTime = (value) => {
+    if (!value) return 'Sincronize para obter dados atualizados.';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  };
+
+  const formatRank = (rank) => {
+    if (!rank) return '—';
+    return rank.replace(/_/g, ' ');
+  };
+
+  const updateCodeforces = async (rawHandle) => {
+    const handle = rawHandle.trim();
+    const isDisconnect = handle.length === 0;
+    setCfMessage('');
+    setCfError('');
+    setSavingCf(true);
+    try {
+      const { data } = await axios.patch('/api/v1/profile', {
+        profile: { codeforces_handle: handle },
+      });
+      setUser(data);
+      setCfDraft(data.codeforces_handle || '');
+      setCfMessage(isDisconnect ? 'Conexão com Codeforces removida.' : 'Dados do Codeforces sincronizados!');
+      setEditingCf(isDisconnect);
+    } catch (e) {
+      const errData = e?.response?.data;
+      const message = Array.isArray(errData?.errors)
+        ? errData.errors.join(' ')
+        : errData?.error || 'Não foi possível conectar ao Codeforces.';
+      setCfError(message);
+    } finally {
+      setSavingCf(false);
+    }
+  };
+
+  const handleCodeforcesSubmit = async (event) => {
+    event.preventDefault();
+    await updateCodeforces(cfDraft);
+  };
+
+  const handleCodeforcesDisconnect = async () => {
+    await updateCodeforces('');
+  };
+
+  const handleCodeforcesRefresh = async () => {
+    await updateCodeforces(user.codeforces_handle || '');
+  };
 
   const handleBioSubmit = async (event) => {
     event.preventDefault();
@@ -154,6 +214,98 @@ const Profile = ({ onLogout }) => {
               {(bioMessage || bioError) && (
                 <div className={`profile-alert ${bioError ? 'profile-alert-error' : 'profile-alert-success'}`}>
                   {bioError || bioMessage}
+                </div>
+              )}
+            </div>
+
+            <div className="profile-card">
+              <div className="profile-card-header">
+                <div>
+                  <div className="profile-card-title">Codeforces</div>
+                  <p className="profile-muted">Conecte seu handle para exibir rating e rank automaticamente.</p>
+                </div>
+                {!editingCf && (
+                  <button
+                    type="button"
+                    className="lp-btn lp-btn-ghost"
+                    onClick={() => {
+                      setEditingCf(true);
+                      setCfMessage('');
+                      setCfError('');
+                      setCfDraft(user.codeforces_handle || '');
+                    }}
+                  >
+                    {user.codeforces_handle ? 'Alterar handle' : 'Conectar'}
+                  </button>
+                )}
+              </div>
+
+              {user.codeforces_handle && !editingCf && (
+                <>
+                  <div className="profile-cf-grid">
+                    <div className="profile-cf-stat">
+                      <div className="profile-cf-label">Handle</div>
+                      <div className="profile-cf-value">{user.codeforces_handle}</div>
+                    </div>
+                    <div className="profile-cf-stat">
+                      <div className="profile-cf-label">Rating</div>
+                      <div className="profile-cf-value">{user.codeforces_rating ?? '—'}</div>
+                    </div>
+                    <div className="profile-cf-stat">
+                      <div className="profile-cf-label">Rank</div>
+                      <div className="profile-cf-value">{formatRank(user.codeforces_rank)}</div>
+                    </div>
+                  </div>
+                  <div className="profile-meta-row profile-meta-row--wrap">
+                    <span>{formatDateTime(user.codeforces_last_synced_at)}</span>
+                    <div className="profile-cf-actions">
+                      <button type="button" className="lp-btn" onClick={handleCodeforcesRefresh} disabled={savingCf}>
+                        {savingCf ? 'Sincronizando...' : 'Atualizar dados'}
+                      </button>
+                      <button type="button" className="lp-btn lp-btn-ghost" onClick={handleCodeforcesDisconnect} disabled={savingCf}>
+                        Desconectar
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {(!user.codeforces_handle || editingCf) && (
+                <form onSubmit={handleCodeforcesSubmit} className="profile-form-inline">
+                  <div className="profile-form-group">
+                    <label htmlFor="cf-handle">Handle</label>
+                    <input
+                      id="cf-handle"
+                      type="text"
+                      value={cfDraft}
+                      onChange={(event) => setCfDraft(event.target.value)}
+                      placeholder="ex: tourist"
+                    />
+                  </div>
+                  <div className="profile-actions">
+                    <button type="submit" className="lp-btn" disabled={savingCf || (!cfDraft.trim() && !user.codeforces_handle)}>
+                      {savingCf ? 'Conectando...' : user.codeforces_handle ? 'Salvar' : 'Conectar'}
+                    </button>
+                    {user.codeforces_handle && (
+                      <button
+                        type="button"
+                        className="lp-btn lp-btn-ghost"
+                        disabled={savingCf}
+                        onClick={() => {
+                          setEditingCf(false);
+                          setCfDraft(user.codeforces_handle || '');
+                        }}
+                      >
+                        Cancelar
+                      </button>
+                    )}
+                  </div>
+                </form>
+              )}
+
+              {(cfMessage || cfError) && (
+                <div className={`profile-alert ${cfError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                  {cfError || cfMessage}
                 </div>
               )}
             </div>
