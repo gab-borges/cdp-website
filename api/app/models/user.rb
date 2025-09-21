@@ -1,9 +1,12 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :submissions, dependent: :destroy
+  has_many :feed_posts, dependent: :destroy
 
   before_validation :normalize_email
   before_validation :normalize_username
+
+  enum :role, { member: 0, admin: 1 }, default: :member, prefix: true
 
   # Validations
   validates :username, presence: true, length: { maximum: 64 },

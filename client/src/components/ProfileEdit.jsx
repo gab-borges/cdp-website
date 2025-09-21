@@ -13,11 +13,16 @@ const useAutoDismiss = (message, clearMessage, delay = 4000) => {
 };
 
 const ProfileEdit = ({ onLogout }) => {
-  const { id } = useParams();
+  const { username } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [usernameDraft, setUsernameDraft] = useState('');
+  const [usernameMessage, setUsernameMessage] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [editingUsername, setEditingUsername] = useState(false);
+  const [savingUsername, setSavingUsername] = useState(false);
   const [bioDraft, setBioDraft] = useState('');
   const [bioMessage, setBioMessage] = useState('');
   const [bioError, setBioError] = useState('');
@@ -35,6 +40,7 @@ const ProfileEdit = ({ onLogout }) => {
 
   const solvedCount = Number(user?.solved_problems_count ?? 0);
 
+  useAutoDismiss(usernameMessage, setUsernameMessage);
   useAutoDismiss(bioMessage, setBioMessage);
   useAutoDismiss(cfMessage, setCfMessage);
   useAutoDismiss(pwdMessage, setPwdMessage);
@@ -48,11 +54,15 @@ const ProfileEdit = ({ onLogout }) => {
         setError(null);
         const { data } = await axios.get('/api/v1/profile');
         if (!mounted) return;
-        if (Number(data.id) !== Number(id)) {
-          navigate(`/profile/${id}`, { replace: true });
+        if (data.username !== username) {
+          navigate(`/profile/${data.username}/edit`, { replace: true });
           return;
         }
         setUser(data);
+        setUsernameDraft(data.username || '');
+        setEditingUsername(false);
+        setUsernameMessage('');
+        setUsernameError('');
         setBioDraft(data.bio || '');
         setEditingBio(false);
         setCfDraft(data.codeforces_handle || '');
@@ -69,7 +79,7 @@ const ProfileEdit = ({ onLogout }) => {
 
     fetchUser();
     return () => { mounted = false; };
-  }, [id, navigate]);
+  }, [username, navigate]);
 
   const formatDateTime = (value) => {
     if (!value) return 'Sincronize para obter dados atualizados.';
@@ -119,6 +129,34 @@ const ProfileEdit = ({ onLogout }) => {
 
   const handleCodeforcesRefresh = async () => {
     await updateCodeforces(user.codeforces_handle || '');
+  };
+
+  const handleUsernameSubmit = async (event) => {
+    event.preventDefault();
+    setUsernameMessage('');
+    setUsernameError('');
+    setSavingUsername(true);
+    try {
+      const nextUsername = usernameDraft.trim().toLowerCase();
+      const { data } = await axios.patch('/api/v1/profile', {
+        profile: { username: nextUsername },
+      });
+      setUser(data);
+      setUsernameDraft(data.username || '');
+      setUsernameMessage('Nome de usuário atualizado com sucesso.');
+      setEditingUsername(false);
+      if (data.username && data.username !== username) {
+        navigate(`/profile/${data.username}/edit`, { replace: true });
+      }
+    } catch (e) {
+      const errData = e?.response?.data;
+      const message = Array.isArray(errData?.errors)
+        ? errData.errors.join(' ')
+        : errData?.error || 'Não foi possível atualizar seu nome de usuário.';
+      setUsernameError(message);
+    } finally {
+      setSavingUsername(false);
+    }
   };
 
   const handleBioSubmit = async (event) => {
@@ -179,8 +217,8 @@ const ProfileEdit = ({ onLogout }) => {
             <div className="profile-card">
               <div className="profile-card-title">Editar perfil</div>
               <div className="profile-row">
-                <div className="profile-label">Nome</div>
-                <div className="profile-value">{user.name}</div>
+                <div className="profile-label">Usuário</div>
+                <div className="profile-value profile-mono">{user.username}</div>
               </div>
               <div className="profile-row">
                 <div className="profile-label">Email</div>
@@ -195,10 +233,68 @@ const ProfileEdit = ({ onLogout }) => {
                 <div className="profile-value profile-mono">{solvedCount.toLocaleString('pt-BR')}</div>
               </div>
               <div className="profile-meta-row">
-                <Link to={`/profile/${user.id}`} className="lp-btn lp-btn-ghost">
+                <Link to={`/profile/${user.username}`} className="lp-btn lp-btn-ghost">
                   Ver perfil
                 </Link>
               </div>
+            </div>
+
+            <div className="profile-card">
+              <div className="profile-card-header">
+                <div>
+                  <div className="profile-card-title">Nome de usuário</div>
+                  <p className="profile-muted">Escolha o identificador único usado em rankings e no seu perfil público.</p>
+                </div>
+                <button
+                  type="button"
+                  className="lp-btn lp-btn-ghost"
+                  onClick={() => {
+                    setEditingUsername((prev) => !prev);
+                    setUsernameMessage('');
+                    setUsernameError('');
+                    setUsernameDraft(user.username || '');
+                  }}
+                >
+                  {editingUsername ? 'Cancelar' : 'Editar'}
+                </button>
+              </div>
+
+              {!editingUsername && (
+                <div className="profile-identity">
+                  <div className="profile-row">
+                    <div className="profile-label">Atual</div>
+                    <div className="profile-value profile-mono">{user.username}</div>
+                  </div>
+                </div>
+              )}
+
+              {editingUsername && (
+                <form onSubmit={handleUsernameSubmit} className="profile-form">
+                  <div className="profile-form-group">
+                    <label htmlFor="username-field">Nome de usuário</label>
+                    <input
+                      id="username-field"
+                      type="text"
+                      value={usernameDraft}
+                      onChange={(event) => setUsernameDraft(event.target.value)}
+                      placeholder="ex: joao_silva"
+                      required
+                    />
+                    <p className="profile-muted">Use apenas letras minúsculas, números e "_". Seu identificador deve ser único.</p>
+                  </div>
+                  <div className="profile-actions">
+                    <button type="submit" className="lp-btn" disabled={savingUsername}>
+                      {savingUsername ? 'Salvando...' : 'Salvar alterações'}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {(usernameMessage || usernameError) && (
+                <div className={`profile-alert ${usernameError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                  {usernameError || usernameMessage}
+                </div>
+              )}
             </div>
 
             <div className="profile-card">

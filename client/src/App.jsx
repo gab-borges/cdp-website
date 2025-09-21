@@ -10,6 +10,7 @@ import ProblemDetail from './components/ProblemDetail';
 import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
+import Feed from './components/Feed';
 import './App.css';
 
 function App() {
@@ -44,8 +45,8 @@ function App() {
       const status = err?.response?.status;
       const data = err?.response?.data;
 
-      if (status === 409 || data?.error === 'Email already registered') {
-        alert('Este e-mail já está cadastrado. Faça login para continuar.');
+      if (status === 409) {
+        alert(data?.error || 'Este nome de usuário ou e-mail já está em uso.');
       } else if (typeof data === 'object' && data) {
         const messages = Object.entries(data).flatMap(([field, val]) => {
           if (Array.isArray(val)) return val.map((m) => `${field} ${m}`);
@@ -75,10 +76,11 @@ function App() {
         <Route path="/login" element={!token ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!token ? <SignUpForm onSignUp={handleSignUp} /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={token ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/feed" element={token ? <Feed onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problems" element={token ? <ProblemList onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/problem/:id" element={token ? <ProblemDetail onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/profile/:id/edit" element={token ? <ProfileEdit onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/profile/:id" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/profile/:username/edit" element={token ? <ProfileEdit onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route path="/profile/:username" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/submissions" element={token ? <Submissions onLogout={handleLogout} /> : <Navigate to="/login" />} />
       </Routes>
     </Router>

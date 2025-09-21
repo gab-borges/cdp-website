@@ -37,12 +37,13 @@ function Header({ onLogout, currentUser }) {
 
   const navItems = useMemo(() => {
     const items = [
+      { to: '/feed', label: 'Feed', match: ['/feed'] },
       { to: '/problems', label: 'Problemas', match: ['/problem'] },
       { to: '/submissions', label: 'Submissões' },
     ];
 
-    if (user?.id) {
-      items.push({ to: `/profile/${user.id}`, label: 'Perfil', match: ['/profile'] });
+    if (user?.username) {
+      items.push({ to: `/profile/${user.username}`, label: 'Perfil', match: ['/profile'] });
     }
 
     return items.map((link) => {
@@ -54,7 +55,7 @@ function Header({ onLogout, currentUser }) {
         className: isActive ? `${base} app-nav-active` : base,
       };
     });
-  }, [location.pathname, user?.id]);
+  }, [location.pathname, user?.username]);
 
   return (
     <header className="app-header">
@@ -75,7 +76,11 @@ function Header({ onLogout, currentUser }) {
         <div className="app-userbox">
           {loadingUser && <span className="app-greeting app-muted">Carregando...</span>}
           {!loadingUser && user && (
-            <span className="app-greeting">Olá, <strong>{user.name}</strong></span>
+            <span className="app-greeting">
+              Olá,
+              {' '}
+              <strong>{user.username}</strong>
+            </span>
           )}
           {!loadingUser && !user && <span className="app-greeting">&nbsp;</span>}
           {typeof onLogout === 'function' && (

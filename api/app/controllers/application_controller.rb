@@ -33,6 +33,12 @@ class ApplicationController < ActionController::API
     render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
 
+  def require_admin!
+    return if current_user&.role_admin?
+
+    render json: { error: 'Forbidden' }, status: :forbidden
+  end
+
   def render_not_found(_error)
     render json: { error: 'Not found' }, status: :not_found
   end

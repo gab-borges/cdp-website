@@ -17,7 +17,7 @@ const formatRank = (rank) => {
 };
 
 const Profile = ({ onLogout }) => {
-  const { id } = useParams();
+  const { username } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -32,7 +32,7 @@ const Profile = ({ onLogout }) => {
         setLoading(true);
         setError(null);
         const [profileRes, meRes] = await Promise.all([
-          axios.get(`/api/v1/users/${id}`),
+          axios.get(`/api/v1/users/${username}`),
           axios.get('/api/v1/me').catch(() => null),
         ]);
 
@@ -51,14 +51,14 @@ const Profile = ({ onLogout }) => {
 
     fetchProfile();
     return () => { mounted = false; };
-  }, [id]);
+  }, [username]);
 
   const solvedCount = Number(user?.solved_problems_count ?? 0);
   const cfSyncedAt = user?.codeforces_last_synced_at ? formatDateTime(user.codeforces_last_synced_at) : null;
-  const isOwnProfile = currentUser && Number(currentUser.id) === Number(user?.id);
+  const isOwnProfile = currentUser && currentUser.username === user?.username;
 
   const handleEditClick = () => {
-    navigate(`/profile/${id}/edit`);
+    navigate(`/profile/${username}/edit`);
   };
 
   return (
@@ -75,7 +75,6 @@ const Profile = ({ onLogout }) => {
               <div className="profile-card-header">
                 <div>
                   <div className="profile-card-title">Perfil</div>
-                  <p className="profile-muted">Resumo das informações públicas deste membro.</p>
                 </div>
                 {isOwnProfile && (
                   <button type="button" className="lp-btn" onClick={handleEditClick}>
@@ -85,8 +84,8 @@ const Profile = ({ onLogout }) => {
               </div>
 
               <div className="profile-row">
-                <div className="profile-label">Nome</div>
-                <div className="profile-value">{user.name}</div>
+                <div className="profile-label">Usuário</div>
+                <div className="profile-value profile-mono">{user.username}</div>
               </div>
               <div className="profile-row">
                 <div className="profile-label">Email</div>

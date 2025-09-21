@@ -6,7 +6,7 @@ import './auth.css';
 import logo from '../assets/logo-cdp.jpg';
 
 function SignUpForm({ onSignUp }) {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -18,7 +18,13 @@ function SignUpForm({ onSignUp }) {
       alert('As senhas não coincidem!');
       return;
     }
-    const success = await onSignUp({ name, email, password, password_confirmation: passwordConfirmation });
+    const payload = {
+      username: username.trim().toLowerCase(),
+      email: email.trim(),
+      password,
+      password_confirmation: passwordConfirmation,
+    };
+    const success = await onSignUp(payload);
     if (success) {
       navigate('/login');
     }
@@ -35,16 +41,17 @@ function SignUpForm({ onSignUp }) {
         <p className="auth-sub">Participe dos treinos e acompanhe seu progresso no ranking.</p>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Nome</label>
+            <label htmlFor="username">Nome de usuário</label>
             <input
               className="lp-input"
               type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Seu nome completo"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="ex: joao_silva"
               required
             />
+            <small className="lp-muted">Use apenas letras minúsculas, números e "_". Será o seu identificador único.</small>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>

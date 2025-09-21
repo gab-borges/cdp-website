@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_22_004715) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_004716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "feed_posts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.datetime "published_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["published_at"], name: "index_feed_posts_on_published_at"
+    t.index ["user_id"], name: "index_feed_posts_on_user_id"
+  end
 
   create_table "problems", force: :cascade do |t|
     t.string "title"
@@ -61,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_004715) do
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
 
+  add_foreign_key "feed_posts", "users"
   add_foreign_key "submissions", "problems"
   add_foreign_key "submissions", "users"
 end
