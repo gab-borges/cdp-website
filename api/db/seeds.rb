@@ -12,16 +12,16 @@ puts "Cadastrando usuários..."
 seed_password = ENV.fetch('SEED_USER_PASSWORD', 'changeme123')
 
 users = [
-  { name: 'Ada Lovelace', email: 'ada@example.com', score: 1815 },
-  { name: 'Grace Hopper', email: 'grace@example.com', score: 1906 },
-  { name: 'Margaret Hamilton', email: 'margaret@example.com', score: 1936 },
-  { name: 'Gabriel ABC', email: 'gabriel.affonso@cdp-website.com', score: 2000 },
+  { username: 'adalovelace', email: 'ada@example.com', score: 1815 },
+  { username: 'gracehopper', email: 'grace@example.com', score: 1906 },
+  { username: 'mhamilton', email: 'margaret@example.com', score: 1936 },
+  { username: 'gabrielabc', email: 'gabriel.affonso@cdp-website.com', score: 2000 },
 ]
 
 users.each do |attrs|
   email = attrs[:email].downcase
   user = User.find_or_initialize_by(email: email)
-  user.name  = attrs[:name]
+  user.username = attrs[:username]
   user.score = attrs[:score]
   # Always set password for idempotency and to satisfy has_secure_password
   user.password = seed_password

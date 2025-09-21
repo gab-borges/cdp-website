@@ -7,7 +7,7 @@ class Api::V1::ProfileController < ApplicationController
 
   def update
     permitted = profile_params.to_h.symbolize_keys
-    updates = permitted.slice(:name, :bio)
+    updates = permitted.slice(:username, :bio)
 
     if profile_params.key?(:codeforces_handle)
       handle = permitted[:codeforces_handle].to_s.strip
@@ -62,7 +62,7 @@ class Api::V1::ProfileController < ApplicationController
   private
 
   def profile_params
-    params.require(:profile).permit(:name, :bio, :codeforces_handle)
+    params.require(:profile).permit(:username, :bio, :codeforces_handle)
   end
 
   def password_params

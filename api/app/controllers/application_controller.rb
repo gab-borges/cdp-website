@@ -40,7 +40,7 @@ class ApplicationController < ActionController::API
   def user_profile_payload(user, include_email: false, include_stats: false)
     fields = [
       :id,
-      :name,
+      :username,
       :score,
       :bio,
       :codeforces_handle,
@@ -55,11 +55,14 @@ class ApplicationController < ActionController::API
     fields << :email if include_email
 
     payload = user.as_json(only: fields)
+    payload['name'] = user.username
     payload['solved_problems_count'] = user.solved_problems_count if include_stats
     payload
   end
 
   def user_summary_payload(user)
-    user.as_json(only: [:id, :name, :score])
+    payload = user.as_json(only: [:id, :username, :score])
+    payload['name'] = user.username
+    payload
   end
 end

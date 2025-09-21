@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_20_035000) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_004715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,7 +42,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_035000) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
     t.string "email", null: false
     t.integer "score", default: 0
     t.datetime "created_at", null: false
@@ -56,7 +55,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_035000) do
     t.string "codeforces_avatar"
     t.string "codeforces_title_photo"
     t.datetime "codeforces_last_synced_at"
+    t.string "username", null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
+    t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
 
