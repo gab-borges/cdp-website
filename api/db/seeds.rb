@@ -55,3 +55,113 @@ if admin
 end
 
 puts "Usuários cadastrados/atualizados com sucesso!"
+
+puts "Cadastrando problemas..."
+
+problems = [
+  {
+    title: "Hello World!",
+    points: 10,
+    difficulty: "Fácil",
+    created_at: "2025-09-12 02:42:21.228",
+    updated_at: "2025-09-18 02:22:16.494",
+    judge: "Kattis",
+    judge_identifier: "hello",
+    solvers_count: 0,
+    description: <<~MD
+      **Input**
+      There is no input for this problem.
+
+      **Output**    
+      Output should contain one line, containing the string "Hello World!".
+    MD
+  },
+  {
+    title: "Two-sum",
+    points: 10,
+    difficulty: "Fácil",
+    created_at: "2025-09-18 02:21:25.813",
+    updated_at: "2025-09-20 02:38:48.735",
+    judge: "Kattis",
+    judge_identifier: "twosum",
+    solvers_count: 0,
+    description: <<~MD
+      Per-Magnus is trying to add two integers, but he never learned how to.<br>
+      Write a program to help him with this most difficult task!
+
+      **Input**
+      The input consists of a single line with two integers $0 \leq a \leq 1000$ and $0 \le b \le 1000$.
+
+      **Output**
+      Output a single integer, the sum $a + b$.
+
+      <u>**Test Case 1**</u>
+      ```text
+      1 1
+      ```
+      ```text
+      2
+      ```
+
+      <u>**Test Case 2**</u>
+      ```text
+      2 2
+      ```
+      ```text
+      4
+      ```
+    MD
+  },
+  {
+    title: "Finding An A",
+    points: 10,
+    difficulty: "Fácil",
+    created_at: "2025-09-12 03:50:11.375",
+    updated_at: "2025-09-19 22:03:37.193",
+    judge: "Kattis",
+    judge_identifier: "findingana",
+    solvers_count: 0,
+    description: <<~MD
+      In this problem, you are given a single string $s$ that is guaranteed to contain the letter $a$.<br>  
+      You should output the suffix of $s$ that begins with the first occurrence of the letter $a$. Namely, if $s$ consists of characters $s_1 s_2 \dots s_n$ and $i$ is the first index with $s_i = a$, then you should output the string $s_i s_{i+1} \dots s_n$.<br>
+      Why do you want to do this? To solve a problem in the contest!
+
+      **Input**
+      Input consists of a single line containing a single string $s$ whose length is between $1$ and $1000$. The string is composed of lowercase letters with no spaces. You are guaranteed the letter $a$ appears at least once in $s$.
+
+      **Output**
+      Output the suffix of $s$ that begins with the first occurrence of the letter $a$.
+
+      <u>**Test Case 1**</u>
+      ```text
+      banana
+      ```
+      ```text
+      anana
+      ```
+
+      <u>**Test Case 2**</u>
+      ```text
+      polarbear
+      ```
+      ```text
+      arbear
+      ```
+
+      <u>**Test Case 3**</u>
+      ```text
+      art
+      ```
+      ```text
+      art
+      ```
+    MD
+  }
+]
+
+problems.each do |attrs|
+  problem = Problem.find_or_initialize_by(title: attrs[:title])
+  problem.update!(attrs)
+end
+
+puts "Problemas cadastrados/atualizados com sucesso!"
