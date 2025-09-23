@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import './profile.css';
 
 const formatDateTime = (value) => {
@@ -16,9 +15,10 @@ const formatRank = (rank) => {
   return rank.replace(/_/g, ' ');
 };
 
-const Profile = ({ onLogout }) => {
+const Profile = () => {
   const { username } = useParams();
   const navigate = useNavigate();
+  const { setHeaderUser } = useOutletContext() ?? {};
   const [user, setUser] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -53,6 +53,11 @@ const Profile = ({ onLogout }) => {
     return () => { mounted = false; };
   }, [username]);
 
+  useEffect(() => {
+    if (!setHeaderUser || !currentUser) return;
+    setHeaderUser(currentUser);
+  }, [currentUser, setHeaderUser]);
+
   const solvedCount = Number(user?.solved_problems_count ?? 0);
   const cfSyncedAt = user?.codeforces_last_synced_at ? formatDateTime(user.codeforces_last_synced_at) : null;
   const isOwnProfile = currentUser && currentUser.username === user?.username;
@@ -63,8 +68,6 @@ const Profile = ({ onLogout }) => {
 
   return (
     <div className="profile-root">
-      <Header onLogout={onLogout} currentUser={currentUser} />
-
       <main className="profile-main profile-container">
         {loading && <div className="profile-card">Carregando...</div>}
         {error && <div className="profile-card profile-error">{error}</div>}

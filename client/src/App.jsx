@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
 import Feed from './components/Feed';
+import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 
 function App() {
@@ -75,13 +76,17 @@ function App() {
         <Route path="/" element={!token ? <LandingPage /> : <Navigate to="/dashboard" />} />
         <Route path="/login" element={!token ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!token ? <SignUpForm onSignUp={handleSignUp} /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={token ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/feed" element={token ? <Feed onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/problems" element={token ? <ProblemList onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/problem/:id" element={token ? <ProblemDetail onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/profile/:username/edit" element={token ? <ProfileEdit onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/profile/:username" element={token ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/submissions" element={token ? <Submissions onLogout={handleLogout} /> : <Navigate to="/login" />} />
+        <Route
+          element={token ? <ProtectedLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/problems" element={<ProblemList />} />
+          <Route path="/problem/:id" element={<ProblemDetail />} />
+          <Route path="/profile/:username/edit" element={<ProfileEdit />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/submissions" element={<Submissions />} />
+        </Route>
       </Routes>
     </Router>
   );

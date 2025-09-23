@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import './dashboard.css';
 import './feed.css';
 
-function Feed({ onLogout }) {
+function Feed() {
+  const { setHeaderUser } = useOutletContext() ?? {};
   const [me, setMe] = useState(null);
   const [posts, setPosts] = useState([]);
   const [meta, setMeta] = useState({ page: 1, total_pages: 1, total_count: 0, per_page: 10 });
@@ -101,6 +101,11 @@ function Feed({ onLogout }) {
       isMounted.current = false;
     };
   }, [loadPosts]);
+
+  useEffect(() => {
+    if (!setHeaderUser || !me) return;
+    setHeaderUser(me);
+  }, [me, setHeaderUser]);
 
   useEffect(() => {
     const node = loaderRef.current;
@@ -315,7 +320,6 @@ function Feed({ onLogout }) {
 
   return (
     <div className="feed-root">
-      <Header onLogout={onLogout} currentUser={me} />
       <main className="feed-main">
         <section className="feed-card">
           <header className="feed-header">

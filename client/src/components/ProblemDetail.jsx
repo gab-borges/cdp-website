@@ -5,7 +5,6 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import markedKatex from 'marked-katex-extension';
 import 'katex/dist/katex.min.css';
-import Header from './Header';
 import './problems.css';
 
 marked.setOptions({ gfm: true, breaks: true });
@@ -19,7 +18,7 @@ const SANITIZE_CONFIG = {
 
 const MAX_UPLOAD_BYTES = 512 * 1024; // 512 KB, evita uploads muito grandes
 
-const ProblemDetail = ({ onLogout }) => {
+const ProblemDetail = () => {
   const { id } = useParams();
   const [problem, setProblem] = useState(null);
   const [code, setCode] = useState('');
@@ -190,8 +189,6 @@ const ProblemDetail = ({ onLogout }) => {
 
   return (
     <div className="problems-root">
-      <Header onLogout={onLogout} />
-
       <main className="problems-main problems-container">
         {loading && <div className="problem-card">Loading...</div>}
         {error && <div className="problem-card">{error}</div>}

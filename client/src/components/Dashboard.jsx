@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import codeforcesLogo from '../assets/codeforces-logo.png';
 import './dashboard.css';
 
-function Dashboard({ onLogout }) {
+function Dashboard() {
+  const { setHeaderUser } = useOutletContext() ?? {};
   const [me, setMe] = useState(null);
   const [users, setUsers] = useState([]);
   const [feedPosts, setFeedPosts] = useState([]);
@@ -72,6 +72,11 @@ function Dashboard({ onLogout }) {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!setHeaderUser || !me) return;
+    setHeaderUser(me);
+  }, [me, setHeaderUser]);
 
   useEffect(() => {
     if (!cfFeedback) return;
@@ -169,7 +174,6 @@ function Dashboard({ onLogout }) {
 
   return (
     <div className="db-root">
-      <Header onLogout={onLogout} currentUser={me} />
       <main className="db-main db-container">
         {loading && <div className="db-card">Carregando...</div>}
         {error && <div className="db-card db-error">{error}</div>}

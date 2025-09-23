@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import './problems.css';
 
 const SORT_KEYS = {
@@ -12,7 +11,7 @@ const SORT_KEYS = {
   solvers: 'solvers_count',
 };
 
-const ProblemList = ({ onLogout }) => {
+const ProblemList = () => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -105,8 +104,6 @@ const ProblemList = ({ onLogout }) => {
 
   return (
     <div className="problems-root">
-      <Header onLogout={onLogout} />
-
       <main className="problems-main problems-container">
         <div className="problem-head">
           <div>

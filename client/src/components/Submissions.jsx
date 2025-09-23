@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import './submissions.css';
 
 const STATUS_CLASSES = {
@@ -45,7 +44,7 @@ const formatDateTime = (value) => {
   });
 };
 
-const Submissions = ({ onLogout }) => {
+const Submissions = () => {
   const [submissions, setSubmissions] = useState([]);
   const [problemsMap, setProblemsMap] = useState({});
   const [loading, setLoading] = useState(true);
@@ -110,8 +109,6 @@ const Submissions = ({ onLogout }) => {
 
   return (
     <div className="submissions-root">
-      <Header onLogout={onLogout} />
-
       <main className="submissions-main submissions-container">
         <div className="submissions-head">
           <div>

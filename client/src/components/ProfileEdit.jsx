@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import './profile.css';
 
 const useAutoDismiss = (message, clearMessage, delay = 4000) => {
@@ -12,9 +11,10 @@ const useAutoDismiss = (message, clearMessage, delay = 4000) => {
   }, [message, clearMessage, delay]);
 };
 
-const ProfileEdit = ({ onLogout }) => {
+const ProfileEdit = () => {
   const { username } = useParams();
   const navigate = useNavigate();
+  const { setHeaderUser } = useOutletContext() ?? {};
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -80,6 +80,11 @@ const ProfileEdit = ({ onLogout }) => {
     fetchUser();
     return () => { mounted = false; };
   }, [username, navigate]);
+
+  useEffect(() => {
+    if (!setHeaderUser || !user) return;
+    setHeaderUser(user);
+  }, [setHeaderUser, user]);
 
   const formatDateTime = (value) => {
     if (!value) return 'Sincronize para obter dados atualizados.';
@@ -207,8 +212,6 @@ const ProfileEdit = ({ onLogout }) => {
 
   return (
     <div className="profile-root">
-      <Header onLogout={onLogout} currentUser={user} />
-
       <main className="profile-main profile-container">
         {loading && <div className="profile-card">Carregando...</div>}
         {error && <div className="profile-card profile-error">{error}</div>}
