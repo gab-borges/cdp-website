@@ -39,6 +39,8 @@ const ProfileEdit = () => {
   const [savingCf, setSavingCf] = useState(false);
 
   const solvedCount = Number(user?.solved_problems_count ?? 0);
+  const avatarUrl = user?.codeforces_title_photo;
+  const avatarFallback = user?.username?.slice(0, 1).toUpperCase() || '?';
 
   useAutoDismiss(usernameMessage, setUsernameMessage);
   useAutoDismiss(bioMessage, setBioMessage);
@@ -218,7 +220,17 @@ const ProfileEdit = () => {
         {!loading && !error && user && (
           <>
             <div className="profile-card">
-              <div className="profile-card-title">Editar perfil</div>
+              <div className="profile-card-header profile-card-header--avatar">
+                <div className="profile-avatar-block">
+                  <div className="profile-avatar" aria-hidden={!avatarUrl}>
+                    {avatarUrl ? <img src={avatarUrl} alt="" className="profile-avatar-img" /> : <span>{avatarFallback}</span>}
+                  </div>
+                  <div>
+                    <div className="profile-card-title">Editar perfil</div>
+                    <div className="profile-card-username">@{user.username}</div>
+                  </div>
+                </div>
+              </div>
               <div className="profile-row">
                 <div className="profile-label">Usuário</div>
                 <div className="profile-value profile-mono">{user.username}</div>

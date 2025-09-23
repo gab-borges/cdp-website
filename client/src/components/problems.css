@@ -152,7 +152,7 @@
   .filter-group { width: 100%; }
 }
 
-.problem-detail-body { font-size: 1.1rem; line-height: 1.7; color: #cbd6ea; margin-top: 1.5rem; }
+.problem-detail-body { font-size: 1.1rem; line-height: 1.7; color: #ffffff; margin-top: 1.5rem; }
 .problem-detail-body .markdown-body { display: flex; flex-direction: column; gap: 1rem; }
 .problem-detail-body h1, .problem-detail-body h2, .problem-detail-body h3 {
   color: #e7edf5;

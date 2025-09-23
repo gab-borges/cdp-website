@@ -13,6 +13,11 @@
 
 .profile-card-title { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; margin-bottom: 0.75rem; }
 .profile-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+.profile-card-header--avatar { align-items: center; }
+.profile-avatar-block { display: flex; align-items: center; gap: 16px; }
+.profile-avatar { width: 72px; height: 72px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); background: rgba(12,18,28,0.85); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 28px rgba(0,0,0,0.35); font-size: 1.4rem; font-weight: 600; color: #d6e4ff; text-transform: uppercase; }
+.profile-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.profile-card-username { margin-top: 4px; font-size: 0.95rem; color: #9aaad0; }
 .profile-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 8px; padding: 8px 0; }
 .profile-label { color: #99a7bd; }
 .profile-value { color: #e7edf5; }

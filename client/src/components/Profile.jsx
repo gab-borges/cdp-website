@@ -61,6 +61,8 @@ const Profile = () => {
   const solvedCount = Number(user?.solved_problems_count ?? 0);
   const cfSyncedAt = user?.codeforces_last_synced_at ? formatDateTime(user.codeforces_last_synced_at) : null;
   const isOwnProfile = currentUser && currentUser.username === user?.username;
+  const avatarUrl = user?.codeforces_title_photo;
+  const avatarFallback = user?.username?.slice(0, 1).toUpperCase() || '?';
 
   const handleEditClick = () => {
     navigate(`/profile/${username}/edit`);
@@ -75,9 +77,15 @@ const Profile = () => {
         {!loading && !error && user && (
           <>
             <div className="profile-card">
-              <div className="profile-card-header">
-                <div>
-                  <div className="profile-card-title">Perfil</div>
+              <div className="profile-card-header profile-card-header--avatar">
+                <div className="profile-avatar-block">
+                  <div className="profile-avatar" aria-hidden={!avatarUrl}>
+                    {avatarUrl ? <img src={avatarUrl} alt="" className="profile-avatar-img" /> : <span>{avatarFallback}</span>}
+                  </div>
+                  <div>
+                    <div className="profile-card-title">Perfil</div>
+                    <div className="profile-card-username">@{user.username}</div>
+                  </div>
                 </div>
                 {isOwnProfile && (
                   <button type="button" className="lp-btn" onClick={handleEditClick}>

@@ -19,6 +19,9 @@ function Dashboard() {
   const [refreshingCf, setRefreshingCf] = useState(false);
   const [cfFeedback, setCfFeedback] = useState(null);
 
+  const avatarUrl = me?.codeforces_title_photo;
+  const avatarFallback = me?.username?.slice(0, 1).toUpperCase() || '?';
+
   const isAdmin = me?.role === 'admin';
 
   const dateTimeFormatter = useMemo(
@@ -182,6 +185,9 @@ function Dashboard() {
           <div className="db-grid">
             <section className="db-card db-card-summary">
               <div className="db-summary-header">
+                <div className="db-summary-avatar" aria-hidden={!avatarUrl}>
+                  {avatarUrl ? <img src={avatarUrl} alt="" className="db-summary-avatar-img" /> : <span>{avatarFallback}</span>}
+                </div>
                 <div>
                   <h2 className="db-summary-name">{me?.name || me?.username}</h2>
                   <span className="db-summary-score">{(me?.score ?? 0).toLocaleString('pt-BR')} pts</span>

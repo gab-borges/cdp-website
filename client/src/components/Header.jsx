@@ -8,6 +8,7 @@ function Header({ onLogout, currentUser }) {
   const location = useLocation();
   const [user, setUser] = useState(currentUser ?? null);
   const [loadingUser, setLoadingUser] = useState(!currentUser);
+  const avatarUrl = user?.codeforces_title_photo;
 
   useEffect(() => {
     if (currentUser) return undefined;
@@ -43,10 +44,6 @@ function Header({ onLogout, currentUser }) {
       { to: '/submissions', label: 'Submissões' },
     ];
 
-    if (user?.username) {
-      items.push({ to: `/profile/${user.username}`, label: 'Perfil', match: ['/profile'] });
-    }
-
     return items.map((link) => {
       const prefixes = [link.to, ...(link.match ?? [])];
       const isActive = prefixes.some((prefix) => location.pathname.startsWith(prefix));
@@ -57,6 +54,8 @@ function Header({ onLogout, currentUser }) {
       };
     });
   }, [location.pathname, user?.username]);
+
+  const profileHref = user?.username ? `/profile/${user.username}` : null;
 
   return (
     <header className="app-header">
@@ -75,15 +74,33 @@ function Header({ onLogout, currentUser }) {
         ))}
 
         <div className="app-userbox">
-          {loadingUser && <span className="app-greeting app-muted">Carregando...</span>}
-          {!loadingUser && user && (
-            <span className="app-greeting">
-              Olá,
-              {' '}
-              <strong>{user.username}</strong>
-            </span>
+          {profileHref ? (
+            <Link to={profileHref} className="app-userlink">
+              <div className="app-avatar" aria-hidden={!avatarUrl}>
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="" className="app-avatar-img" />
+                ) : (
+                  <span>{user?.username?.slice(0, 1).toUpperCase() || '?'}</span>
+                )}
+              </div>
+              {loadingUser && <span className="app-greeting app-muted">Carregando...</span>}
+              {!loadingUser && user && (
+                <span className="app-greeting">
+                  Olá,
+                  {' '}
+                  <strong>{user.username}</strong>
+                </span>
+              )}
+            </Link>
+          ) : (
+            <div className="app-userlink app-userlink-disabled">
+              <div className="app-avatar" aria-hidden={!avatarUrl}>
+                <span>{user?.username?.slice(0, 1).toUpperCase() || '?'}</span>
+              </div>
+              {loadingUser && <span className="app-greeting app-muted">Carregando...</span>}
+              {!loadingUser && !user && <span className="app-greeting">&nbsp;</span>}
+            </div>
           )}
-          {!loadingUser && !user && <span className="app-greeting">&nbsp;</span>}
           {typeof onLogout === 'function' && (
             <button type="button" className="lp-btn" onClick={onLogout}>
               Sair
