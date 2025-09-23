@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginForm from './components/LoginForm';
@@ -11,16 +11,43 @@ import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
 import Feed from './components/Feed';
+import Materials from './components/Materials';
 import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 
+const getStoredToken = () => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('token');
+};
+
 function App() {
   const [token, setToken] = useState(null);
+  const [bootstrapped, setBootstrapped] = useState(false);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = getStoredToken();
     if (storedToken) setToken(storedToken);
+    setBootstrapped(true);
+
+    if (typeof window === 'undefined') return undefined;
+
+    const handleStorage = (event) => {
+      if (event.key === 'token') {
+        setToken(event.newValue);
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common.Authorization;
+    }
+  }, [token]);
 
   const handleLogin = async (email, password) => {
     try {
@@ -70,6 +97,10 @@ function App() {
     return () => axios.interceptors.request.eject(interceptor);
   }, []);
 
+  if (!bootstrapped) {
+    return null;
+  }
+
   return (
     <Router>
       <Routes>
@@ -86,6 +117,7 @@ function App() {
           <Route path="/profile/:username/edit" element={<ProfileEdit />} />
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/submissions" element={<Submissions />} />
+          <Route path="/materials" element={<Materials />} />
         </Route>
       </Routes>
     </Router>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
@@ -19,6 +19,7 @@ const SANITIZE_CONFIG = {
 const MAX_UPLOAD_BYTES = 512 * 1024; // 512 KB, evita uploads muito grandes
 
 const ProblemDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [problem, setProblem] = useState(null);
   const [code, setCode] = useState('');
@@ -131,10 +132,15 @@ const ProblemDetail = () => {
       });
 
       if (response.status === 201) {
+        const submissionId = response?.data?.id;
         setCode('');
         setUploadMessage('');
         setUploadError('');
-        setSubmissionMessage('Envio realizado! Acompanhe o resultado na página de Submissões.');
+        setSubmissionMessage('');
+        navigate('/submissions', {
+          replace: false,
+          state: submissionId ? { newSubmissionId: submissionId } : undefined,
+        });
       } else {
         setSubmissionError('Falha ao enviar a submissão. Tente novamente.');
       }

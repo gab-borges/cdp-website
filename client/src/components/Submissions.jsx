@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './submissions.css';
 
@@ -13,11 +13,31 @@ const STATUS_CLASSES = {
   'judge error': 'status-judge',
   pending: 'status-pending',
   submitted: 'status-submitted',
+  processing: 'status-pending',
   'submission failed': 'status-failed',
   'execution error': 'status-failed',
 };
 
-const formatStatus = (status) => status || '—';
+const STATUS_LABELS = {
+  accepted: 'Aceito',
+  processing: 'Processando...',
+  pending: 'Pendente',
+  submitted: 'Enviado',
+  'wrong answer': 'Wrong Answer',
+  'time limit': 'Time Limit',
+  'time limit exceeded': 'Time Limit',
+  'runtime error': 'Runtime Error',
+  'compilation error': 'Compilation Error',
+  'judge error': 'Judge Error',
+  'submission failed': 'Falha no envio',
+  'execution error': 'Erro de execução',
+};
+
+const formatStatus = (status) => {
+  if (!status) return '—';
+  const key = String(status).toLowerCase();
+  return STATUS_LABELS[key] || status;
+};
 
 const formatStatusClass = (status) => {
   const key = String(status || '').toLowerCase();
@@ -45,6 +65,8 @@ const formatDateTime = (value) => {
 };
 
 const Submissions = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [submissions, setSubmissions] = useState([]);
   const [problemsMap, setProblemsMap] = useState({});
   const [loading, setLoading] = useState(true);
@@ -52,6 +74,8 @@ const Submissions = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedSubmission, setSelectedSubmission] = useState(null);
+  const [highlightId, setHighlightId] = useState(null);
+  const [bannerMessage, setBannerMessage] = useState('');
 
   useEffect(() => {
     let mounted = true;
@@ -81,6 +105,27 @@ const Submissions = () => {
     fetchData();
     return () => { mounted = false; };
   }, []);
+
+  const newSubmissionId = location.state?.newSubmissionId;
+
+  useEffect(() => {
+    if (!newSubmissionId) return;
+    setHighlightId(newSubmissionId);
+    setBannerMessage('Seu envio foi registrado e está sendo processado. Recarregue em instantes para ver o resultado final.');
+    navigate(location.pathname, { replace: true });
+  }, [newSubmissionId, location.pathname, navigate]);
+
+  useEffect(() => {
+    if (!bannerMessage) return undefined;
+    const timeoutId = setTimeout(() => setBannerMessage(''), 6000);
+    return () => clearTimeout(timeoutId);
+  }, [bannerMessage]);
+
+  useEffect(() => {
+    if (!highlightId) return undefined;
+    const timeoutId = setTimeout(() => setHighlightId(null), 10000);
+    return () => clearTimeout(timeoutId);
+  }, [highlightId]);
 
   const statuses = useMemo(() => {
     const uniq = new Set();
@@ -142,6 +187,7 @@ const Submissions = () => {
           </div>
         </div>
 
+        {bannerMessage && <div className="submissions-card submissions-banner">{bannerMessage}</div>}
         {loading && <div className="submissions-card">Carregando...</div>}
         {error && <div className="submissions-card submissions-error">{error}</div>}
 
@@ -166,8 +212,12 @@ const Submissions = () => {
                   {filtered.map((submission) => {
                     const problem = problemsMap[submission.problem_id];
                     const statusClass = formatStatusClass(submission.status);
+                    const isHighlighted = highlightId === submission.id;
                     return (
-                      <tr key={submission.id ?? `${submission.problem_id}-${submission.created_at}`}>
+                      <tr
+                        key={submission.id ?? `${submission.problem_id}-${submission.created_at}`}
+                        className={isHighlighted ? 'submissions-highlight' : undefined}
+                      >
                         <td className="col-numeric">{submission.id ?? '—'}</td>
                         <td className="col-problem">
                           <Link className="problem-link" to={`/problem/${submission.problem_id}`}>

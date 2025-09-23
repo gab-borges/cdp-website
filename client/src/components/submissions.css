@@ -17,6 +17,7 @@
 
 .submissions-card { background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9)); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; color: #cbd6ea; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); }
 .submissions-error { border-color: rgba(255,87,87,0.25); background: linear-gradient(180deg, rgba(64,16,16,0.6), rgba(32,8,8,0.6)); color: #ffd8d8; }
+.submissions-banner { border-color: rgba(91,124,255,0.35); background: linear-gradient(180deg, rgba(18,24,40,0.92), rgba(12,18,28,0.9)); color: #d6e4ff; font-weight: 500; }
 
 .submissions-table-wrap { margin-top: 16px; background: linear-gradient(180deg, rgba(20,26,36,0.92), rgba(17,21,30,0.92)); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04); overflow: hidden; }
 .submissions-table { width: 100%; border-collapse: collapse; min-width: 780px; }
@@ -24,6 +25,9 @@
 .submissions-table th,
 .submissions-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
 .submissions-table tbody tr:hover { background: rgba(91,124,255,0.08); }
+.submissions-highlight { background: rgba(91,124,255,0.18); position: relative; }
+.submissions-highlight::before { content: ''; position: absolute; inset: 0; border-left: 4px solid rgba(118,154,255,0.9); pointer-events: none; }
+.submissions-highlight .status-pill { box-shadow: 0 0 0 1px rgba(118,154,255,0.45); }
 .submissions-table th:last-child,
 .submissions-table td:last-child { text-align: right; }
 

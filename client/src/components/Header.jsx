@@ -39,6 +39,7 @@ function Header({ onLogout, currentUser }) {
     const items = [
       { to: '/feed', label: 'Feed', match: ['/feed'] },
       { to: '/problems', label: 'Problemas', match: ['/problem'] },
+      { to: '/materials', label: 'Materiais', match: ['/materials'] },
       { to: '/submissions', label: 'Submissões' },
     ];
 

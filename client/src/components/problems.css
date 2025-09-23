@@ -12,6 +12,77 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
+.problem-admin-form {
+  display: grid;
+  gap: 20px;
+}
+
+.problem-admin-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #d8e4ff;
+}
+
+.problem-admin-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.problem-admin-field {
+  display: grid;
+  gap: 8px;
+}
+
+.problem-admin-field span {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9bb7ff;
+}
+
+.problem-admin-field input,
+.problem-admin-field textarea {
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(12,16,24,0.85);
+  color: #e7edf5;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.problem-admin-field textarea {
+  resize: vertical;
+}
+
+.problem-admin-span {
+  grid-column: 1 / -1;
+}
+
+.problem-admin-alert {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.problem-admin-alert-error {
+  background: rgba(244,67,54,0.16);
+  border: 1px solid rgba(244,67,54,0.45);
+  color: #ffb3b3;
+}
+
+.problem-admin-alert-success {
+  background: rgba(52,168,83,0.16);
+  border: 1px solid rgba(52,168,83,0.45);
+  color: #8be7a7;
+}
+
+.problem-admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
 .problem-card-title a { font-size: 1.5rem; font-weight: 600; color: #d6e4ff; text-decoration: none; }
 .problem-card-info { display: flex; gap: 1.5rem; color: #9bb7ff; margin-top: 8px; }
 
@@ -52,6 +123,20 @@
 .col-points, .col-solvers { font-family: 'Fira Code', monospace; font-size: 0.95rem; min-width: 100px; text-align: right; }
 .col-points { color: #d6e4ff; }
 .col-solvers { color: #9bb7ff; }
+.col-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.problem-action { padding: 6px 12px; font-size: 0.85rem; }
+.problem-action-danger { color: #ffb3b3; border-color: rgba(244,67,54,0.45); }
+.problem-action-danger:hover { background: rgba(244,67,54,0.18); color: #ffffff; }
+
+@media (min-width: 720px) {
+  .problem-admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .problem-admin-span {
+    grid-column: 1 / -1;
+  }
+}
 .table-sort { margin-left: 6px; font-size: 0.85rem; color: rgba(155,183,255,0.7); }
 .table-sort.active { color: #ffffff; }
 

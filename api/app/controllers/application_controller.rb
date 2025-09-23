@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include ActiveStorage::SetCurrent
   before_action :authorized
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found

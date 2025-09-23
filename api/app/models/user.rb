@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :submissions, dependent: :destroy
   has_many :feed_posts, dependent: :destroy
+  has_many :materials, dependent: :destroy
 
   before_validation :normalize_email
   before_validation :normalize_username
