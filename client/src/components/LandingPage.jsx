@@ -37,8 +37,6 @@ export default function LandingPage() {
           </a>
           <nav className="lp-nav">
             <a href="#about" onClick={(e) => scrollToId(e, 'about')}>Sobre</a>
-            <a href="#features" onClick={(e) => scrollToId(e, 'features')}>Recursos</a>
-            <a href="#leaderboard" onClick={(e) => scrollToId(e, 'leaderboard')}>Leaderboard</a>
             <a href="#faq" onClick={(e) => scrollToId(e, 'faq')}>FAQ</a>
           </nav>
           <div className="lp-actions">
@@ -55,7 +53,7 @@ export default function LandingPage() {
         <div className="lp-gridbg" aria-hidden />
         <div className="lp-container lp-hero-inner">
           <h1 className="lp-h1">Clube de Programação</h1>
-          <p className="lp-sub"><span className="lp-nowrap" style={{ whiteSpace: 'nowrap' }}>Um espaço para <span class="lp-kws">aprender, compartilhar e evoluir</span> em programação competitiva</span></p>
+          <p className="lp-sub"><span className="lp-nowrap" style={{ whiteSpace: 'nowrap' }}> O hub oficial para a comunidade de <span class="lp-kws">programação competitiva</span> da UTFPR</span></p>
           <div className="lp-cta">
             <Link to="/signup" className="lp-btn">
               Começar <ArrowRight size={16} />
@@ -93,10 +91,9 @@ export default function LandingPage() {
             <div className="lp-card">
               <div className="lp-card-title">O que fazemos</div>
               <div className="lp-card-desc">
-                • Treinos guiados por tópicos<br/>
-                • Simulados e contests internos<br/>
-                • Roadmaps e material didático<br/>
-                • Integração com plataformas de judge
+                • Oficinas sobre problemas selecionados<br/>
+                • Treinos internos<br/>
+                • Roadmaps e material didático
               </div>
             </div>
             <div className="lp-card">
@@ -110,59 +107,6 @@ export default function LandingPage() {
               <Badge icon={<CalendarDays size={16} />} title="Treinos Semanais" />
               <Badge icon={<BookOpen size={16} />} title="Materiais Curados" />
               <Badge icon={<MessageSquareHeart size={16} />} title="Comunidade & Mentoria" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section id="features" className="lp-section" style={{ scrollMarginTop: '80px' }}>
-        <div className="lp-container">
-          <div className="lp-section-head">
-            <h2 className="lp-h2">Features da Plataforma</h2>
-            <p className="lp-muted">Centraliza treinos, materiais e seu progresso</p>
-          </div>
-          <div className="lp-features">
-            <Feature icon={<Trophy size={20} />} title="Competições" desc="Agendamento de treinos e contests com calendário integrado." />
-            <Feature icon={<BarChart3 size={20} />} title="Leaderboards" desc="Ranking individual e por equipe com pontuação unificada." />
-            <Feature icon={<Code2 size={20} />} title="Agregador de Judges" desc="Integração leve com Codeforces, AtCoder, BeeCrowd, etc." />
-            <Feature icon={<Users size={20} />} title="Perfis & Times" desc="Histórico, times, badges e metas semanais." />
-          </div>
-        </div>
-      </section>
-
-      {/* Leaderboard Preview */}
-      <section id="leaderboard" className="lp-section lp-section-alt" style={{ scrollMarginTop: '80px' }}>
-        <div className="lp-container lp-leader-wrap">
-          <div className="lp-leader-col">
-            <h3 className="lp-h3">Leaderboard ao vivo</h3>
-            <p className="lp-muted">Pontos calculados a partir de múltiplos juízes, normalizados por dificuldade e tempo. Transparente e auditável.</p>
-            <div className="lp-card">
-              <div className="lp-table-head">
-                <div>#</div>
-                <div>Membro</div>
-                <div className="lp-right">Pontos</div>
-              </div>
-              <div className="lp-divider" />
-              {[{rank:1,name:"Ana Silva",points:1840},{rank:2,name:"João Pereira",points:1765},{rank:3,name:"Mariana Souza",points:1690},{rank:4,name:"Carlos Lima",points:1580},{rank:5,name:"Rafa Andrade",points:1525}] .map(r => (
-                <div key={r.rank} className="lp-row">
-                  <div className="lp-strong">#{r.rank}</div>
-                  <div className="lp-truncate">{r.name}</div>
-                  <div className="lp-right lp-mono">{r.points} pts</div>
-                </div>
-              ))}
-            </div>
-            <div className="lp-row-actions">
-              <a className="lp-btn" href="/leaderboard">Ver completa</a>
-              <a className="lp-btn lp-btn-outline" href="/docs/scoring">Como pontuamos</a>
-            </div>
-          </div>
-          <div className="lp-leader-col">
-            <div className="lp-grid2">
-              <SmallCard title="Eventos & Treinos" desc="Planeje encontros semanais, maratonas e simulados com lembretes." />
-              <SmallCard title="Materiais & Guias" desc="Curadoria de editoriais, roadmaps e listas por tópico." />
-              <SmallCard title="Integrações" desc="Conecte Codeforces/AtCoder e sincronize progresso." />
-              <SmallCard title="Comunidade" desc="Mentorias, grupos de estudo e Discord." />
             </div>
           </div>
         </div>
@@ -187,14 +131,6 @@ export default function LandingPage() {
             <div className="lp-faq-item">
               <div className="lp-faq-q">Participar vale horas de extensão?</div>
               <div className="lp-faq-a">Horas extensionistas são válidas para quem participa ativamente na organização e execução das ações do Clube. Apenas competir não rende horas.</div>
-            </div>
-            <div className="lp-faq-item">
-              <div className="lp-faq-q">Como funcionam os pontos do ranking?</div>
-              <div className="lp-faq-a">Pontuação normalizada por dificuldade, tempo e penalidades, combinando múltiplos juízes de forma transparente.</div>
-            </div>
-            <div className="lp-faq-item">
-              <div className="lp-faq-q">Vocês têm juiz próprio?</div>
-              <div className="lp-faq-a">Não. Usamos um agregador leve que centraliza o progresso em plataformas como Codeforces e AtCoder.</div>
             </div>
           </div>
         </div>

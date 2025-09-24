@@ -195,7 +195,6 @@ function Dashboard() {
                 <div>
                   <h2 className="db-summary-name">{me?.name || me?.username}</h2>
                   <span className="db-summary-score">{(me?.total_score ?? 0).toLocaleString('pt-BR')} pts</span>
-                  <span className="db-summary-monthly-score">{(me?.monthly_score ?? 0).toLocaleString('pt-BR')} pts (mês)</span>
                 </div>
               </div>
 

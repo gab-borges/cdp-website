@@ -1,5 +1,5 @@
 /* Variáveis & reset básico */
-:root{ --bg:#0b0b10; --fg:#eaeaf2; --muted:#a6a7b5; --card:#11131a; --border:#222432; --accent:#5b7cff; --accent-ink:#0a0f2b; }
+:root{ --bg:#0b0b10; --fg:#eaeaf2; --muted:#ebebf0; --card:#11131a; --border:#222432; --accent:#5b7cff; --accent-ink:#0a0f2b; }
 *{ box-sizing:border-box }
 html,body{ margin:0; padding:0; }
 img{ display:block; max-width:100%; }
