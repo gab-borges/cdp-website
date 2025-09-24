@@ -16,8 +16,8 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def me
+    # Returns the current user from JWT, excluding sensitive fields
     if current_user
-      # Use o payload completo que já inclui os scores calculados
       render json: user_profile_payload(current_user, include_email: true, include_stats: true), status: :ok
     else
       render json: { error: 'Unauthorized' }, status: :unauthorized

@@ -48,6 +48,7 @@ class ApplicationController < ActionController::API
     payload = {
       id: user.id,
       username: user.username,
+      role: user.role,
       score: user.score,
       codeforces_score: user.codeforces_score,
       bio: user.bio,
@@ -72,6 +73,7 @@ class ApplicationController < ActionController::API
     {
       id: user.id,
       username: user.username,
+      role: user.role,
       score: user.score,
       codeforces_score: user.codeforces_score,
       name: user.username,
