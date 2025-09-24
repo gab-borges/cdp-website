@@ -112,7 +112,9 @@ const ProfileEdit = () => {
       });
       setUser(data);
       setCfDraft(data.codeforces_handle || '');
-      setCfMessage(isDisconnect ? 'Conexão com Codeforces removida.' : 'Dados do Codeforces sincronizados!');
+      setCfMessage(
+        isDisconnect ? 'Conexão com Codeforces removida.' : 'Sincronização iniciada! A atualização da sua pontuação pode levar alguns minutos.'
+      );
       setEditingCf(isDisconnect);
     } catch (e) {
       const errData = e?.response?.data;
@@ -241,7 +243,7 @@ const ProfileEdit = () => {
               </div>
               <div className="profile-row">
                 <div className="profile-label">Pontuação</div>
-                <div className="profile-value profile-mono">{user.score ?? 0} pts</div>
+                <div className="profile-value profile-mono">{(user.total_score ?? 0).toLocaleString('pt-BR')} pts</div>
               </div>
               <div className="profile-row">
                 <div className="profile-label">Problemas resolvidos</div>

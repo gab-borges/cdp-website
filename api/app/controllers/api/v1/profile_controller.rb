@@ -12,6 +12,11 @@ class Api::V1::ProfileController < ApplicationController
     if profile_params.key?(:codeforces_handle)
       handle = permitted[:codeforces_handle].to_s.strip
 
+      if handle.downcase != current_user.codeforces_handle.to_s.downcase
+        current_user.codeforces_submissions.destroy_all
+        updates[:codeforces_score] = 0
+      end
+
       begin
         if handle.present?
           data = CodeforcesClient.fetch_user(handle)
@@ -41,6 +46,7 @@ class Api::V1::ProfileController < ApplicationController
     if updates.empty?
       render json: serialize_user(current_user)
     elsif current_user.update(updates)
+      UpdateCodeforcesSubmissionsJob.perform_later(current_user.id) if updates.key?(:codeforces_handle)
       render json: serialize_user(current_user)
     else
       render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity

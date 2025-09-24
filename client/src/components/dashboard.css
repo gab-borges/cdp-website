@@ -14,6 +14,7 @@
 .db-summary-avatar-img { width: 100%; height: 100%; object-fit: cover; }
 .db-summary-name { margin: 0; font-size: 1.8rem; font-weight: 600; color: #f2f6ff; }
 .db-summary-score { margin-top: 6px; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1.1rem; color: #9bb7ff; padding: 4px 10px; border-radius: 999px; background: rgba(91,124,255,0.12); border: 1px solid rgba(91,124,255,0.25); }
+.db-summary-monthly-score { margin-top: 8px; display: inline-block; font-size: 0.9rem; color: #8fa0ba; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
 .db-summary-divider { height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.12), rgba(255,255,255,0)); margin: 8px 0 4px; }
 .db-summary-codeforces { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .db-summary-cf-meta { display: flex; align-items: center; gap: 12px; }

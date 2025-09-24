@@ -12,6 +12,7 @@ import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
 import Feed from './components/Feed';
 import Materials from './components/Materials';
+import Ranking from './components/Ranking';
 import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 
@@ -118,6 +119,7 @@ function App() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/submissions" element={<Submissions />} />
           <Route path="/materials" element={<Materials />} />
+          <Route path="/ranking" element={<Ranking />} />
         </Route>
       </Routes>
     </Router>

@@ -104,7 +104,11 @@ const Profile = () => {
               </div>
               <div className="profile-row">
                 <div className="profile-label">Pontuação</div>
-                <div className="profile-value profile-mono">{(user.score ?? 0).toLocaleString('pt-BR')} pts</div>
+                <div className="profile-value profile-mono">{(user.total_score ?? 0).toLocaleString('pt-BR')} pts</div>
+              </div>
+              <div className="profile-row">
+                <div className="profile-label">Pontuação (mês)</div>
+                <div className="profile-value profile-mono">{(user.monthly_score ?? 0).toLocaleString('pt-BR')} pts</div>
               </div>
               <div className="profile-row">
                 <div className="profile-label">Problemas resolvidos</div>

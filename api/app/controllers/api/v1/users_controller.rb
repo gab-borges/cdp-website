@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
     skip_before_action :authorized, only: [:create]
 
     def index
-        @users = User.select(:id, :username, :score).order(score: :desc)
+        @users = User.order(Arel.sql('COALESCE(score, 0) + COALESCE(codeforces_score, 0) DESC'))
         render json: @users.map { |user| user_summary_payload(user) }
     end
 

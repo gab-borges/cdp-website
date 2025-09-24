@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_011000) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_23_231005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_011000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "codeforces_problems", force: :cascade do |t|
+    t.integer "contest_id"
+    t.string "problem_index"
+    t.string "name"
+    t.integer "rating"
+    t.text "tags", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "codeforces_submissions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "codeforces_problem_id", null: false
+    t.datetime "submitted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["codeforces_problem_id"], name: "index_codeforces_submissions_on_codeforces_problem_id"
+    t.index ["user_id"], name: "index_codeforces_submissions_on_user_id"
   end
 
   create_table "feed_posts", force: :cascade do |t|
@@ -105,6 +125,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_011000) do
     t.string "codeforces_title_photo"
     t.datetime "codeforces_last_synced_at"
     t.string "username", null: false
+    t.integer "codeforces_score"
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
@@ -112,6 +133,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_011000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "codeforces_submissions", "codeforces_problems"
+  add_foreign_key "codeforces_submissions", "users"
   add_foreign_key "feed_posts", "users"
   add_foreign_key "materials", "users"
   add_foreign_key "submissions", "problems"

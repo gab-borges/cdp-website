@@ -45,31 +45,39 @@ class ApplicationController < ActionController::API
   end
 
   def user_profile_payload(user, include_email: false, include_stats: false)
-    fields = [
-      :id,
-      :username,
-      :score,
-      :bio,
-      :codeforces_handle,
-      :codeforces_rating,
-      :codeforces_rank,
-      :codeforces_avatar,
-      :codeforces_title_photo,
-      :codeforces_last_synced_at,
-      :created_at,
-      :updated_at
-    ]
-    fields << :email if include_email
-
-    payload = user.as_json(only: fields)
-    payload['name'] = user.username
-    payload['solved_problems_count'] = user.solved_problems_count if include_stats
+    payload = {
+      id: user.id,
+      username: user.username,
+      score: user.score,
+      codeforces_score: user.codeforces_score,
+      bio: user.bio,
+      codeforces_handle: user.codeforces_handle,
+      codeforces_rating: user.codeforces_rating,
+      codeforces_rank: user.codeforces_rank,
+      codeforces_avatar: user.codeforces_avatar,
+      codeforces_title_photo: user.codeforces_title_photo,
+      codeforces_last_synced_at: user.codeforces_last_synced_at,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      name: user.username,
+      total_score: user.total_score,
+      monthly_score: user.monthly_score
+    }
+    payload[:email] = user.email if include_email
+    payload[:solved_problems_count] = user.solved_problems_count if include_stats
     payload
   end
 
   def user_summary_payload(user)
-    payload = user.as_json(only: [:id, :username, :score])
-    payload['name'] = user.username
-    payload
+    {
+      id: user.id,
+      username: user.username,
+      score: user.score,
+      codeforces_score: user.codeforces_score,
+      name: user.username,
+      total_score: user.total_score,
+      monthly_score: user.monthly_score,
+      codeforces_title_photo: user.codeforces_title_photo
+    }
   end
 end

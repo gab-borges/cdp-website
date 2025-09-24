@@ -1,0 +1,42 @@
+.ranking-root { background: #0b0f16; min-height: 100vh; color: #e7edf5; }
+.ranking-container { width: min(1100px, 92%); margin: 0 auto; }
+.ranking-main { padding: 24px 0 48px; }
+.ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.ranking-title { font-size: 2rem; font-weight: 700; color: #e7edf5; }
+.ranking-tabs { display: flex; gap: 10px; background: rgba(18,24,35,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 6px; }
+.ranking-tab { background: transparent; border: none; color: #9bb7ff; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.ranking-tab.active { background: rgba(91,124,255,0.2); color: #fff; }
+
+.ranking-card {
+  background: linear-gradient(180deg, rgba(20,26,36,0.9), rgba(18,22,31,0.9));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.ranking-error {
+  border-color: rgba(255,87,87,0.25);
+  background: linear-gradient(180deg, rgba(64,16,16,0.6), rgba(32,8,8,0.6));
+  color: #ffd8d8;
+}
+
+.ranking-table-head, .ranking-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.ranking-row .ranking-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ranking-row .ranking-link { color: #d6e4ff; text-decoration: none; font-weight: 600; }
+.ranking-row .ranking-link:hover { text-decoration: underline; color: #fff; }
+.ranking-row .ranking-right { text-align: right; }
+.ranking-strong { font-weight: 700; font-size: 1.1rem; color: #d6e4ff; text-align: center; }
+.ranking-divider { height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.08), rgba(255,255,255,0)); margin: 6px 0; }
+.ranking-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+
+.ranking-user-cell { display: flex; align-items: center; gap: 16px; }
+.ranking-avatar { width: 48px; height: 48px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: rgba(12,18,28,0.8); display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 600; color: #d6e4ff; text-transform: uppercase; flex-shrink: 0; }
+.ranking-avatar-img { width: 100%; height: 100%; object-fit: cover; }

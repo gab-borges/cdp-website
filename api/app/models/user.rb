@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :submissions, dependent: :destroy
+  has_many :codeforces_submissions, dependent: :destroy
   has_many :feed_posts, dependent: :destroy
   has_many :materials, dependent: :destroy
 
@@ -16,8 +17,32 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: 'already registered' },
                     format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :score, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :codeforces_score, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :bio, length: { maximum: 1200 }, allow_blank: true
   validates :codeforces_handle, length: { maximum: 60 }, allow_blank: true
+
+  def total_score
+    (score || 0) + (codeforces_score || 0)
+  end
+
+  def monthly_score
+    now = Time.current
+    beginning_of_month = now.beginning_of_month
+    end_of_month = now.end_of_month
+
+    kattis_monthly_score = submissions
+      .accepted
+      .where(created_at: beginning_of_month..end_of_month)
+      .joins(:problem)
+      .sum('problems.points')
+
+    codeforces_monthly_score = codeforces_submissions
+      .where(submitted_at: beginning_of_month..end_of_month)
+      .joins(:codeforces_problem)
+      .sum('codeforces_problems.rating / 10')
+
+    kattis_monthly_score + codeforces_monthly_score
+  end
 
   def solved_problems_count
     submissions.accepted.select(:problem_id).distinct.count

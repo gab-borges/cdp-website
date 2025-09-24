@@ -60,6 +60,10 @@ function Dashboard() {
         if (!mounted) return;
         setMe(meRes.data);
         setUsers(usersRes.data);
+        console.log('--- DASHBOARD DATA ---');
+        console.log('ME:', meRes.data);
+        console.log('USERS:', usersRes.data);
+        console.log('--------------------');
       } catch (err) {
         console.error('Erro ao carregar dados do dashboard:', err);
         if (mounted) setError('Falha ao carregar seus dados.');
@@ -89,7 +93,7 @@ function Dashboard() {
 
   const topUsers = useMemo(() => {
     const arr = Array.isArray(users) ? [...users] : [];
-    return arr.sort((a, b) => (b?.score || 0) - (a?.score || 0)).slice(0, 5);
+    return arr.sort((a, b) => (b?.total_score || 0) - (a?.total_score || 0)).slice(0, 5);
   }, [users]);
 
   const handleFeedSubmit = async (event) => {
@@ -190,7 +194,8 @@ function Dashboard() {
                 </div>
                 <div>
                   <h2 className="db-summary-name">{me?.name || me?.username}</h2>
-                  <span className="db-summary-score">{(me?.score ?? 0).toLocaleString('pt-BR')} pts</span>
+                  <span className="db-summary-score">{(me?.total_score ?? 0).toLocaleString('pt-BR')} pts</span>
+                  <span className="db-summary-monthly-score">{(me?.monthly_score ?? 0).toLocaleString('pt-BR')} pts (mês)</span>
                 </div>
               </div>
 
@@ -244,7 +249,7 @@ function Dashboard() {
                   <div className="db-card-title">Ranking</div>
                   <p className="db-muted">Top 5 membros</p>
                 </div>
-                <Link className="db-link" to="/submissions">
+                <Link className="db-link" to="/ranking">
                   Ver todos
                 </Link>
               </div>
@@ -266,7 +271,7 @@ function Dashboard() {
                       <span>{user.username}</span>
                     )}
                   </div>
-                  <div className="db-right db-mono">{(user.score ?? 0).toLocaleString('pt-BR')}</div>
+                  <div className="db-right db-mono">{(user.total_score ?? 0).toLocaleString('pt-BR')}</div>
                 </div>
               ))}
             </section>
