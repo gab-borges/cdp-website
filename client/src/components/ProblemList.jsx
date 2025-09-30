@@ -514,7 +514,7 @@ const ProblemList = () => {
                 <thead>
                   <tr>
                     <th
-                      className="sortable"
+                      className="sortable col-id"
                       onClick={() => handleSort(SORT_KEYS.id)}
                       onKeyDown={(event) => handleSortKeyDown(event, SORT_KEYS.id)}
                       role="button"
@@ -541,7 +541,7 @@ const ProblemList = () => {
                       Dificuldade {renderSortIndicator(SORT_KEYS.difficulty)}
                     </th>
                     <th
-                      className="sortable"
+                      className="sortable col-points"
                       onClick={() => handleSort(SORT_KEYS.points)}
                       onKeyDown={(event) => handleSortKeyDown(event, SORT_KEYS.points)}
                       role="button"
@@ -550,7 +550,7 @@ const ProblemList = () => {
                       Pontos {renderSortIndicator(SORT_KEYS.points)}
                     </th>
                     <th
-                      className="sortable"
+                      className="sortable col-solvers"
                       onClick={() => handleSort(SORT_KEYS.solvers)}
                       onKeyDown={(event) => handleSortKeyDown(event, SORT_KEYS.solvers)}
                       role="button"

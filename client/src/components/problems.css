@@ -100,13 +100,15 @@
 .problem-table { width: 100%; border-collapse: collapse; min-width: 720px; }
 .problem-table thead { background: rgba(15,21,30,0.9); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; color: #9bb7ff; }
 .problem-table th, .problem-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
-.problem-table tbody tr:hover { background: rgba(91,124,255,0.08); }
+.problem-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.02); }
+.problem-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.045); }
+.problem-table tbody tr:hover { background: rgba(91,124,255,0.12); }
 .problem-table th { cursor: default; user-select: none; }
 .problem-table th.sortable { cursor: pointer; }
 .problem-table th.sortable:focus-visible { outline: 2px solid rgba(91,124,255,0.6); outline-offset: 2px; }
 .problem-table th:last-child, .problem-table td:last-child { text-align: right; }
 
-.col-id { width: 80px; font-family: 'Fira Code', monospace; font-size: 0.95rem; color: #9bb7ff; }
+.col-id { width: 80px; font-family: 'Fira Code', monospace; font-size: 0.95rem; color: #9bb7ff; text-align: center; }
 .col-title { display: flex; flex-direction: column; gap: 4px; }
 .problem-link { color: #d6e4ff; font-weight: 600; text-decoration: none; }
 .problem-link:hover { color: #ffffff; text-decoration: underline; }
@@ -120,7 +122,10 @@
 .diff-hard,
 .diff-dificil { background: rgba(244,67,54,0.18); border-color: rgba(244,67,54,0.45); color: #ffb3b3; }
 .diff-unknown { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: #cbd6ea; }
-.col-points, .col-solvers { font-family: 'Fira Code', monospace; font-size: 0.95rem; min-width: 100px; text-align: right; }
+.col-points, .col-solvers { font-family: 'Fira Code', monospace; font-size: 0.95rem; min-width: 100px; text-align: center; }
+.problem-table th.col-id,
+.problem-table th.col-points,
+.problem-table th.col-solvers { text-align: center; }
 .col-points { color: #d6e4ff; }
 .col-solvers { color: #9bb7ff; }
 .col-actions { display: flex; gap: 8px; justify-content: flex-end; }

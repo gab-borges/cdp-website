@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import axios from 'axios';
+import codeforcesLogo from '../assets/codeforces-logo.png';
 import './profile.css';
 
 const useAutoDismiss = (message, clearMessage, delay = 4000) => {
@@ -39,6 +40,8 @@ const ProfileEdit = () => {
   const [savingCf, setSavingCf] = useState(false);
 
   const solvedCount = Number(user?.solved_problems_count ?? 0);
+  const totalScore = Number(user?.total_score ?? 0);
+  const monthlyScore = Number(user?.monthly_score ?? 0);
   const avatarUrl = user?.codeforces_title_photo;
   const avatarFallback = user?.username?.slice(0, 1).toUpperCase() || '?';
 
@@ -46,6 +49,19 @@ const ProfileEdit = () => {
   useAutoDismiss(bioMessage, setBioMessage);
   useAutoDismiss(cfMessage, setCfMessage);
   useAutoDismiss(pwdMessage, setPwdMessage);
+
+  const editStats = [
+    {
+      label: 'Pontuação',
+      value: (
+        <>
+          <span className="profile-stat-main">{totalScore.toLocaleString('pt-BR')} pts</span>
+          <span className="profile-stat-sub">({monthlyScore.toLocaleString('pt-BR')} pts)</span>
+        </>
+      ),
+    },
+    { label: 'Problemas resolvidos', value: solvedCount.toLocaleString('pt-BR') },
+  ];
 
   useEffect(() => {
     let mounted = true;
@@ -220,289 +236,278 @@ const ProfileEdit = () => {
         {loading && <div className="profile-card">Carregando...</div>}
         {error && <div className="profile-card profile-error">{error}</div>}
         {!loading && !error && user && (
-          <>
-            <div className="profile-card">
-              <div className="profile-card-header profile-card-header--avatar">
-                <div className="profile-avatar-block">
-                  <div className="profile-avatar" aria-hidden={!avatarUrl}>
-                    {avatarUrl ? <img src={avatarUrl} alt="" className="profile-avatar-img" /> : <span>{avatarFallback}</span>}
-                  </div>
-                  <div>
-                    <div className="profile-card-title">Editar perfil</div>
-                    <div className="profile-card-username">@{user.username}</div>
-                  </div>
+          <section className="profile-panel profile-panel--edit">
+            <header className="profile-hero">
+              <div className="profile-identity">
+                <div className="profile-avatar" aria-hidden={!avatarUrl}>
+                  {avatarUrl ? <img src={avatarUrl} alt="" className="profile-avatar-img" /> : <span>{avatarFallback}</span>}
+                </div>
+                <div>
+                  <h1 className="profile-name">Editar perfil</h1>
+                  <div className="profile-username">@{user.username}</div>
                 </div>
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Usuário</div>
-                <div className="profile-value profile-mono">{user.username}</div>
-              </div>
-              <div className="profile-row">
-                <div className="profile-label">Email</div>
-                <div className="profile-value">{user.email}</div>
-              </div>
-              <div className="profile-row">
-                <div className="profile-label">Pontuação</div>
-                <div className="profile-value profile-mono">{(user.total_score ?? 0).toLocaleString('pt-BR')} pts</div>
-              </div>
-              <div className="profile-row">
-                <div className="profile-label">Problemas resolvidos</div>
-                <div className="profile-value profile-mono">{solvedCount.toLocaleString('pt-BR')}</div>
-              </div>
-              <div className="profile-meta-row">
-                <Link to={`/profile/${user.username}`} className="lp-btn lp-btn-ghost">
-                  Ver perfil
-                </Link>
-              </div>
+              <Link to={`/profile/${user.username}`} className="lp-btn lp-btn-ghost">
+                Ver perfil
+              </Link>
+            </header>
+
+            <div className="profile-stats">
+              {editStats.map((stat) => (
+                <div key={stat.label} className="profile-stat">
+                  <div className="profile-stat-label">{stat.label}</div>
+                  <div className="profile-stat-value">{stat.value}</div>
+                </div>
+              ))}
             </div>
 
-            <div className="profile-card">
-              <div className="profile-card-header">
-                <div>
-                  <div className="profile-card-title">Nome de usuário</div>
-                  <p className="profile-muted">Escolha o identificador único usado em rankings e no seu perfil público.</p>
-                </div>
-                <button
-                  type="button"
-                  className="lp-btn lp-btn-ghost"
-                  onClick={() => {
-                    setEditingUsername((prev) => !prev);
-                    setUsernameMessage('');
-                    setUsernameError('');
-                    setUsernameDraft(user.username || '');
-                  }}
-                >
-                  {editingUsername ? 'Cancelar' : 'Editar'}
-                </button>
-              </div>
-
-              {!editingUsername && (
-                <div className="profile-identity">
-                  <div className="profile-row">
-                    <div className="profile-label">Atual</div>
-                    <div className="profile-value profile-mono">{user.username}</div>
-                  </div>
-                </div>
-              )}
-
-              {editingUsername && (
-                <form onSubmit={handleUsernameSubmit} className="profile-form">
-                  <div className="profile-form-group">
-                    <label htmlFor="username-field">Nome de usuário</label>
-                    <input
-                      id="username-field"
-                      type="text"
-                      value={usernameDraft}
-                      onChange={(event) => setUsernameDraft(event.target.value)}
-                      placeholder="ex: joao_silva"
-                      required
-                    />
-                    <p className="profile-muted">Use apenas letras minúsculas, números e "_". Seu identificador deve ser único.</p>
-                  </div>
-                  <div className="profile-actions">
-                    <button type="submit" className="lp-btn" disabled={savingUsername}>
-                      {savingUsername ? 'Salvando...' : 'Salvar alterações'}
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {(usernameMessage || usernameError) && (
-                <div className={`profile-alert ${usernameError ? 'profile-alert-error' : 'profile-alert-success'}`}>
-                  {usernameError || usernameMessage}
-                </div>
-              )}
-            </div>
-
-            <div className="profile-card">
-              <div className="profile-card-header">
-                <div>
-                  <div className="profile-card-title">Bio</div>
-                  <p className="profile-muted">Um pouco sobre você, hobbies, áreas de estudo ou metas.</p>
-                </div>
-                <button
-                  type="button"
-                  className="lp-btn lp-btn-ghost"
-                  onClick={() => {
-                    setEditingBio((prev) => !prev);
-                    setBioMessage('');
-                    setBioError('');
-                    setBioDraft(user.bio || '');
-                  }}
-                >
-                  {editingBio ? 'Cancelar' : 'Editar'}
-                </button>
-              </div>
-
-              {!editingBio && (
-                <div className="profile-bio">
-                  {user.bio ? user.bio : <span className="profile-muted">Nenhuma bio cadastrada.</span>}
-                </div>
-              )}
-
-              {editingBio && (
-                <form onSubmit={handleBioSubmit}>
-                  <textarea
-                    className="profile-textarea"
-                    value={bioDraft}
-                    maxLength={1200}
-                    onChange={(event) => setBioDraft(event.target.value)}
-                    placeholder="Conte-nos sobre sua experiência, interesses ou metas."
-                  />
-                  <div className="profile-meta-row">
-                    <span>{bioDraft.length}/1200</span>
-                    <button type="submit" className="lp-btn" disabled={savingBio}>
-                      {savingBio ? 'Salvando...' : 'Salvar bio'}
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {(bioMessage || bioError) && (
-                <div className={`profile-alert ${bioError ? 'profile-alert-error' : 'profile-alert-success'}`}>
-                  {bioError || bioMessage}
-                </div>
-              )}
-            </div>
-
-            <div className="profile-card">
-              <div className="profile-card-header">
-                <div>
-                  <div className="profile-card-title">Codeforces</div>
-                  <p className="profile-muted">Conecte seu handle para exibir rating e rank automaticamente.</p>
-                </div>
-                {!editingCf && (
+            <div className="profile-edit-grid">
+              <section className="profile-edit-section">
+                <div className="profile-edit-section-header">
+                  <h2 className="profile-section-title">Nome de usuário</h2>
                   <button
                     type="button"
                     className="lp-btn lp-btn-ghost"
                     onClick={() => {
-                      setEditingCf(true);
-                      setCfMessage('');
-                      setCfError('');
-                      setCfDraft(user.codeforces_handle || '');
+                      setEditingUsername((prev) => !prev);
+                      setUsernameMessage('');
+                      setUsernameError('');
+                      setUsernameDraft(user.username || '');
                     }}
                   >
-                    {user.codeforces_handle ? 'Alterar handle' : 'Conectar'}
+                    {editingUsername ? 'Cancelar' : 'Editar'}
                   </button>
+                </div>
+                <p className="profile-muted">Escolha o identificador único usado em rankings e no seu perfil público.</p>
+                {!editingUsername && (
+                  <div className="profile-summary">
+                    <span className="profile-summary-label">Atual</span>
+                    <span className="profile-summary-value">@{user.username}</span>
+                  </div>
                 )}
-              </div>
-
-              {user.codeforces_handle && !editingCf && (
-                <>
-                  <div className="profile-cf-grid">
-                    <div className="profile-cf-stat">
-                      <div className="profile-cf-label">Handle</div>
-                      <div className="profile-cf-value">{user.codeforces_handle}</div>
+                {editingUsername && (
+                  <form onSubmit={handleUsernameSubmit} className="profile-edit-form">
+                    <div className="profile-form-group">
+                      <label htmlFor="username-field">Nome de usuário</label>
+                      <input
+                        id="username-field"
+                        type="text"
+                        value={usernameDraft}
+                        onChange={(event) => setUsernameDraft(event.target.value)}
+                        placeholder="ex: joao_silva"
+                        required
+                      />
+                      <p className="profile-muted">Use apenas letras minúsculas, números e "_". Seu identificador deve ser único.</p>
                     </div>
-                    <div className="profile-cf-stat">
-                      <div className="profile-cf-label">Rating</div>
-                      <div className="profile-cf-value">{user.codeforces_rating ?? '—'}</div>
-                    </div>
-                    <div className="profile-cf-stat">
-                      <div className="profile-cf-label">Rank</div>
-                      <div className="profile-cf-value">{formatRank(user.codeforces_rank)}</div>
-                    </div>
-                  </div>
-                  <div className="profile-meta-row profile-meta-row--wrap">
-                    <span>{formatDateTime(user.codeforces_last_synced_at)}</span>
-                    <div className="profile-cf-actions">
-                      <button type="button" className="lp-btn" onClick={handleCodeforcesRefresh} disabled={savingCf}>
-                        {savingCf ? 'Sincronizando...' : 'Atualizar dados'}
-                      </button>
-                      <button type="button" className="lp-btn lp-btn-ghost" onClick={handleCodeforcesDisconnect} disabled={savingCf}>
-                        Desconectar
+                    <div className="profile-actions">
+                      <button type="submit" className="lp-btn" disabled={savingUsername}>
+                        {savingUsername ? 'Salvando...' : 'Salvar alterações'}
                       </button>
                     </div>
+                  </form>
+                )}
+                {(usernameMessage || usernameError) && (
+                  <div className={`profile-alert ${usernameError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                    {usernameError || usernameMessage}
                   </div>
-                </>
-              )}
+                )}
+              </section>
 
-              {(!user.codeforces_handle || editingCf) && (
-                <form onSubmit={handleCodeforcesSubmit} className="profile-form-inline">
-                  <div className="profile-form-group">
-                    <label htmlFor="cf-handle">Handle</label>
+              <section className="profile-edit-section">
+                <div className="profile-edit-section-header">
+                  <h2 className="profile-section-title">Bio</h2>
+                  <button
+                    type="button"
+                    className="lp-btn lp-btn-ghost"
+                    onClick={() => {
+                      setEditingBio((prev) => !prev);
+                      setBioMessage('');
+                      setBioError('');
+                      setBioDraft(user.bio || '');
+                    }}
+                  >
+                    {editingBio ? 'Cancelar' : 'Editar'}
+                  </button>
+                </div>
+                <p className="profile-muted">Um pouco sobre você, hobbies, áreas de estudo ou metas.</p>
+                {!editingBio && (
+                  <div className="profile-bio">
+                    {user.bio ? user.bio : <span className="profile-muted">Nenhuma bio cadastrada.</span>}
+                  </div>
+                )}
+                {editingBio && (
+                  <form onSubmit={handleBioSubmit} className="profile-edit-form">
+                    <textarea
+                      className="profile-textarea"
+                      value={bioDraft}
+                      maxLength={1200}
+                      onChange={(event) => setBioDraft(event.target.value)}
+                      placeholder="Conte-nos sobre sua experiência, interesses ou metas."
+                    />
+                    <div className="profile-meta-row">
+                      <span>{bioDraft.length}/1200</span>
+                      <button type="submit" className="lp-btn" disabled={savingBio}>
+                        {savingBio ? 'Salvando...' : 'Salvar bio'}
+                      </button>
+                    </div>
+                  </form>
+                )}
+                {(bioMessage || bioError) && (
+                  <div className={`profile-alert ${bioError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                    {bioError || bioMessage}
+                  </div>
+                )}
+              </section>
+
+              <section className="profile-edit-section">
+                <div className="profile-edit-section-header">
+                  <div className="profile-section-title profile-codeforces-header">
+                    <img src={codeforcesLogo} alt="Codeforces" className="profile-codeforces-logo" />
+                    <span>Codeforces</span>
+                  </div>
+                  {user.codeforces_handle && !editingCf && (
+                    <button
+                      type="button"
+                      className="lp-btn lp-btn-ghost"
+                      onClick={() => {
+                        setEditingCf(true);
+                        setCfMessage('');
+                        setCfError('');
+                        setCfDraft(user.codeforces_handle || '');
+                      }}
+                    >
+                      Editar
+                    </button>
+                  )}
+                </div>
+                <p className="profile-muted">Conecte seu handle para sincronizar automaticamente seus resultados.</p>
+                <div className="profile-codeforces profile-codeforces--form">
+                  {user.codeforces_handle && !editingCf ? (
+                    <>
+                      <div className="profile-codeforces-grid">
+                        <div className="profile-codeforces-stat">
+                          <div className="profile-codeforces-label">Handle</div>
+                          <div className="profile-codeforces-value">{user.codeforces_handle}</div>
+                        </div>
+                        <div className="profile-codeforces-stat">
+                          <div className="profile-codeforces-label">Rating</div>
+                          <div className="profile-codeforces-value">{user.codeforces_rating ?? '—'}</div>
+                        </div>
+                        <div className="profile-codeforces-stat">
+                          <div className="profile-codeforces-label">Rank</div>
+                          <div className="profile-codeforces-value">{formatRank(user.codeforces_rank)}</div>
+                        </div>
+                      </div>
+                      <div className="profile-codeforces-meta">{formatDateTime(user.codeforces_last_synced_at)}</div>
+                      <div className="profile-cf-actions">
+                        <button type="button" className="lp-btn" onClick={handleCodeforcesRefresh} disabled={savingCf}>
+                          {savingCf ? 'Sincronizando...' : 'Atualizar dados'}
+                        </button>
+                        <button type="button" className="lp-btn lp-btn-ghost" onClick={handleCodeforcesDisconnect} disabled={savingCf}>
+                          Desconectar
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <form onSubmit={handleCodeforcesSubmit} className="profile-form-inline">
+                      <div className="profile-form-group">
+                        <label htmlFor="cf-handle">Handle</label>
+                        <input
+                          id="cf-handle"
+                          type="text"
+                          value={cfDraft}
+                          onChange={(event) => setCfDraft(event.target.value)}
+                          placeholder="ex: tourist"
+                        />
+                      </div>
+                      <div className="profile-actions">
+                        <button type="submit" className="lp-btn" disabled={savingCf || (!cfDraft.trim() && !user.codeforces_handle)}>
+                          {savingCf ? 'Conectando...' : user.codeforces_handle ? 'Salvar' : 'Conectar'}
+                        </button>
+                        {user.codeforces_handle && (
+                          <button
+                            type="button"
+                            className="lp-btn lp-btn-ghost"
+                            disabled={savingCf}
+                            onClick={() => {
+                              setEditingCf(false);
+                              setCfDraft(user.codeforces_handle || '');
+                            }}
+                          >
+                            Cancelar
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  )}
+                </div>
+                {(cfMessage || cfError) && (
+                  <div className={`profile-alert ${cfError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                    {cfError || cfMessage}
+                  </div>
+                )}
+              </section>
+
+              <form className="profile-edit-section profile-edit-form" onSubmit={handlePasswordChange}>
+                <div className="profile-edit-section-header">
+                  <h2 className="profile-section-title">Alterar senha</h2>
+                </div>
+                <div className="profile-form-group">
+                  <label htmlFor="current-password">Senha atual</label>
+                  <input
+                    id="current-password"
+                    type="password"
+                    value={pwdForm.current}
+                    onChange={(event) => setPwdForm((prev) => ({ ...prev, current: event.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="profile-form-group profile-grid">
+                  <div>
+                    <label htmlFor="new-password">Nova senha</label>
                     <input
-                      id="cf-handle"
-                      type="text"
-                      value={cfDraft}
-                      onChange={(event) => setCfDraft(event.target.value)}
-                      placeholder="ex: tourist"
+                      id="new-password"
+                      type="password"
+                      value={pwdForm.password}
+                      onChange={(event) => setPwdForm((prev) => ({ ...prev, password: event.target.value }))}
+                      required
                     />
                   </div>
-                  <div className="profile-actions">
-                    <button type="submit" className="lp-btn" disabled={savingCf || (!cfDraft.trim() && !user.codeforces_handle)}>
-                      {savingCf ? 'Conectando...' : user.codeforces_handle ? 'Salvar' : 'Conectar'}
-                    </button>
-                    {user.codeforces_handle && (
-                      <button
-                        type="button"
-                        className="lp-btn lp-btn-ghost"
-                        disabled={savingCf}
-                        onClick={() => {
-                          setEditingCf(false);
-                          setCfDraft(user.codeforces_handle || '');
-                        }}
-                      >
-                        Cancelar
-                      </button>
-                    )}
+                  <div>
+                    <label htmlFor="confirm-password">Confirmar</label>
+                    <input
+                      id="confirm-password"
+                      type="password"
+                      value={pwdForm.confirm}
+                      onChange={(event) => setPwdForm((prev) => ({ ...prev, confirm: event.target.value }))}
+                      required
+                    />
                   </div>
-                </form>
-              )}
-
-              {(cfMessage || cfError) && (
-                <div className={`profile-alert ${cfError ? 'profile-alert-error' : 'profile-alert-success'}`}>
-                  {cfError || cfMessage}
                 </div>
-              )}
+                <div className="profile-actions">
+                  <button type="submit" className="lp-btn" disabled={savingPwd}>
+                    {savingPwd ? 'Atualizando...' : 'Atualizar senha'}
+                  </button>
+                </div>
+                {(pwdMessage || pwdError) && (
+                  <div className={`profile-alert ${pwdError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                    {pwdError || pwdMessage}
+                  </div>
+                )}
+              </form>
             </div>
 
-            <form className="profile-card" onSubmit={handlePasswordChange}>
-              <div className="profile-card-title">Alterar senha</div>
-              <div className="profile-form-group">
-                <label htmlFor="current-password">Senha atual</label>
-                <input
-                  id="current-password"
-                  type="password"
-                  value={pwdForm.current}
-                  onChange={(event) => setPwdForm((prev) => ({ ...prev, current: event.target.value }))}
-                  required
-                />
+            <footer className="profile-footer">
+              <div className="profile-footer-item">
+                <span className="profile-footer-label">Email</span>
+                <span className="profile-footer-value">{user.email || '—'}</span>
               </div>
-              <div className="profile-form-group profile-grid">
-                <div>
-                  <label htmlFor="new-password">Nova senha</label>
-                  <input
-                    id="new-password"
-                    type="password"
-                    value={pwdForm.password}
-                    onChange={(event) => setPwdForm((prev) => ({ ...prev, password: event.target.value }))}
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="confirm-password">Confirmar</label>
-                  <input
-                    id="confirm-password"
-                    type="password"
-                    value={pwdForm.confirm}
-                    onChange={(event) => setPwdForm((prev) => ({ ...prev, confirm: event.target.value }))}
-                    required
-                  />
-                </div>
+              <div className="profile-footer-item">
+                <span className="profile-footer-label">Entrou em</span>
+                <span className="profile-footer-value">{formatDateTime(user.created_at)}</span>
               </div>
-              <div className="profile-actions">
-                <button type="submit" className="lp-btn" disabled={savingPwd}>
-                  {savingPwd ? 'Atualizando...' : 'Atualizar senha'}
-                </button>
-              </div>
-              {(pwdMessage || pwdError) && (
-                <div className={`profile-alert ${pwdError ? 'profile-alert-error' : 'profile-alert-success'}`}>
-                  {pwdError || pwdMessage}
-                </div>
-              )}
-            </form>
-          </>
+            </footer>
+          </section>
         )}
       </main>
     </div>
