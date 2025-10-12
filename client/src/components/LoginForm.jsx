@@ -6,16 +6,24 @@ import './auth.css';
 import logo from '../assets/logo-cdp.jpg';
 
 function LoginForm({ onLogin }) {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      alert('Por favor, preencha o email e a senha.');
+    const trimmedIdentifier = identifier.trim();
+
+    if (!trimmedIdentifier || !password) {
+      alert('Por favor, preencha o email ou nome de usuário e a senha.');
       return;
     }
-    onLogin(email, password);
+
+    const isEmail = trimmedIdentifier.includes('@');
+    onLogin({
+      email: isEmail ? trimmedIdentifier : undefined,
+      username: !isEmail ? trimmedIdentifier : undefined,
+      password,
+    });
   };
 
   return (
@@ -26,17 +34,16 @@ function LoginForm({ onLogin }) {
           <span>Clube de Programação • UTFPR</span>
         </div>
         <h2 className="auth-title">Entrar</h2>
-        <p className="auth-sub">Acesse sua conta para acompanhar estudos, treinos e ranking.</p>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="identifier">Email ou nome de usuário</label>
             <input
               className="lp-input"
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
+              type="text"
+              id="identifier"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              autoComplete="username"
               required
             />
           </div>
@@ -48,7 +55,6 @@ function LoginForm({ onLogin }) {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Sua senha"
               required
             />
           </div>

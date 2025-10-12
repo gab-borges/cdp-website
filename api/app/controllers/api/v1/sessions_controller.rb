@@ -2,7 +2,10 @@ class Api::V1::SessionsController < ApplicationController
   skip_before_action :authorized, only: [:create]
 
   def create
-    user = User.find_by(email: params[:email])
+    login_value = params[:email].presence || params[:username].presence
+    user = if login_value
+             User.find_by(email: login_value) || User.find_by(username: login_value)
+           end
 
     if user&.authenticate(params[:password])
       payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
@@ -11,7 +14,7 @@ class Api::V1::SessionsController < ApplicationController
 
       render json: { token: token }, status: :ok
     else
-      render json: { error: 'Invalid email or password' }, status: :unauthorized
+      render json: { error: 'Invalid email/username or password' }, status: :unauthorized
     end
   end
 

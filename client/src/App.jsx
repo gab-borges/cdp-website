@@ -50,14 +50,26 @@ function App() {
     }
   }, [token]);
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async ({ email, username, password }) => {
+    const emailValue = email?.trim();
+    const usernameValue = username?.trim();
+
+    if (!password || (!emailValue && !usernameValue)) {
+      alert('Por favor, informe email ou nome de usuário e senha.');
+      return;
+    }
+
     try {
-      const { data } = await axios.post('http://localhost:3000/api/v1/login', { email, password });
+      const payload = { password };
+      if (emailValue) payload.email = emailValue;
+      if (usernameValue) payload.username = usernameValue;
+
+      const { data } = await axios.post('http://localhost:3000/api/v1/login', payload);
       setToken(data.token);
       localStorage.setItem('token', data.token);
     } catch (err) {
       console.error('Erro no login:', err);
-      alert('Email ou senha inválidos.');
+      alert('Email/nome de usuário ou senha inválidos.');
     }
   };
 

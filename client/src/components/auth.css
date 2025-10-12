@@ -73,10 +73,29 @@
   width: 100%;
 }
 
+.input-with-hint {
+  position: relative;
+  display: grid;
+}
+
+.lp-input-hint {
+  font-size: 12px;
+  color: rgba(166, 167, 181, 0.6);
+  margin-top: 6px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.2s ease, max-height 0.2s ease;
+}
+
+.input-with-hint:focus-within .lp-input-hint {
+  opacity: 1;
+  max-height: 60px;
+}
+
 .auth-actions { margin-top: 16px; display: grid; gap: 10px; }
 .auth-submit { width: 100%; justify-content: center; }
 
 .auth-meta { margin-top: 6px; font-size: 12px; color: var(--muted, #a6a7b5); text-align: center; }
 
 .toggle-view { text-align: center; }
-

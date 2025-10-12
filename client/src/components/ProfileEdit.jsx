@@ -294,7 +294,7 @@ const ProfileEdit = () => {
                         type="text"
                         value={usernameDraft}
                         onChange={(event) => setUsernameDraft(event.target.value)}
-                        placeholder="ex: joao_silva"
+                        placeholder="nome_de_usuario"
                         required
                       />
                       <p className="profile-muted">Use apenas letras minúsculas, números e "_". Seu identificador deve ser único.</p>
@@ -417,7 +417,7 @@ const ProfileEdit = () => {
                           type="text"
                           value={cfDraft}
                           onChange={(event) => setCfDraft(event.target.value)}
-                          placeholder="ex: tourist"
+                          placeholder="codeforces_handle"
                         />
                       </div>
                       <div className="profile-actions">

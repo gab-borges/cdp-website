@@ -38,20 +38,20 @@ function SignUpForm({ onSignUp }) {
           <span>Clube de Programação • UTFPR</span>
         </div>
         <h2 className="auth-title">Criar conta</h2>
-        <p className="auth-sub">Participe dos treinos e acompanhe seu progresso no ranking.</p>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="username">Nome de usuário</label>
-            <input
-              className="lp-input"
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="ex: joao_silva"
-              required
-            />
-            <small className="lp-muted">Use apenas letras minúsculas, números e "_". Será o seu identificador único.</small>
+            <div className="input-with-hint">
+              <input
+                className="lp-input"
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <small className="lp-muted lp-input-hint">Use apenas letras minúsculas, números e "_". Será o seu identificador único.</small>
+            </div>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -61,7 +61,6 @@ function SignUpForm({ onSignUp }) {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
               required
             />
           </div>
@@ -73,7 +72,6 @@ function SignUpForm({ onSignUp }) {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Crie uma senha"
               required
             />
           </div>
@@ -85,7 +83,6 @@ function SignUpForm({ onSignUp }) {
               id="password_confirmation"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
-              placeholder="Repita a senha"
               required
             />
           </div>
