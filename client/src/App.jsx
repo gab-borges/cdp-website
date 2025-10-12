@@ -10,7 +10,6 @@ import ProblemDetail from './components/ProblemDetail';
 import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
-import Feed from './components/Feed';
 import Materials from './components/Materials';
 import Ranking from './components/Ranking';
 import ProtectedLayout from './components/ProtectedLayout';
@@ -124,7 +123,6 @@ function App() {
           element={token ? <ProtectedLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
         >
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/feed" element={<Feed />} />
           <Route path="/problems" element={<ProblemList />} />
           <Route path="/problem/:id" element={<ProblemDetail />} />
           <Route path="/profile/:username/edit" element={<ProfileEdit />} />

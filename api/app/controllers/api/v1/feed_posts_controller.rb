@@ -18,6 +18,8 @@ class Api::V1::FeedPostsController < ApplicationController
     total_pages = 1 if total_pages.zero?
     page = total_pages if page > total_pages
 
+    next_page = page < total_pages ? page + 1 : nil
+
     posts = scope.offset((page - 1) * per_page).limit(per_page)
 
     render json: {
@@ -26,7 +28,8 @@ class Api::V1::FeedPostsController < ApplicationController
         page: page,
         per_page: per_page,
         total_pages: total_pages,
-        total_count: total_count
+        total_count: total_count,
+        next_page: next_page
       }
     }
   end
@@ -73,7 +76,9 @@ class Api::V1::FeedPostsController < ApplicationController
       author: {
         id: post.user_id,
         username: post.user.username,
-        role: post.user.role
+        role: post.user.role,
+        codeforces_title_photo: post.user.codeforces_title_photo,
+        avatar_url: post.user.codeforces_title_photo
       }
     }
   end

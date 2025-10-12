@@ -38,7 +38,7 @@ function Header({ onLogout, currentUser }) {
 
   const navItems = useMemo(() => {
     const items = [
-      { to: '/feed', label: 'Feed', match: ['/feed'] },
+      { to: '/dashboard', label: 'Dashboard' },
       { to: '/problems', label: 'Problemas', match: ['/problem'] },
       { to: '/materials', label: 'Materiais', match: ['/materials'] },
       { to: '/submissions', label: 'Submissões' },
