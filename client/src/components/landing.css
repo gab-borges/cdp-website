@@ -33,6 +33,8 @@ img{ display:block; max-width:100%; }
 .lp-btn-ghost:hover{ border-color:#30344a; color:var(--fg); }
 .lp-btn-outline{ background:transparent; color:var(--fg); border:1px solid #2b2f43; box-shadow:none; }
 .lp-btn-outline:hover{ color:var(--fg); }
+.lp-btn-danger{ background:#c62828; border-color:#c62828; box-shadow:0 8px 24px rgba(198,40,40,0.25); }
+.lp-btn-danger:hover{ box-shadow:0 10px 28px rgba(198,40,40,0.35); }
 
 
 /* Hero */

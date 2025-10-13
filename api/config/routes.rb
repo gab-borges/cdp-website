@@ -9,12 +9,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :submissions, only: [:index, :create]
       resources :problems, only: [:index, :show, :create, :update, :destroy]
+      post "/users/confirm", to: "users#confirm"
+      post "/users/resend_confirmation", to: "users#resend_confirmation"
       resources :users, only: [:index, :show, :create, :destroy, :update], param: :username
       resources :feed_posts, path: 'feed', only: [:index, :create, :update, :destroy]
       resources :materials, only: [:index, :create, :update, :destroy]
       post "/login", to: "sessions#create"
       get "/me", to: "sessions#me"
-      resource :profile, only: [:show, :update], controller: 'profile' do
+      resource :profile, only: [:show, :update, :destroy], controller: 'profile' do
         patch :password, on: :collection
       end
     end

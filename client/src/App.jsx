@@ -12,6 +12,7 @@ import ProfileEdit from './components/ProfileEdit';
 import Submissions from './components/Submissions';
 import Materials from './components/Materials';
 import Ranking from './components/Ranking';
+import VerifyEmail from './components/VerifyEmail';
 import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 
@@ -49,7 +50,7 @@ function App() {
     }
   }, [token]);
 
-  const handleLogin = async ({ email, username, password }) => {
+  const handleLogin = async ({ email, username, password, setPendingConfirmation }) => {
     const emailValue = email?.trim();
     const usernameValue = username?.trim();
 
@@ -66,9 +67,18 @@ function App() {
       const { data } = await axios.post('http://localhost:3000/api/v1/login', payload);
       setToken(data.token);
       localStorage.setItem('token', data.token);
+      if (setPendingConfirmation) setPendingConfirmation(false);
     } catch (err) {
       console.error('Erro no login:', err);
-      alert('Email/nome de usuário ou senha inválidos.');
+      const message = err?.response?.data?.error;
+      if (err?.response?.status === 403 && typeof setPendingConfirmation === 'function') {
+        setPendingConfirmation(true);
+        if (message) alert(String(message));
+      } else if (message) {
+        alert(String(message));
+      } else {
+        alert('Email/nome de usuário ou senha inválidos.');
+      }
     }
   };
 
@@ -79,7 +89,10 @@ function App() {
 
   const handleSignUp = async (userData) => {
     try {
-      await axios.post('http://localhost:3000/api/v1/users', { user: userData });
+      const { data } = await axios.post('http://localhost:3000/api/v1/users', { user: userData });
+      if (data?.message) {
+        alert(String(data.message));
+      }
       return true;
     } catch (err) {
       const status = err?.response?.status;
@@ -94,7 +107,7 @@ function App() {
         });
         alert(messages.join('\n') || 'Falha no cadastro. Verifique os dados.');
       } else {
-        alert(String(data || err.message || 'Falha no cadastro.'));
+        alert(String(data?.error || err.message || 'Falha no cadastro.'));
       }
       return false;
     }
@@ -119,6 +132,7 @@ function App() {
         <Route path="/" element={!token ? <LandingPage /> : <Navigate to="/dashboard" />} />
         <Route path="/login" element={!token ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!token ? <SignUpForm onSignUp={handleSignUp} /> : <Navigate to="/dashboard" />} />
+        <Route path="/verify" element={!token ? <VerifyEmail /> : <Navigate to="/dashboard" />} />
         <Route
           element={token ? <ProtectedLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
         >

@@ -65,6 +65,19 @@ class Api::V1::ProfileController < ApplicationController
     end
   end
 
+  def destroy
+    provided_password = destroy_params[:current_password].to_s
+    unless current_user.authenticate(provided_password)
+      return render json: { error: 'Senha atual incorreta' }, status: :unauthorized
+    end
+
+    ActiveRecord::Base.transaction do
+      current_user.destroy!
+    end
+
+    render json: { message: 'Conta excluída permanentemente.' }, status: :ok
+  end
+
   private
 
   def profile_params
@@ -73,6 +86,10 @@ class Api::V1::ProfileController < ApplicationController
 
   def password_params
     params.require(:profile).permit(:current_password, :password, :password_confirmation)
+  end
+
+  def destroy_params
+    params.require(:profile).permit(:current_password)
   end
 
   def serialize_user(user)

@@ -26,7 +26,7 @@ function SignUpForm({ onSignUp }) {
     };
     const success = await onSignUp(payload);
     if (success) {
-      navigate('/login');
+      navigate('/verify', { state: { email: payload.email } });
     }
   };
 

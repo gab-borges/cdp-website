@@ -7,8 +7,15 @@ class User < ApplicationRecord
 
   before_validation :normalize_email
   before_validation :normalize_username
+  after_commit :queue_initial_confirmation_email, on: :create
 
   enum :role, { member: 0, admin: 1 }, default: :member, prefix: true
+
+  CONFIRMATION_TOKEN_VALID_FOR = 5.minutes
+  CONFIRMATION_RESEND_WINDOW = 1.minute
+  CONFIRMATION_PRUNE_DEFAULT_DAYS = 7
+
+  scope :unconfirmed, -> { where(confirmed_at: nil) }
 
   # Validations
   validates :username, presence: true, length: { maximum: 64 },
@@ -23,6 +30,58 @@ class User < ApplicationRecord
 
   def total_score
     (score || 0) + (codeforces_score || 0)
+  end
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def confirmation_token_valid?
+    confirmation_sent_at.present? && confirmation_sent_at >= CONFIRMATION_TOKEN_VALID_FOR.ago
+  end
+
+  def confirm!
+    update!(confirmed_at: Time.current, confirmation_token: nil)
+  end
+
+  def regenerate_confirmation_code!
+    code = format("%06d", SecureRandom.random_number(1_000_000))
+    digest = BCrypt::Password.create(code)
+    update_columns(
+      confirmation_token: digest,
+      confirmation_sent_at: Time.current,
+      updated_at: Time.current
+    )
+    code
+  end
+
+  def valid_confirmation_code?(code)
+    return false if confirmation_token.blank?
+
+    BCrypt::Password.new(confirmation_token).is_password?(code)
+  rescue BCrypt::Errors::InvalidHash
+    false
+  end
+
+  def self.confirmation_prune_threshold
+    days = ENV.fetch('UNCONFIRMED_RETENTION_DAYS', CONFIRMATION_PRUNE_DEFAULT_DAYS).to_i
+    days = CONFIRMATION_PRUNE_DEFAULT_DAYS if days <= 0
+    days.days.ago
+  end
+
+  def self.prunable_unconfirmed
+    cutoff = confirmation_prune_threshold
+    unconfirmed.where('confirmation_sent_at IS NULL OR confirmation_sent_at < ?', cutoff)
+  end
+
+  def send_confirmation_instructions(force: false)
+    return if confirmed?
+    if !force && confirmation_sent_at.present? && confirmation_sent_at > CONFIRMATION_RESEND_WINDOW.ago
+      return
+    end
+
+    code = regenerate_confirmation_code!
+    UserMailer.confirmation_email(self, code: code).deliver_later
   end
 
   def monthly_score
@@ -49,6 +108,14 @@ class User < ApplicationRecord
   end
 
   private
+
+  def queue_initial_confirmation_email
+    send_confirmation_instructions(force: true)
+  end
+
+  def queue_initial_confirmation_email
+    send_confirmation_instructions(force: true)
+  end
 
   def normalize_email
     self.email = email.to_s.strip.downcase if email.present?

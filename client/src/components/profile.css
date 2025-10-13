@@ -199,6 +199,11 @@
   display: grid;
   gap: 18px;
 }
+.profile-edit-section--danger {
+  background: linear-gradient(180deg, rgba(64,16,16,0.7), rgba(28,10,12,0.9));
+  border: 1px solid rgba(244,67,54,0.45);
+}
+.profile-danger-text { color: #ffb3b3; font-size: 0.95rem; margin: 0; line-height: 1.6; }
 
 .profile-edit-section-header {
   display: flex;

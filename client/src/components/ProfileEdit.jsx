@@ -38,6 +38,9 @@ const ProfileEdit = () => {
   const [cfError, setCfError] = useState('');
   const [editingCf, setEditingCf] = useState(false);
   const [savingCf, setSavingCf] = useState(false);
+  const [deleteForm, setDeleteForm] = useState({ confirm: '', password: '' });
+  const [deleteError, setDeleteError] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const solvedCount = Number(user?.solved_problems_count ?? 0);
   const totalScore = Number(user?.total_score ?? 0);
@@ -87,6 +90,8 @@ const ProfileEdit = () => {
         setEditingCf(!data.codeforces_handle);
         setCfMessage('');
         setCfError('');
+        setDeleteForm({ confirm: '', password: '' });
+        setDeleteError('');
       } catch (e) {
         console.error('Erro ao carregar dados do perfil:', e);
         setError('Falha ao carregar seus dados.');
@@ -227,6 +232,38 @@ const ProfileEdit = () => {
       setPwdError(message);
     } finally {
       setSavingPwd(false);
+    }
+  };
+
+  const handleAccountDelete = async (event) => {
+    event.preventDefault();
+    setDeleteError('');
+
+    const expectedUsername = (user?.username || '').toLowerCase();
+    const typedUsername = deleteForm.confirm.trim().toLowerCase();
+    if (!typedUsername || typedUsername !== expectedUsername) {
+      setDeleteError('Digite seu nome de usuário exatamente para confirmar.');
+      return;
+    }
+
+    if (!deleteForm.password) {
+      setDeleteError('Informe sua senha para confirmar a exclusão.');
+      return;
+    }
+
+    try {
+      setDeleteLoading(true);
+      await axios.delete('/api/v1/profile', {
+        data: { profile: { current_password: deleteForm.password } },
+      });
+      alert('Conta excluída permanentemente.');
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    } catch (e) {
+      const message = e?.response?.data?.error || 'Não foi possível excluir sua conta.';
+      setDeleteError(message);
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -484,22 +521,62 @@ const ProfileEdit = () => {
                     />
                   </div>
                 </div>
+              <div className="profile-actions">
+                <button type="submit" className="lp-btn" disabled={savingPwd}>
+                  {savingPwd ? 'Atualizando...' : 'Atualizar senha'}
+                </button>
+              </div>
+              {(pwdMessage || pwdError) && (
+                <div className={`profile-alert ${pwdError ? 'profile-alert-error' : 'profile-alert-success'}`}>
+                  {pwdError || pwdMessage}
+                </div>
+              )}
+            </form>
+
+            <section className="profile-edit-section profile-edit-section--danger">
+              <div className="profile-edit-section-header">
+                <h2 className="profile-section-title">Excluir conta</h2>
+              </div>
+              <p className="profile-danger-text">
+                Esta ação é permanente e removerá todos os seus dados. Para confirmar, digite seu nome de usuário completo e sua senha atual.
+              </p>
+              <form onSubmit={handleAccountDelete} className="profile-edit-form">
+                <div className="profile-form-group">
+                  <label htmlFor="delete-confirm">Nome de usuário</label>
+                  <input
+                    id="delete-confirm"
+                    type="text"
+                    value={deleteForm.confirm}
+                    onChange={(event) => setDeleteForm((prev) => ({ ...prev, confirm: event.target.value }))}
+                    placeholder={user.username}
+                    autoComplete="off"
+                    required
+                  />
+                </div>
+                <div className="profile-form-group">
+                  <label htmlFor="delete-password">Senha atual</label>
+                  <input
+                    id="delete-password"
+                    type="password"
+                    value={deleteForm.password}
+                    onChange={(event) => setDeleteForm((prev) => ({ ...prev, password: event.target.value }))}
+                    placeholder="Sua senha"
+                    required
+                  />
+                </div>
+                {deleteError && <div className="profile-alert profile-alert-error">{deleteError}</div>}
                 <div className="profile-actions">
-                  <button type="submit" className="lp-btn" disabled={savingPwd}>
-                    {savingPwd ? 'Atualizando...' : 'Atualizar senha'}
+                  <button type="submit" className="lp-btn lp-btn-danger" disabled={deleteLoading}>
+                    {deleteLoading ? 'Excluindo...' : 'Excluir conta'}
                   </button>
                 </div>
-                {(pwdMessage || pwdError) && (
-                  <div className={`profile-alert ${pwdError ? 'profile-alert-error' : 'profile-alert-success'}`}>
-                    {pwdError || pwdMessage}
-                  </div>
-                )}
               </form>
-            </div>
+            </section>
+          </div>
 
-            <footer className="profile-footer">
-              <div className="profile-footer-item">
-                <span className="profile-footer-label">Email</span>
+          <footer className="profile-footer">
+            <div className="profile-footer-item">
+              <span className="profile-footer-label">Email</span>
                 <span className="profile-footer-value">{user.email || '—'}</span>
               </div>
               <div className="profile-footer-item">

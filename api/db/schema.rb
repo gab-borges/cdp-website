@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_231005) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_12_201258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -126,8 +126,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_231005) do
     t.datetime "codeforces_last_synced_at"
     t.string "username", null: false
     t.integer "codeforces_score"
+    t.string "confirmation_token"
+    t.datetime "confirmation_sent_at"
+    t.datetime "email_confirmed_at"
+    t.datetime "confirmed_at"
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.check_constraint "score >= 0", name: "users_score_nonnegative"
   end
 

@@ -8,6 +8,7 @@ import logo from '../assets/logo-cdp.jpg';
 function LoginForm({ onLogin }) {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ function LoginForm({ onLogin }) {
       email: isEmail ? trimmedIdentifier : undefined,
       username: !isEmail ? trimmedIdentifier : undefined,
       password,
+      setPendingConfirmation,
     });
   };
 
@@ -67,6 +69,14 @@ function LoginForm({ onLogin }) {
               Cadastre-se
             </Link>
           </p>
+          {pendingConfirmation && (
+            <p className="auth-meta">
+              Não recebeu o código?{' '}
+              <Link to={`/verify?identifier=${encodeURIComponent(identifier.trim())}`} className="link-button">
+                Confirmar email
+              </Link>
+            </p>
+          )}
           <p className="auth-meta">
             <Link to="/" className="link-button">
               Voltar para a página inicial

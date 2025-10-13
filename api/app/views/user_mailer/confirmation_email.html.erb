@@ -1,0 +1,15 @@
+<p>Olá <strong><%= @user.username %></strong>,</p>
+
+<p>Obrigado por se cadastrar no Clube de Programação UTFPR.</p>
+
+<p>Para ativar sua conta, insira o código abaixo na plataforma. Ele é válido por apenas <strong>5 minutos</strong>.</p>
+
+<p style="text-align:center; margin: 24px 0;">
+  <span style="display:inline-block; background-color:#111c3f; color:#ffffff; padding:16px 28px; font-size:24px; letter-spacing:8px; border-radius:12px; font-weight:700;">
+    <%= @code %>
+  </span>
+</p>
+
+<p>Se você não solicitou este cadastro, ignore esta mensagem.</p>
+
+<p>Até breve,<br/>Equipe Clube de Programação UTFPR</p>
