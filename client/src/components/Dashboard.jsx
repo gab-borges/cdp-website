@@ -482,13 +482,6 @@ function Dashboard() {
                     Ver todos
                   </Link>
                 </div>
-                <div className="db-table-head">
-                  <div>#</div>
-                  <div className="db-rank-avatar-head" aria-hidden="true" />
-                  <div>Membro</div>
-                  <div className="db-right">Pontos</div>
-                </div>
-                <div className="db-divider" />
                 {topUsers.map((user, index) => (
                   <div className="db-row" key={user.id ?? index}>
                     <div className="db-strong">{index + 1}</div>

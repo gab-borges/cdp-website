@@ -218,6 +218,31 @@ const ProblemDetail = () => {
               )}
             </div>
 
+            {/* Seção de Casos de Teste*/}
+            {problem.test_cases && problem.test_cases.length > 0 && (
+              <div className="problem-examples">
+                <h3 className="examples-title">Casos de Teste</h3>
+                {problem.test_cases.map((testCase, index) => (
+                  <div className="example-case" key={index}>
+                    <div className="example-io">
+                      <div className="example-header">
+                        <span>Entrada</span>
+                        <button className="copy-button-small" onClick={() => navigator.clipboard.writeText(testCase.input)}>Copy</button>
+                      </div>
+                      <pre>{testCase.input}</pre>
+                    </div>
+                    <div className="example-io">
+                      <div className="example-header">
+                        <span>Saída</span>
+                        <button className="copy-button-small" onClick={() => navigator.clipboard.writeText(testCase.output)}>Copy</button>
+                      </div>
+                      <pre>{testCase.output}</pre>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className="submission-form">
               <h3>Envie Sua Solução</h3>
               <form onSubmit={handleSubmit}>

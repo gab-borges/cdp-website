@@ -40,6 +40,9 @@ class Api::V1::ProblemsController < ApplicationController
   end
 
   def problem_params
-    params.require(:problem).permit(:title, :description, :difficulty, :points, :judge, :judge_identifier)
+    params.require(:problem).permit(
+      :title, :description, :difficulty, :points, :judge, :judge_identifier,
+      test_cases: [:input, :output]
+    )
   end
 end

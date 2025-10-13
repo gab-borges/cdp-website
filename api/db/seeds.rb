@@ -121,7 +121,7 @@ problems = [
     judge: "Kattis",
     judge_identifier: "findingana",
     solvers_count: 0,
-    description: <<~MD
+    description: <<~MD,
       In this problem, you are given a single string $s$ that is guaranteed to contain the letter $a$.<br>  
       You should output the suffix of $s$ that begins with the first occurrence of the letter $a$. Namely, if $s$ consists of characters $s_1 s_2 \dots s_n$ and $i$ is the first index with $s_i = a$, then you should output the string $s_i s_{i+1} \dots s_n$.<br>
       Why do you want to do this? To solve a problem in the contest!
@@ -131,31 +131,12 @@ problems = [
 
       **Output**
       Output the suffix of $s$ that begins with the first occurrence of the letter $a$.
-
-      <u>**Test Case 1**</u>
-      ```text
-      banana
-      ```
-      ```text
-      anana
-      ```
-
-      <u>**Test Case 2**</u>
-      ```text
-      polarbear
-      ```
-      ```text
-      arbear
-      ```
-
-      <u>**Test Case 3**</u>
-      ```text
-      art
-      ```
-      ```text
-      art
-      ```
     MD
+    test_cases: [
+      { input: "banana", output: "anana" },
+      { input: "polarbear", output: "arbear" },
+      { input: "art", output: "art" }
+    ]
   }
 ]
 

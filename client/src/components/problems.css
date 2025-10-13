@@ -274,3 +274,80 @@
   border-color: rgba(255,255,255,0.2);
 }
 .btn-ghost:hover { background-color: rgba(255,255,255,0.08); color: #fff; }
+
+.problem-examples {
+  margin-top: 2.5rem;
+}
+
+.examples-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e7edf5;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.example-case {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna por padrão */
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Duas colunas em telas maiores */
+@media (min-width: 768px) {
+  .example-case {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.example-io {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9bb7ff;
+  margin-bottom: 6px;
+  padding: 0 4px;
+}
+
+.example-io pre {
+  margin: 0;
+  padding: 12px 14px;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e7edf5;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+  flex-grow: 1;
+}
+
+.copy-button-small {
+  background-color: transparent;
+  color: #8fa0ba;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-button-small:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
