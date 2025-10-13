@@ -59,6 +59,58 @@
   grid-column: 1 / -1;
 }
 
+.test-case-section {
+  display: grid;
+  gap: 12px;
+}
+
+.test-case-card {
+  background: rgba(12,16,24,0.65);
+  border: 1px solid rgba(155,183,255,0.18);
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.test-case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9bb7ff;
+}
+
+.test-case-remove {
+  border: 1px solid rgba(244,67,54,0.45);
+  background: rgba(11,15,22,0.2);
+  color: #ffb3b3;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.test-case-remove:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(203,214,234,0.6);
+  background: transparent;
+}
+
+.test-case-remove:not(:disabled):hover {
+  background: rgba(244,67,54,0.18);
+  color: #ffffff;
+}
+
+.test-case-add {
+  align-self: flex-start;
+}
+
 .problem-admin-alert {
   padding: 12px 14px;
   border-radius: 12px;
@@ -166,7 +218,7 @@
   margin-top: 1.5em;
   margin-bottom: 1em;
 }
-.problem-detail-body p { margin-bottom: 1em; }
+.problem-detail-body p { margin-bottom: 1em; text-align: justify; }
 .problem-detail-body ul, .problem-detail-body ol { margin-left: 1.5rem; margin-bottom: 1rem; }
 .problem-detail-body li { margin-bottom: 0.5rem; }
 .problem-detail-body a { color: #8ab4ff; text-decoration: underline; }

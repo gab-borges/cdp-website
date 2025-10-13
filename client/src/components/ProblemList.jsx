@@ -11,6 +11,77 @@ const SORT_KEYS = {
   solvers: 'solvers_count',
 };
 
+const createBlankTestCase = () => ({
+  input: '',
+  output: '',
+});
+
+const createBlankForm = () => ({
+  title: '',
+  description: '',
+  difficulty: '',
+  points: '',
+  judge: '',
+  judge_identifier: '',
+  test_cases: [createBlankTestCase()],
+});
+
+const TestCasesEditor = ({ form, onChange, onAdd, onRemove, idPrefix, disabled = false }) => {
+  const testCases = Array.isArray(form?.test_cases) && form.test_cases.length > 0
+    ? form.test_cases
+    : [createBlankTestCase()];
+
+  return (
+    <div className="problem-admin-field problem-admin-span">
+      <span>Casos de teste</span>
+      <div className="test-case-section">
+        {testCases.map((testCase, index) => {
+          const inputId = `${idPrefix}-testcase-${index}-input`;
+          const outputId = `${idPrefix}-testcase-${index}-output`;
+          return (
+            <div className="test-case-card" key={`${idPrefix}-testcase-${index}`}>
+              <div className="test-case-header">
+                <span>Caso #{index + 1}</span>
+                <button
+                  type="button"
+                  className="test-case-remove"
+                  onClick={() => onRemove(index)}
+                  disabled={disabled || testCases.length <= 1}
+                >
+                  Remover
+                </button>
+              </div>
+              <label className="problem-admin-field" htmlFor={inputId}>
+                <span>Entrada</span>
+                <textarea
+                  id={inputId}
+                  value={testCase?.input ?? ''}
+                  onChange={(event) => onChange(index, 'input', event.target.value)}
+                  rows={3}
+                  disabled={disabled}
+                />
+              </label>
+              <label className="problem-admin-field" htmlFor={outputId}>
+                <span>Saída</span>
+                <textarea
+                  id={outputId}
+                  value={testCase?.output ?? ''}
+                  onChange={(event) => onChange(index, 'output', event.target.value)}
+                  rows={3}
+                  disabled={disabled}
+                />
+              </label>
+            </div>
+          );
+        })}
+        <button type="button" className="lp-btn test-case-add" onClick={onAdd} disabled={disabled}>
+          Adicionar caso de teste
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const ProblemList = () => {
   const { setHeaderUser } = useOutletContext() ?? {};
   const [me, setMe] = useState(null);
@@ -21,23 +92,12 @@ const ProblemList = () => {
   const [difficultyFilter, setDifficultyFilter] = useState('all');
   const [sort, setSort] = useState({ key: SORT_KEYS.id, direction: 'asc' });
   const [showCreate, setShowCreate] = useState(false);
-  const blankForm = useMemo(
-    () => ({
-      title: '',
-      description: '',
-      difficulty: '',
-      points: '',
-      judge: '',
-      judge_identifier: '',
-    }),
-    []
-  );
-  const [createForm, setCreateForm] = useState(blankForm);
+  const [createForm, setCreateForm] = useState(() => createBlankForm());
   const [createError, setCreateError] = useState('');
   const [createMessage, setCreateMessage] = useState('');
   const [creating, setCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState(blankForm);
+  const [editForm, setEditForm] = useState(() => createBlankForm());
   const [editError, setEditError] = useState('');
   const [editMessage, setEditMessage] = useState('');
   const [savingEdit, setSavingEdit] = useState(false);
@@ -100,6 +160,76 @@ const ProblemList = () => {
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleCreateTestCaseChange = useCallback(
+    (index, field, value) => {
+      setCreateForm((prev) => {
+        const list = Array.isArray(prev?.test_cases) ? prev.test_cases.map((item) => ({ ...item })) : [];
+        while (list.length <= index) {
+          list.push(createBlankTestCase());
+        }
+        list[index] = { ...list[index], [field]: value };
+        return { ...prev, test_cases: list };
+      });
+    },
+    [setCreateForm]
+  );
+
+  const handleEditTestCaseChange = useCallback(
+    (index, field, value) => {
+      setEditForm((prev) => {
+        const list = Array.isArray(prev?.test_cases) ? prev.test_cases.map((item) => ({ ...item })) : [];
+        while (list.length <= index) {
+          list.push(createBlankTestCase());
+        }
+        list[index] = { ...list[index], [field]: value };
+        return { ...prev, test_cases: list };
+      });
+    },
+    [setEditForm]
+  );
+
+  const addCreateTestCase = useCallback(() => {
+    setCreateForm((prev) => {
+      const list = Array.isArray(prev?.test_cases) ? prev.test_cases.slice() : [];
+      return { ...prev, test_cases: [...list, createBlankTestCase()] };
+    });
+  }, [setCreateForm]);
+
+  const addEditTestCase = useCallback(() => {
+    setEditForm((prev) => {
+      const list = Array.isArray(prev?.test_cases) ? prev.test_cases.slice() : [];
+      return { ...prev, test_cases: [...list, createBlankTestCase()] };
+    });
+  }, [setEditForm]);
+
+  const removeCreateTestCase = useCallback(
+    (index) => {
+      setCreateForm((prev) => {
+        const list = Array.isArray(prev?.test_cases) ? prev.test_cases.slice() : [];
+        if (list.length <= 1) {
+          return { ...prev, test_cases: [createBlankTestCase()] };
+        }
+        list.splice(index, 1);
+        return { ...prev, test_cases: list };
+      });
+    },
+    [setCreateForm]
+  );
+
+  const removeEditTestCase = useCallback(
+    (index) => {
+      setEditForm((prev) => {
+        const list = Array.isArray(prev?.test_cases) ? prev.test_cases.slice() : [];
+        if (list.length <= 1) {
+          return { ...prev, test_cases: [createBlankTestCase()] };
+        }
+        list.splice(index, 1);
+        return { ...prev, test_cases: list };
+      });
+    },
+    [setEditForm]
+  );
+
   const parsePoints = (value) => {
     if (!value || !String(value).trim()) return null;
     const num = Number(value);
@@ -116,11 +246,21 @@ const ProblemList = () => {
     };
     const points = parsePoints(form.points);
     if (points != null) payload.points = points;
+    const sanitizedTestCases = Array.isArray(form.test_cases)
+      ? form.test_cases
+          .map((testCase) => {
+            const input = testCase?.input ?? '';
+            const output = testCase?.output ?? '';
+            return { input, output };
+          })
+          .filter((testCase) => testCase.input.trim() !== '' || testCase.output.trim() !== '')
+      : [];
+    payload.test_cases = sanitizedTestCases;
     return payload;
   };
 
   const resetCreateForm = () => {
-    setCreateForm(blankForm);
+    setCreateForm(createBlankForm());
     setCreateError('');
     setCreateMessage('');
   };
@@ -166,7 +306,7 @@ const ProblemList = () => {
       setProblems((prev) => prev.map((problem) => (problem.id === data.id ? data : problem)));
       setEditMessage('Problema atualizado.');
       setEditingId(null);
-      setEditForm(blankForm);
+      setEditForm(createBlankForm());
     } catch (err) {
       console.error('Falha ao atualizar problema:', err);
       const message = err?.response?.data?.errors?.join(' ') || err.message || 'Não foi possível atualizar o problema.';
@@ -201,12 +341,18 @@ const ProblemList = () => {
       points: problem.points != null ? String(problem.points) : '',
       judge: problem.judge || '',
       judge_identifier: problem.judge_identifier || '',
+      test_cases: Array.isArray(problem.test_cases) && problem.test_cases.length > 0
+        ? problem.test_cases.map((testCase) => ({
+            input: testCase?.input ?? '',
+            output: testCase?.output ?? '',
+          }))
+        : [createBlankTestCase()],
     });
   };
 
   const cancelEdit = () => {
     setEditingId(null);
-    setEditForm(blankForm);
+    setEditForm(createBlankForm());
     setEditError('');
   };
 
@@ -392,6 +538,14 @@ const ProblemList = () => {
                   rows={4}
                 />
               </label>
+              <TestCasesEditor
+                form={createForm}
+                onChange={handleCreateTestCaseChange}
+                onAdd={addCreateTestCase}
+                onRemove={removeCreateTestCase}
+                idPrefix="create"
+                disabled={creating}
+              />
 
               {createError && <div className="problem-admin-alert problem-admin-alert-error">{createError}</div>}
               {createMessage && <div className="problem-admin-alert problem-admin-alert-success">{createMessage}</div>}
@@ -486,6 +640,14 @@ const ProblemList = () => {
                   rows={4}
                 />
               </label>
+              <TestCasesEditor
+                form={editForm}
+                onChange={handleEditTestCaseChange}
+                onAdd={addEditTestCase}
+                onRemove={removeEditTestCase}
+                idPrefix="edit"
+                disabled={savingEdit}
+              />
 
               {editError && <div className="problem-admin-alert problem-admin-alert-error">{editError}</div>}
               {editMessage && <div className="problem-admin-alert problem-admin-alert-success">{editMessage}</div>}
