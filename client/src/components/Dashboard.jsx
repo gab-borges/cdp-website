@@ -546,19 +546,18 @@ function Dashboard() {
                 </form>
               )}
 
-              {isAdmin && !showComposer && (
-                <div className="db-feed-actions">
-                  <button type="button" className="lp-btn" onClick={() => setShowComposer(true)}>
-                    Novo post
-                  </button>
-                </div>
-              )}
-
               {renderFeed()}
             </div>
           </div>
         )}
       </main>
+      {isAdmin && !showComposer && (
+        <div className="fab-container">
+          <button type="button" className="fab" onClick={() => setShowComposer(true)}>
+            +
+          </button>
+        </div>
+      )}
     </div>
   );
 }

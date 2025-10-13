@@ -248,6 +248,11 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 .problem-detail-body .code-block-wrapper .copy-button:hover { background-color: rgba(35, 134, 54, 0.65); border-color: rgba(35, 134, 54, 0.9); }
+.problem-detail-body .code-block-wrapper .copy-button.copied {
+  background-color: #238636;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.1);
+}
 .problem-detail-body .code-block-wrapper .copy-button:disabled { opacity: 0.65; cursor: default; }
 .problem-detail-body .katex-display { margin: 1.25rem 0; overflow-x: auto; padding: 0.75rem; background: rgba(0,0,0,0.25); border-radius: 8px; }
 .problem-detail-body .katex { font-size: 1.1em; }
@@ -402,4 +407,10 @@
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
+}
+
+.copy-button-small.copied {
+  background-color: #238636;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.1);
 }

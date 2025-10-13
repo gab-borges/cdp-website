@@ -46,8 +46,8 @@
 }
 
 .auth-title {
-  margin: 10px 0 16px;
-  font-size: clamp(22px, 4.2vw, 32px);
+  margin: 8px 0 12px;
+  font-size: clamp(20px, 4vw, 28px);
   line-height: 1.15;
   letter-spacing: -0.02em;
   font-weight: 800;
@@ -64,10 +64,9 @@
   font-size: 14px;
 }
 
-.auth-form { margin-top: 10px; }
+.auth-form { margin-top: 20px; }
 
-.form-group { display: grid; gap: 6px; margin-top: 12px; }
-.form-group label { color: var(--muted, #a6a7b5); font-size: 13px; }
+
 
 .lp-input { /* reuse shape from landing */
   width: 100%;
@@ -86,6 +85,7 @@
   max-height: 0;
   overflow: hidden;
   transition: opacity 0.2s ease, max-height 0.2s ease;
+  transition-delay: 0.2s;
 }
 
 .input-with-hint:focus-within .lp-input-hint {
@@ -99,3 +99,39 @@
 .auth-meta { margin-top: 6px; font-size: 12px; color: var(--muted, #a6a7b5); text-align: center; }
 
 .toggle-view { text-align: center; }
+
+.form-group-floating {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-group-floating .lp-input, .profile-form-group .form-group-floating input {
+  border: 1px solid var(--border, #222432);
+  border-radius: 4px;
+  padding: 1rem;
+  width: 100%;
+  font-size: 1rem;
+  background-color: var(--card, #11131a);
+  color: var(--fg, #eaeaf2);
+}
+
+.form-group-floating label, .profile-form-group .form-group-floating label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: var(--muted, #a6a7b5);
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+.form-group-floating .lp-input:focus + label,
+.form-group-floating .lp-input:not(:placeholder-shown) + label,
+.profile-form-group .form-group-floating input:focus + label,
+.profile-form-group .form-group-floating input:not(:placeholder-shown) + label {
+  top: -0.75rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--fg, #eaeaf2);
+  background-color: var(--card, #11131a);
+  padding: 0 0.25rem;
+}

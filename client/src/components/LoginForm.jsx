@@ -37,8 +37,7 @@ function LoginForm({ onLogin }) {
         </div>
         <h2 className="auth-title">Entrar</h2>
         <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="identifier">Email ou nome de usuário</label>
+          <div className="form-group-floating">
             <input
               className="lp-input"
               type="text"
@@ -47,10 +46,11 @@ function LoginForm({ onLogin }) {
               onChange={(e) => setIdentifier(e.target.value)}
               autoComplete="username"
               required
+              placeholder=" "
             />
+            <label htmlFor="identifier">Email ou nome de usuário</label>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Senha</label>
+          <div className="form-group-floating">
             <input
               className="lp-input"
               type="password"
@@ -58,7 +58,9 @@ function LoginForm({ onLogin }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder=" "
             />
+            <label htmlFor="password">Senha</label>
           </div>
           <div className="auth-actions">
             <button className="lp-btn auth-submit" type="submit">Entrar</button>

@@ -132,6 +132,14 @@ export default function LandingPage() {
               <div className="lp-faq-q">Participar vale horas de extensão?</div>
               <div className="lp-faq-a">Horas extensionistas são válidas para quem participa ativamente na organização e execução das ações do Clube. Apenas competir não rende horas.</div>
             </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Onde e quando acontecem as oficinas?</div>
+              <div className="lp-faq-a">As oficinas ocorrem às terças-feiras, das 18h40 às 21h10, na Sala CB104, Bloco B da UTFPR Curitiba – Sede Centro (Av. Sete de Setembro, 3165).</div>
+            </div>
+            <div className="lp-faq-item">
+              <div className="lp-faq-q">Onde posso encontrar materiais e referências?</div>
+              <div className="lp-faq-a">Dentro da plataforma temos materiais e problemas para praticar. Também temos uma Jornada de Iniciação para iniciantes.</div>
+            </div>
           </div>
         </div>
       </section>

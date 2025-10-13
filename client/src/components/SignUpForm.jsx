@@ -39,8 +39,7 @@ function SignUpForm({ onSignUp }) {
         </div>
         <h2 className="auth-title">Criar conta</h2>
         <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="username">Nome de usuário</label>
+          <div className="form-group-floating">
             <div className="input-with-hint">
               <input
                 className="lp-input"
@@ -49,12 +48,13 @@ function SignUpForm({ onSignUp }) {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                placeholder=" "
               />
-              <small className="lp-muted lp-input-hint">Use apenas letras minúsculas, números e "_". Será o seu identificador único.</small>
+              <label htmlFor="username">Nome de usuário</label>
+              <small className="lp-muted lp-input-hint">Use apenas letras minúsculas, números e "_".</small>
             </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div className="form-group-floating">
             <input
               className="lp-input"
               type="email"
@@ -62,29 +62,41 @@ function SignUpForm({ onSignUp }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              placeholder=" "
             />
+            <label htmlFor="email">Email</label>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Senha</label>
-            <input
-              className="lp-input"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+          <div className="form-group-floating">
+            <div className="input-with-hint">
+              <input
+                className="lp-input"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder=" "
+                maxLength="128"
+              />
+              <label htmlFor="password">Senha</label>
+              <small className="lp-muted lp-input-hint">A senha deve ter entre 8 e 128 caracteres.</small>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="password_confirmation">Confirme a Senha</label>
-            <input
-              className="lp-input"
-              type="password"
-              id="password_confirmation"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              required
-            />
+          <div className="form-group-floating">
+            <div className="input-with-hint">
+              <input
+                className="lp-input"
+                type="password"
+                id="password_confirmation"
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                required
+                placeholder=" "
+                maxLength="128"
+              />
+              <label htmlFor="password_confirmation">Confirme a Senha</label>
+              <small className="lp-muted lp-input-hint">Repita a senha para confirmar.</small>
+            </div>
           </div>
           <div className="auth-actions">
             <button className="lp-btn auth-submit" type="submit">Cadastrar</button>

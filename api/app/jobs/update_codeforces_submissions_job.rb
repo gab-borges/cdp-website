@@ -20,7 +20,7 @@ class UpdateCodeforcesSubmissionsJob < ApplicationJob
       next unless problem_data['rating'].present?
 
       problem = find_or_create_problem(problem_data)
-      find_or_create_submission(user, problem, sub['creationTimeSeconds'])
+      find_or_create_submission(user, problem, sub)
     end
 
     new_score = CodeforcesScoreCalculator.calculate_for_user(user)
@@ -43,13 +43,14 @@ class UpdateCodeforcesSubmissionsJob < ApplicationJob
     problem
   end
 
-  def find_or_create_submission(user, problem, submitted_at_unix)
+  def find_or_create_submission(user, problem, sub)
     # Using find_or_create_by to avoid duplicates
     CodeforcesSubmission.find_or_create_by(
       user: user,
       codeforces_problem: problem
     ) do |submission|
-      submission.submitted_at = Time.at(submitted_at_unix)
+      submission.submitted_at = Time.at(sub['creationTimeSeconds'])
+      submission.verdict = sub['verdict']
     end
   end
 end

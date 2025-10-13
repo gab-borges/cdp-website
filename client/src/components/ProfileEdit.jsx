@@ -3,6 +3,7 @@ import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom
 import axios from 'axios';
 import codeforcesLogo from '../assets/codeforces-logo.png';
 import './profile.css';
+import './auth.css';
 
 const useAutoDismiss = (message, clearMessage, delay = 4000) => {
   useEffect(() => {
@@ -325,15 +326,18 @@ const ProfileEdit = () => {
                 {editingUsername && (
                   <form onSubmit={handleUsernameSubmit} className="profile-edit-form">
                     <div className="profile-form-group">
-                      <label htmlFor="username-field">Nome de usuário</label>
-                      <input
-                        id="username-field"
-                        type="text"
-                        value={usernameDraft}
-                        onChange={(event) => setUsernameDraft(event.target.value)}
-                        placeholder="nome_de_usuario"
-                        required
-                      />
+                      <div className="form-group-floating">
+                        <input
+                          id="username-field"
+                          className="lp-input"
+                          type="text"
+                          value={usernameDraft}
+                          onChange={(event) => setUsernameDraft(event.target.value)}
+                          placeholder=" "
+                          required
+                        />
+                        <label htmlFor="username-field">Nome de usuário</label>
+                      </div>
                       <p className="profile-muted">Use apenas letras minúsculas, números e "_". Seu identificador deve ser único.</p>
                     </div>
                     <div className="profile-actions">
@@ -447,15 +451,16 @@ const ProfileEdit = () => {
                     </>
                   ) : (
                     <form onSubmit={handleCodeforcesSubmit} className="profile-form-inline">
-                      <div className="profile-form-group">
-                        <label htmlFor="cf-handle">Handle</label>
+                      <div className="form-group-floating">
                         <input
                           id="cf-handle"
+                          className="lp-input"
                           type="text"
                           value={cfDraft}
                           onChange={(event) => setCfDraft(event.target.value)}
-                          placeholder="codeforces_handle"
+                          placeholder=" "
                         />
+                        <label htmlFor="cf-handle">Handle</label>
                       </div>
                       <div className="profile-actions">
                         <button type="submit" className="lp-btn" disabled={savingCf || (!cfDraft.trim() && !user.codeforces_handle)}>
@@ -489,36 +494,42 @@ const ProfileEdit = () => {
                 <div className="profile-edit-section-header">
                   <h2 className="profile-section-title">Alterar senha</h2>
                 </div>
-                <div className="profile-form-group">
-                  <label htmlFor="current-password">Senha atual</label>
+                <div className="form-group-floating">
                   <input
                     id="current-password"
+                    className="lp-input"
                     type="password"
                     value={pwdForm.current}
                     onChange={(event) => setPwdForm((prev) => ({ ...prev, current: event.target.value }))}
                     required
+                    placeholder=" "
                   />
+                  <label htmlFor="current-password">Senha atual</label>
                 </div>
                 <div className="profile-form-group profile-grid">
-                  <div>
-                    <label htmlFor="new-password">Nova senha</label>
+                  <div className="form-group-floating">
                     <input
                       id="new-password"
+                      className="lp-input"
                       type="password"
                       value={pwdForm.password}
                       onChange={(event) => setPwdForm((prev) => ({ ...prev, password: event.target.value }))}
                       required
+                      placeholder=" "
                     />
+                    <label htmlFor="new-password">Nova senha</label>
                   </div>
-                  <div>
-                    <label htmlFor="confirm-password">Confirmar</label>
+                  <div className="form-group-floating">
                     <input
                       id="confirm-password"
+                      className="lp-input"
                       type="password"
                       value={pwdForm.confirm}
                       onChange={(event) => setPwdForm((prev) => ({ ...prev, confirm: event.target.value }))}
                       required
+                      placeholder=" "
                     />
+                    <label htmlFor="confirm-password">Confirmar</label>
                   </div>
                 </div>
               <div className="profile-actions">
@@ -542,27 +553,34 @@ const ProfileEdit = () => {
               </p>
               <form onSubmit={handleAccountDelete} className="profile-edit-form">
                 <div className="profile-form-group">
-                  <label htmlFor="delete-confirm">Nome de usuário</label>
-                  <input
-                    id="delete-confirm"
-                    type="text"
-                    value={deleteForm.confirm}
-                    onChange={(event) => setDeleteForm((prev) => ({ ...prev, confirm: event.target.value }))}
-                    placeholder={user.username}
-                    autoComplete="off"
-                    required
-                  />
+                  <div className="form-group-floating">
+                    <input
+                      id="delete-confirm"
+                      className="lp-input"
+                      type="text"
+                      value={deleteForm.confirm}
+                      onChange={(event) => setDeleteForm((prev) => ({ ...prev, confirm: event.target.value }))}
+                      autoComplete="off"
+                      placeholder=" "
+                      required
+                    />
+                    <label htmlFor="delete-confirm">Nome de usuário</label>
+                  </div>
+                  <p className="profile-muted">Digite "{user.username}" para confirmar.</p>
                 </div>
                 <div className="profile-form-group">
-                  <label htmlFor="delete-password">Senha atual</label>
-                  <input
-                    id="delete-password"
-                    type="password"
-                    value={deleteForm.password}
-                    onChange={(event) => setDeleteForm((prev) => ({ ...prev, password: event.target.value }))}
-                    placeholder="Sua senha"
-                    required
-                  />
+                  <div className="form-group-floating">
+                    <input
+                      id="delete-password"
+                      className="lp-input"
+                      type="password"
+                      value={deleteForm.password}
+                      onChange={(event) => setDeleteForm((prev) => ({ ...prev, password: event.target.value }))}
+                      placeholder=" "
+                      required
+                    />
+                    <label htmlFor="delete-password">Senha atual</label>
+                  </div>
                 </div>
                 {deleteError && <div className="profile-alert profile-alert-error">{deleteError}</div>}
                 <div className="profile-actions">

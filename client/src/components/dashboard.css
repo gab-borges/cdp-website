@@ -5,6 +5,32 @@
 .db-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 720px) minmax(0, 1fr); align-items: flex-start; gap: clamp(24px, 5vw, 80px); width: 100%; }
 .db-left { grid-column: 1; justify-self: end; display: grid; gap: 20px; width: min(360px, 100%); }
 .db-feed-column { grid-column: 2; justify-self: center; display: flex; flex-direction: column; gap: 16px; width: 100%; padding-top: clamp(4px, 1.4vh, 16px); }
+.fab-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+}
+
+.fab {
+  background-color: #5b7cff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fab:hover {
+  background-color: #4a6ada;
+}
 .db-feed-actions { display: flex; justify-content: flex-end; }
 .db-card { background: linear-gradient(180deg, rgba(18,24,35,0.95), rgba(9,13,20,0.94)); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 24px; box-shadow: 0 18px 40px rgba(0,0,0,0.32); display: grid; gap: 16px; align-content: start; width: 100%; }
 .db-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }

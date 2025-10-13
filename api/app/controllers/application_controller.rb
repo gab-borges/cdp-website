@@ -66,6 +66,8 @@ class ApplicationController < ActionController::API
     }
     payload[:email] = user.email if include_email
     payload[:solved_problems_count] = user.solved_problems_count if include_stats
+    payload[:codeforces_solved_problems_count] = user.codeforces_solved_problems_count if include_stats
+    payload[:total_solved_problems_count] = user.total_solved_problems_count if include_stats
     payload
   end
 

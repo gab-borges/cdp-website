@@ -17,6 +17,8 @@ class User < ApplicationRecord
 
   scope :unconfirmed, -> { where(confirmed_at: nil) }
 
+  validates :password, length: { minimum: 8, maximum: 128 }, if: :password_digest_changed?
+
   # Validations
   validates :username, presence: true, length: { maximum: 64 },
                        format: { with: /\A[a-z0-9_]+\z/, message: 'can only contain lowercase letters, numbers, and underscores' },
@@ -105,6 +107,14 @@ class User < ApplicationRecord
 
   def solved_problems_count
     submissions.accepted.select(:problem_id).distinct.count
+  end
+
+  def codeforces_solved_problems_count
+    codeforces_submissions.accepted.select(:codeforces_problem_id).distinct.count
+  end
+
+  def total_solved_problems_count
+    solved_problems_count + codeforces_solved_problems_count
   end
 
   private

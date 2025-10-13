@@ -70,12 +70,14 @@ const ProblemDetail = () => {
       const resetAfterCopy = () => {
         button.disabled = false;
         button.textContent = 'Copy';
+        button.classList.remove('copied');
       };
 
       const handleClick = async () => {
         try {
           await navigator.clipboard.writeText(pre.innerText);
-          button.textContent = 'Copied!';
+          button.textContent = 'Copiado!';
+          button.classList.add('copied');
         } catch (err) {
           console.error('Failed to copy snippet:', err);
           button.textContent = 'Error';
@@ -193,6 +195,25 @@ const ProblemDetail = () => {
     }
   };
 
+  const handleCopyClick = async (text, event) => {
+    const button = event.target;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = 'Copiado!';
+      button.classList.add('copied');
+    } catch (err) {
+      console.error('Failed to copy snippet:', err);
+      button.textContent = 'Error';
+    } finally {
+      button.disabled = true;
+      setTimeout(() => {
+        button.disabled = false;
+        button.textContent = 'Copy';
+        button.classList.remove('copied');
+      }, 1500);
+    }
+  };
+
   return (
     <div className="problems-root">
       <main className="problems-main problems-container">
@@ -227,14 +248,14 @@ const ProblemDetail = () => {
                     <div className="example-io">
                       <div className="example-header">
                         <span>Entrada</span>
-                        <button className="copy-button-small" onClick={() => navigator.clipboard.writeText(testCase.input)}>Copy</button>
+                        <button className="copy-button-small" onClick={(e) => handleCopyClick(testCase.input, e)}>Copiar</button>
                       </div>
                       <pre>{testCase.input}</pre>
                     </div>
                     <div className="example-io">
                       <div className="example-header">
                         <span>Saída</span>
-                        <button className="copy-button-small" onClick={() => navigator.clipboard.writeText(testCase.output)}>Copy</button>
+                        <button className="copy-button-small" onClick={(e) => handleCopyClick(testCase.output, e)}>Copiar</button>
                       </div>
                       <pre>{testCase.output}</pre>
                     </div>

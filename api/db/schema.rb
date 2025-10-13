@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_13_012005) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_13_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_012005) do
     t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "verdict"
     t.index ["codeforces_problem_id"], name: "index_codeforces_submissions_on_codeforces_problem_id"
     t.index ["user_id"], name: "index_codeforces_submissions_on_user_id"
   end

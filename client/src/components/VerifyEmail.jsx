@@ -85,33 +85,33 @@ function VerifyEmail() {
           Informe o código de 6 dígitos enviado para o seu email. O código expira em 5 minutos.
         </p>
         <form className="auth-form" onSubmit={handleVerify}>
-          <div className="form-group">
-            <label htmlFor="identifier">Email ou nome de usuário</label>
+          <div className="form-group-floating">
             <input
               className="lp-input"
               type="text"
               id="identifier"
               value={identifier}
               onChange={(event) => setIdentifier(event.target.value)}
-              placeholder="email@exemplo.com ou usuario"
+              placeholder=" "
               autoComplete="username"
               required
             />
+            <label htmlFor="identifier">Email ou nome de usuário</label>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="code">Código</label>
+          <div className="form-group-floating">
             <input
               className="lp-input"
               type="text"
               id="code"
               value={code}
               onChange={(event) => setCode(event.target.value)}
-              placeholder="Ex: 123456"
+              placeholder=" "
               inputMode="numeric"
               maxLength={6}
               required
             />
+            <label htmlFor="code">Código</label>
           </div>
 
           <div className="auth-actions">

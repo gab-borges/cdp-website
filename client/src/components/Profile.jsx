@@ -59,8 +59,11 @@ const Profile = () => {
     setHeaderUser(currentUser);
   }, [currentUser, setHeaderUser]);
 
-  const solvedCount = Number(user?.solved_problems_count ?? 0);
+  const totalSolvedCount = Number(user?.total_solved_problems_count ?? 0);
+  const platformSolvedCount = Number(user?.solved_problems_count ?? 0);
+  const cfSolvedCount = Number(user?.codeforces_solved_problems_count ?? 0);
   const totalScore = Number(user?.total_score ?? 0);
+  const platformScore = Number(user?.score ?? 0);
   const monthlyScore = Number(user?.monthly_score ?? 0);
   const cfSyncedAt = user?.codeforces_last_synced_at ? formatDateTime(user.codeforces_last_synced_at) : null;
   const isOwnProfile = currentUser && currentUser.username === user?.username;
@@ -74,11 +77,20 @@ const Profile = () => {
       value: (
         <>
           <span className="profile-stat-main">{totalScore.toLocaleString('pt-BR')} pts</span>
-          <span className="profile-stat-sub">({monthlyScore.toLocaleString('pt-BR')} pts)</span>
+          <span className="profile-stat-sub">({platformScore.toLocaleString('pt-BR')} pts na plataforma)</span>
+          <span className="profile-stat-sub">{monthlyScore.toLocaleString('pt-BR')} pts neste mês</span>
         </>
       ),
     },
-    { label: 'Problemas resolvidos', value: solvedCount.toLocaleString('pt-BR') },
+    {
+      label: 'Problemas resolvidos',
+      value: (
+        <>
+          <span className="profile-stat-main">{totalSolvedCount.toLocaleString('pt-BR')}</span>
+          <span className="profile-stat-sub">({platformSolvedCount.toLocaleString('pt-BR')} na plataforma)</span>
+        </>
+      ),
+    },
   ];
 
   const handleEditClick = () => {
@@ -146,6 +158,16 @@ const Profile = () => {
                       <div className="profile-codeforces-stat">
                         <div className="profile-codeforces-label">Rank</div>
                         <div className="profile-codeforces-value">{formatRank(user.codeforces_rank)}</div>
+                      </div>
+                      <div className="profile-codeforces-stat">
+                        <div className="profile-codeforces-label">Problemas resolvidos</div>
+                        <div className="profile-codeforces-value">{cfSolvedCount.toLocaleString('pt-BR')}</div>
+                      </div>
+                      <div className="profile-codeforces-stat">
+                        <div className="profile-codeforces-label">Pontuação</div>
+                        <div className="profile-codeforces-value">
+                          {Number(user.codeforces_score ?? 0).toLocaleString('pt-BR')} pts
+                        </div>
                       </div>
                     </div>
                     <div className="profile-codeforces-meta">

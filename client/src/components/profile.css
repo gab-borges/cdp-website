@@ -68,8 +68,8 @@
 .profile-alert-error { background: rgba(244,67,54,0.16); border: 1px solid rgba(244,67,54,0.45); color: #ffb3b3; }
 
 .profile-form-group { display: grid; gap: 8px; margin-bottom: 16px; }
-.profile-form-group label { color: #9bb7ff; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.profile-form-group input {
+.profile-form-group > label { color: #9bb7ff; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.profile-form-group > input {
   padding: 12px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.12);
@@ -77,7 +77,7 @@
   color: #e7edf5;
   font-size: 1rem;
 }
-.profile-form-group input:focus { outline: 2px solid rgba(91,124,255,0.45); }
+.profile-form-group > input:focus { outline: 2px solid rgba(91,124,255,0.45); }
 
 .profile-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 
